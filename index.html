@@ -6,21 +6,19 @@
   <title>Mobsul · Assistência Técnica</title>
 
   
-  <!-- Start cookiepal banner -->
-<script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/93aaf4d0-0141-4971-8da5-e9ac02ea77e3/script.js"></script>
-<!-- End cookiepal banner -->
-
+  <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/93aaf4d0-0141-4971-8da5-e9ac02ea77e3/script.js"></script>
   
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XWJPZ6N63Q"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-DPGCF8QQZX');
+    gtag('config', 'G-XWJPZ6N63Q');
   </script>
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
+
   <style>
     * {
       margin: 0;
@@ -71,7 +69,7 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
       transition: transform 0.2s ease;
     }
-    
+
     .logo-svg:hover {
       transform: scale(1.02);
     }
@@ -106,7 +104,7 @@
     nav {
       margin-top: 12px;
     }
-    
+
     .nav-links {
       display: flex;
       flex-wrap: wrap;
@@ -114,7 +112,7 @@
       justify-content: center;
       list-style: none;
     }
-    
+
     .nav-links a {
       color: white;
       text-decoration: none;
@@ -124,7 +122,7 @@
       border-bottom: 2px solid transparent;
       transition: 0.2s;
     }
-    
+
     .nav-links a:hover {
       border-bottom-color: #ffb347;
       color: #ffe0a3;
@@ -154,20 +152,20 @@
       text-align: center;
       border-bottom: 1px solid #e2eafc;
     }
-    
+
     .hero h1 {
       font-size: 2rem;
       color: #2056b6;
       margin-bottom: 12px;
     }
-    
+
     .hero p {
       font-size: 1rem;
       max-width: 550px;
       margin: 0 auto 18px;
       color: #2c3e50;
     }
-    
+
     .btn {
       display: inline-block;
       background: #2056b6;
@@ -178,7 +176,7 @@
       text-decoration: none;
       transition: 0.2s;
     }
-    
+
     .btn:hover {
       background: #0e3d8a;
       transform: scale(1.02);
@@ -193,11 +191,11 @@
       margin-top: 8px;
       border-left: 3px solid #2056b6;
     }
-    
+
     .sobre-texto p {
       margin-bottom: 12px;
     }
-    
+
     .sobre-texto strong {
       color: #2056b6;
     }
@@ -210,7 +208,7 @@
       justify-content: center;
       margin: 20px 0 8px;
     }
-    
+
     .card {
       background: #f9fbfe;
       border-radius: 28px;
@@ -221,29 +219,21 @@
       border: 1px solid #dce5f5;
       transition: 0.2s;
     }
-    
+
     .card:hover {
       border-color: #2056b6;
       box-shadow: 0 4px 10px rgba(32,86,182,0.08);
     }
-    
+
     .card h3 {
       font-size: 1.6rem;
       margin-bottom: 8px;
       color: #2056b6;
     }
-    
+
     .card p {
       font-size: 0.9rem;
       color: #2c3e50;
-    }
-
-    
-    .card svg.icon-svg {
-      width: 45px;
-      height: 45px;
-      display: block;
-      margin: 0 auto 10px auto;
     }
 
     
@@ -251,6 +241,13 @@
       font-size: 2.5rem;
       color: #2056b6;
       margin-bottom: 10px;
+    }
+
+    .card svg.icon-svg {
+      width: 45px;
+      height: 45px;
+      display: block;
+      margin: 0 auto 10px auto;
     }
 
     
@@ -262,7 +259,7 @@
       gap: 28px;
       margin: 20px 0 10px;
     }
-    
+
     .marca-item {
       background: white;
       border-radius: 20px;
@@ -274,12 +271,12 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .marca-item:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(32,86,182,0.1);
     }
-    
+
     .marca-item svg {
       width: 48px;
       height: 48px;
@@ -318,13 +315,28 @@
       margin-top: 40px;
       font-size: 0.8rem;
     }
-    
+
     footer p {
       margin: 6px 0;
     }
-    
+
     .direitos {
       font-weight: 500;
+    }
+
+    
+    .footer-links {
+      margin-top: 8px;
+      font-size: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #ffb347;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 640px) {
@@ -372,23 +384,14 @@
   <div class="container">
     <div class="header-flex">
       <div class="logo-area">
-        
-        
         <div class="logo-svg">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60">
-            
             <g transform="translate(25, 12)">
-              
               <rect x="0" y="0" width="70" height="120" rx="12" fill="white" opacity="0.95"/>
-              
               <rect x="8" y="18" width="54" height="78" rx="4" fill="#2056b6"/>
-              
               <circle cx="35" cy="108" r="6" fill="white" opacity="0.5"/>
-              
               <circle cx="35" cy="10" r="4" fill="white" opacity="0.4"/>
-              
               <rect x="26" y="5" width="18" height="2.5" rx="1" fill="white" opacity="0.3"/>
-              
               <g transform="translate(35, 57)" stroke="#ffb347" stroke-width="5" stroke-linecap="round">
                 <line x1="-12" y1="-12" x2="12" y2="12"/>
                 <line x1="12" y1="-12" x2="-12" y2="12"/>
@@ -396,12 +399,10 @@
             </g>
           </svg>
         </div>
-        
         <div class="logo-texto">
           <div class="logo-mobsul">MOB<span>SUL</span></div>
           <div class="logo-slogan">Assistência técnica</div>
         </div>
-        
       </div>
     </div>
     <nav>
@@ -416,7 +417,6 @@
 </header>
 
 <main class="container">
-  
   <section id="inicio" class="hero">
     <h1><i class="fas fa-wrench"></i> Smartphone quebrou? <br> A Mobsul resolve</h1>
     <p>Reparos técnicos, rápidos e com peças de qualidade. Atendimento digital.</p>
@@ -434,42 +434,28 @@
   <section id="reparos">
     <h2 class="section-title"><i class="fas fa-screwdriver"></i> Reparos realizados</h2>
     <div class="reparos-simples">
-      
-      
       <div class="card">
-        
         <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-          
           <rect x="25" y="8" width="50" height="84" rx="8" fill="white" stroke="#2056b6" stroke-width="1.5"/>
-          
           <rect x="32" y="20" width="36" height="52" rx="3" fill="#2056b6"/>
-          
           <polyline points="36,28 48,40 44,52 55,62" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           <line x1="48" y1="40" x2="60" y2="35" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-          
           <circle cx="50" cy="78" r="4" fill="white" stroke="#2056b6" stroke-width="1"/>
-          
           <circle cx="50" cy="14" r="2.5" fill="#2056b6"/>
-          
           <g transform="translate(70, 85) rotate(35)">
             <rect x="-2" y="-12" width="4" height="16" rx="1" fill="#ffb347"/>
             <circle cx="0" cy="-14" r="4" fill="none" stroke="#ffb347" stroke-width="2"/>
           </g>
-          
           <path d="M18 70 L22 76 L18 82 L12 76 Z" fill="#ffb347" opacity="0.8"/>
         </svg>
         <h3>Tela</h3>
         <p>Troca de display, LCD/OLED, recuperação total da imagem e toque.</p>
       </div>
-      
-      
       <div class="card">
         <i class="fas fa-plug"></i>
         <h3>Conectores</h3>
         <p>Troca de conectores e flex de carga.</p>
       </div>
-      
-      
       <div class="card">
         <i class="fas fa-battery-three-quarters"></i>
         <h3>Bateria</h3>
@@ -480,39 +466,30 @@
     <div style="margin-top: 28px;">
       <h3 style="font-size:1.2rem; color:#2056b6; text-align:center; margin-bottom: 16px;"><i class="fas fa-check-circle"></i> Principais marcas que atendemos</h3>
       <div class="marcas">
-        
-       
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Samsung</title>
             <path d="M19.8166 10.2808l.0459 2.6934h-.023l-.7793-2.6934h-1.2837v3.3925h.8481l-.0458-2.785h.023l.8366 2.785h1.2264v-3.3925zm-16.149 0l-.6418 3.427h.9284l.4699-3.1175h.0229l.4585 3.1174h.9169l-.6304-3.4269zm5.1805 0l-.424 2.6132h-.023l-.424-2.6132H6.5788l-.0688 3.427h.8596l.023-3.0832h.0114l.573 3.0831h.8711l.5731-3.083h.023l.0228 3.083h.8596l-.0802-3.4269zm-7.2664 2.4527c.0343.0802.0229.1949.0114.2522-.0229.1146-.1031.2292-.3324.2292-.2177 0-.3438-.126-.3438-.3095v-.3323H0v.2636c0 .7679.6074.9971 1.2493.9971.6189 0 1.1346-.2178 1.2149-.7794.0458-.298.0114-.4928 0-.5616-.1605-.722-1.467-.9283-1.5588-1.3295-.0114-.0688-.0114-.1375 0-.1834.023-.1146.1032-.2292.3095-.2292.2063 0 .321.126.321.3095v.2063h.8595v-.2407c0-.745-.6762-.8596-1.1576-.8596-.6074 0-1.1117.2063-1.2034.7564-.023.149-.0344.2866.0114.4585.1376.7106 1.364.9169 1.5358 1.3524m11.152 0c.0343.0803.0228.1834.0114.2522-.023.1146-.1032.2292-.3324.2292-.2178 0-.3438-.126-.3438-.3095v-.3323h-.917v.2636c0 .7564.596.9857 1.2379.9857.6189 0 1.1232-.2063 1.2034-.7794.0459-.298.0115-.4814 0-.5616-.1375-.7106-1.4327-.9284-1.5243-1.318-.0115-.0688-.0115-.1376 0-.1835.0229-.1146.1031-.2292.3094-.2292.1948 0 .321.126.321.3095v.2063h.848v-.2407c0-.745-.6647-.8596-1.146-.8596-.6075 0-1.1004.1948-1.192.7564-.023.149-.023.2866.0114.4585.1376.7106 1.341.9054 1.513 1.3524m2.8882.4585c.2407 0 .3094-.1605.3323-.2522.0115-.0343.0115-.0917.0115-.126v-2.533h.871v2.4642c0 .0688 0 .1948-.0114.2292-.0573.6419-.5616.8482-1.192.8482-.6303 0-1.1346-.2063-1.192-.8482 0-.0344-.0114-.1604-.0114-.2292v-2.4642h.871v2.533c0 .0458 0 .0916.0115.126 0 .0917.0688.2522.3095.2522m7.1518-.0344c.2522 0 .3324-.1605.3553-.2522.0115-.0343.0115-.0917.0115-.126v-.4929h-.3553v-.5043H24v.917c0 .0687 0 .1145-.0115.2292-.0573.6303-.596.8481-1.2034.8481-.6075 0-1.1461-.2178-1.2034-.8481-.0115-.1147-.0115-.1605-.0115-.2293v-1.444c0-.0574.0115-.172.0115-.2293.0802-.6419.596-.8482 1.2034-.8482s1.1347.2063 1.2034.8482c.0115.1031.0115.2292.0115.2292v.1146h-.8596v-.1948s0-.0803-.0115-.1261c-.0114-.0802-.0802-.2521-.3438-.2521-.2521 0-.321.1604-.3438.2521-.0115.0458-.0115.1032-.0115.1605v1.5702c0 .0458 0 .0916.0115.126 0 .0917.0917.2522.3323.2522" fill="#1428A0"/>
           </svg>
         </div>
-        
-     
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Xiaomi</title>
             <path d="M12 0C8.016 0 4.756.255 2.493 2.516.23 4.776 0 8.033 0 12.012c0 3.98.23 7.235 2.494 9.497C4.757 23.77 8.017 24 12 24c3.983 0 7.243-.23 9.506-2.491C23.77 19.247 24 15.99 24 12.012c0-3.984-.233-7.243-2.502-9.504C19.234.252 15.978 0 12 0zM4.906 7.405h5.624c1.47 0 3.007.068 3.764.827.746.746.827 2.233.83 3.676v4.54a.15.15 0 0 1-.152.147h-1.947a.15.15 0 0 1-.152-.148V11.83c-.002-.806-.048-1.634-.464-2.051-.358-.36-1.026-.441-1.72-.458H7.158a.15.15 0 0 0-.151.147v6.98a.15.15 0 0 1-.152.148H4.906a.15.15 0 0 1-.15-.148V7.554a.15.15 0 0 1 .15-.149zm12.131 0h1.949a.15.15 0 0 1 .15.15v8.892a.15.15 0 0 1-.15.148h-1.949a.15.15 0 0 1-.151-.148V7.554a.15.15 0 0 1 .151-.149zM8.92 10.948h2.046c.083 0 .15.066.15.147v5.352a.15.15 0 0 1-.15.148H8.92a.15.15 0 0 1-.152-.148v-5.352a.15.15 0 0 1 .152-.147Z" fill="#FF6900"/>
           </svg>
         </div>
-        
-      
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Motorola</title>
             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12C24.002 5.375 18.632.002 12.007 0H12zm7.327 18.065s-.581-2.627-1.528-4.197c-.514-.857-1.308-1.553-2.368-1.532-.745 0-1.399.423-2.2 1.553-.469.77-.882 1.573-1.235 2.403 0 0-.29-.675-.63-1.343a8.038 8.038 0 0 0-.605-1.049c-.804-1.13-1.455-1.539-2.2-1.553-1.049-.021-1.854.675-2.364 1.528-.948 1.574-1.528 4.197-1.528 4.197h-.864l4.606-15.12 3.56 11.804.024.021.024-.021 3.56-11.804 4.61 15.113h-.862z" fill="#5C92FA"/>
           </svg>
         </div>
-        
-     
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Apple</title>
             <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" fill="#000000"/>
           </svg>
         </div>
-        
       </div>
       <p style="text-align:center; font-size:0.8rem; margin-top: 12px; color:#4a627a;">Trabalhamos com todas as principais marcas do mercado</p>
     </div>
@@ -520,26 +497,17 @@
 
   <section id="contato">
     <h2 class="section-title"><i class="fas fa-address-card"></i> Contato</h2>
-   
     <div style="display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; margin: 30px 0 20px;">
-      
-     
       <a href="https://wa.me/5521920067965?text=Olá%20Mobsul!%20Preciso%20de%20um%20orçamento." target="_blank" class="contato-redondo" style="background: #25D366;">
         <i class="fab fa-whatsapp"></i>
       </a>
-      
-    
       <a href="https://instagram.com/mobsul.br" target="_blank" class="contato-redondo" style="background: #E4405F;">
         <i class="fab fa-instagram"></i>
       </a>
-      
-   
       <a href="mailto:mobsul.br@gmail.com?subject=Orçamento%20Mobsul" class="contato-redondo" style="background: #D14836;">
         <i class="fas fa-envelope"></i>
       </a>
-      
     </div>
-    
     <p style="text-align:center; font-size:0.9rem; margin-top: 20px; color:#2056b6;">
       <i class="fas fa-clock"></i> Resposta rápida pelo WhatsApp
     </p>
@@ -548,7 +516,12 @@
 
 <footer>
   <div class="container">
-    <p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul  - Todos os direitos reservados.</p>
+    <p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul - Todos os direitos reservados.</p>
+    <div class="footer-links">
+      <a href="https://mobsul.com.br/politica-de-privacidade.html">Política de Privacidade</a> | 
+      <a href="https://mobsul.com.br/politica-de-cookies.html">Política de Cookies</a> | 
+      <a href="https://mobsul.com.br/termo-de-uso.html">Termo de Uso</a>
+    </div>
   </div>
 </footer>
 
@@ -563,4 +536,12 @@
           if (targetElem) {
             e.preventDefault();
             targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            history.pushState(null, nu
+            history.pushState(null, null, href);
+          }
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
