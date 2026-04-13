@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Mobsul · Assistência Técnica</title>
   
+  <!-- AdOpt - Banner de cookies LGPD -->
+  <meta name="adopt-website-id" content="6900ea5e-353f-4695-9cb2-7b6444171efc">
+  <script src="//tag.goadopt.io/injector.js?website_code=6900ea5e-353f-4695-9cb2-7b6444171efc" class="adopt-injector"></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XWJPZ6N63Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XWJPZ6N63Q');
+  </script>
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <style>
@@ -49,6 +62,7 @@
       flex-wrap: wrap;
     }
 
+    /* Estilo do logo SVG - SEM BORDA AMARELA */
     .logo-svg {
       width: 60px;
       height: 60px;
@@ -61,6 +75,7 @@
       transform: scale(1.02);
     }
 
+    /* NOVA LOGO 100% TEXTO */
     .logo-texto {
       text-align: left;
       line-height: 1.2;
@@ -114,6 +129,7 @@
       color: #ffe0a3;
     }
 
+    /* seções */
     section {
       background: white;
       border-radius: 28px;
@@ -131,6 +147,7 @@
       color: #1a2a3a;
     }
 
+    /* hero */
     .hero {
       background: #ffffff;
       text-align: center;
@@ -166,6 +183,7 @@
       transform: scale(1.02);
     }
 
+    /* sobre resumido */
     .sobre-texto {
       font-size: 1rem;
       background: #f8faff;
@@ -183,6 +201,7 @@
       color: #2056b6;
     }
 
+    /* reparos básicos */
     .reparos-simples {
       display: flex;
       flex-wrap: wrap;
@@ -218,12 +237,22 @@
       color: #2c3e50;
     }
 
+    /* Ícones personalizados SVG nos cards */
+    .card svg.icon-svg {
+      width: 45px;
+      height: 45px;
+      display: block;
+      margin: 0 auto 10px auto;
+    }
+
+    /* Ícones Font Awesome nos cards (fallback) */
     .card i {
       font-size: 2.5rem;
       color: #2056b6;
       margin-bottom: 10px;
     }
 
+    /* marcas atendidas com logos SVG inline */
     .marcas {
       display: flex;
       flex-wrap: wrap;
@@ -256,6 +285,7 @@
       display: block;
     }
 
+    /* Ícones de contato redondos */
     .contato-redondo {
       width: 70px;
       height: 70px;
@@ -277,6 +307,7 @@
       color: white;
     }
 
+    /* rodapé */
     footer {
       background: #2056b6;
       color: #e0e9ff;
@@ -293,126 +324,6 @@
     
     .direitos {
       font-weight: 500;
-    }
-
-   
-    .cookie-banner {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      max-width: 500px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      padding: 20px;
-      z-index: 9999;
-      border-left: 5px solid #2056b6;
-      border-top: 1px solid #e2eafc;
-      border-right: 1px solid #e2eafc;
-      border-bottom: 1px solid #e2eafc;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-    }
-
-    .cookie-banner h3 {
-      color: #2056b6;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .cookie-banner p {
-      color: #4a627a;
-      margin-bottom: 15px;
-      line-height: 1.4;
-    }
-
-    .cookie-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .btn-cookie-accept {
-      background: #2056b6;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .btn-cookie-accept:hover {
-      background: #0e3d8a;
-      transform: scale(1.02);
-    }
-
-    .btn-cookie-decline {
-      background: #e0e0e0;
-      color: #333;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-
-    .btn-cookie-decline:hover {
-      background: #ccc;
-    }
-
-    .btn-cookie-settings {
-      background: transparent;
-      color: #ffb347;
-      border: none;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-weight: 500;
-      text-decoration: underline;
-      transition: 0.2s;
-    }
-
-    .btn-cookie-settings:hover {
-      color: #e69500;
-    }
-
-
-    .cookie-revoke-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #2056b6;
-      color: white;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 9998;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: 0.2s;
-      opacity: 0;
-      visibility: hidden;
-      font-size: 1.2rem;
-    }
-
-    .cookie-revoke-btn:hover {
-      transform: scale(1.1);
-      background: #ffb347;
-    }
-
-    .cookie-revoke-btn.show {
-      opacity: 1;
-      visibility: visible;
     }
 
     @media (max-width: 640px) {
@@ -447,19 +358,9 @@
       .contato-redondo i {
         font-size: 32px;
       }
-      .cookie-banner {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        max-width: none;
-        padding: 16px;
-      }
-      .cookie-buttons {
-        gap: 8px;
-      }
-      .btn-cookie-accept, .btn-cookie-decline {
-        padding: 6px 16px;
-        font-size: 0.85rem;
+      .card svg.icon-svg {
+        width: 38px;
+        height: 38px;
       }
     }
   </style>
@@ -471,14 +372,22 @@
     <div class="header-flex">
       <div class="logo-area">
         
+        <!-- LOGO SVG SEM BORDA AMARELA - APENAS O ÍCONE DO SMARTPHONE -->
         <div class="logo-svg">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60">
+            <!-- Smartphone redesenhado SEM BORDA AMARELA -->
             <g transform="translate(25, 12)">
+              <!-- Corpo do smartphone (sem borda amarela) -->
               <rect x="0" y="0" width="70" height="120" rx="12" fill="white" opacity="0.95"/>
+              <!-- Tela -->
               <rect x="8" y="18" width="54" height="78" rx="4" fill="#2056b6"/>
+              <!-- Botão home / Touch ID -->
               <circle cx="35" cy="108" r="6" fill="white" opacity="0.5"/>
+              <!-- Câmera frontal -->
               <circle cx="35" cy="10" r="4" fill="white" opacity="0.4"/>
+              <!-- Alto-falante -->
               <rect x="26" y="5" width="18" height="2.5" rx="1" fill="white" opacity="0.3"/>
+              <!-- Logo do X (ícone de reparo/ferramenta) -->
               <g transform="translate(35, 57)" stroke="#ffb347" stroke-width="5" stroke-linecap="round">
                 <line x1="-12" y1="-12" x2="12" y2="12"/>
                 <line x1="12" y1="-12" x2="-12" y2="12"/>
@@ -524,16 +433,42 @@
   <section id="reparos">
     <h2 class="section-title"><i class="fas fa-screwdriver"></i> Reparos realizados</h2>
     <div class="reparos-simples">
+      
+      <!-- Card TELA - COM DESENHO SVG PERSONALIZADO -->
       <div class="card">
-        <i class="fas fa-mobile-screen"></i>
+        <!-- Ícone SVG de tela de smartphone com rachadura/conserto -->
+        <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+          <!-- Corpo do smartphone -->
+          <rect x="25" y="8" width="50" height="84" rx="8" fill="white" stroke="#2056b6" stroke-width="1.5"/>
+          <!-- Tela (azul) -->
+          <rect x="32" y="20" width="36" height="52" rx="3" fill="#2056b6"/>
+          <!-- Rachadura na tela (linhas brancas) -->
+          <polyline points="36,28 48,40 44,52 55,62" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="48" y1="40" x2="60" y2="35" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Botão home -->
+          <circle cx="50" cy="78" r="4" fill="white" stroke="#2056b6" stroke-width="1"/>
+          <!-- Câmera frontal -->
+          <circle cx="50" cy="14" r="2.5" fill="#2056b6"/>
+          <!-- Ferramenta de reparo (chave/phillips) -->
+          <g transform="translate(70, 85) rotate(35)">
+            <rect x="-2" y="-12" width="4" height="16" rx="1" fill="#ffb347"/>
+            <circle cx="0" cy="-14" r="4" fill="none" stroke="#ffb347" stroke-width="2"/>
+          </g>
+          <!-- Estrela/ferramenta mágica -->
+          <path d="M18 70 L22 76 L18 82 L12 76 Z" fill="#ffb347" opacity="0.8"/>
+        </svg>
         <h3>Tela</h3>
         <p>Troca de display, LCD/OLED, recuperação total da imagem e toque.</p>
       </div>
+      
+      <!-- Card CONECTORES - mantido igual -->
       <div class="card">
         <i class="fas fa-plug"></i>
         <h3>Conectores</h3>
         <p>Troca de conectores e flex de carga.</p>
       </div>
+      
+      <!-- Card BATERIA - mantido igual -->
       <div class="card">
         <i class="fas fa-battery-three-quarters"></i>
         <h3>Bateria</h3>
@@ -545,6 +480,7 @@
       <h3 style="font-size:1.2rem; color:#2056b6; text-align:center; margin-bottom: 16px;"><i class="fas fa-check-circle"></i> Principais marcas que atendemos</h3>
       <div class="marcas">
         
+       
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Samsung</title>
@@ -552,6 +488,7 @@
           </svg>
         </div>
         
+     
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Xiaomi</title>
@@ -559,6 +496,7 @@
           </svg>
         </div>
         
+      
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Motorola</title>
@@ -566,6 +504,7 @@
           </svg>
         </div>
         
+     
         <div class="marca-item">
           <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <title>Apple</title>
@@ -583,14 +522,17 @@
    
     <div style="display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; margin: 30px 0 20px;">
       
+     
       <a href="https://wa.me/5521920067965?text=Olá%20Mobsul!%20Preciso%20de%20um%20orçamento." target="_blank" class="contato-redondo" style="background: #25D366;">
         <i class="fab fa-whatsapp"></i>
       </a>
       
+    
       <a href="https://instagram.com/mobsul.br" target="_blank" class="contato-redondo" style="background: #E4405F;">
         <i class="fab fa-instagram"></i>
       </a>
       
+   
       <a href="mailto:mobsul.br@gmail.com?subject=Orçamento%20Mobsul" class="contato-redondo" style="background: #D14836;">
         <i class="fas fa-envelope"></i>
       </a>
@@ -605,29 +547,19 @@
 
 <footer>
   <div class="container">
-    <p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul - Todos os direitos reservados.</p>
+    <p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul  - Todos os direitos reservados.</p>
   </div>
 </footer>
 
-
 <script>
-  
-  const COOKIE_NAME = 'mobsul_cookie_consent';
-  
-  
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-  }
-  
-
-  function setCookie(name, value) {
-    const expires = new Date();
-    expires.setFullYear(expires.getFullYear() + 1);
-    document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-  }
-  
-
-  function load
+  (function() {
+    document.querySelectorAll('.nav-links a, .btn').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const targetId = href.substring(1);
+          const targetElem = document.getElementById(targetId);
+          if (targetElem) {
+            e.preventDefault();
+            targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, nu
