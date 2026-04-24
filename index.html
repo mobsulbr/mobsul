@@ -14,13 +14,22 @@
 
   <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/93aaf4d0-0141-4971-8da5-e9ac02ea77e3/script.js"></script>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XWJPZ6N63Q"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XWJPZ6N63Q');
-  </script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){ dataLayer.push(arguments); }
+	gtag('consent', 'default', {
+		"ad_personalization": "denied",
+		"ad_storage": "denied",
+		"ad_user_data": "denied",
+		"analytics_storage": "denied",
+		"functionality_storage": "denied",
+		"security_storage": "denied",
+		"personalization_storage": "denied",
+		"wait_for_update": 500
+	});
+    gtag("set", "ads_data_redaction", true);
+    gtag("set", "url_passthrough", true);
+</script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
