@@ -14,36 +14,35 @@ body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:20px 16px;}
 .editor-panel,.preview-panel{background:white;border-radius:24px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;}
 .editor-panel{padding:20px;position:sticky;top:20px;}
 .preview-panel{background:#fefefe;}
-.resume-card{background:white;padding:28px;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.45;}
+.resume-card{background:white;padding:28px;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.5;}
 [contenteditable="true"]{outline:none;border-bottom:1px dashed #94a3b8;background:#fef9e6;transition:0.15s;padding:2px 4px;border-radius:6px;cursor:text;display:inline-block;min-width:80px;}
 [contenteditable="true"]:hover{background:#fef3c7;border-bottom-color:#f59e0b;}
 [contenteditable="true"]:focus{background:#fffbeb;border-bottom:2px solid #3b82f6;}
-.resume-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px;}
+.resume-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:20px;}
 .profile-photo-container{flex-shrink:0;text-align:center;}
 .profile-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #3b82f6;background:#f1f5f9;}
 .photo-placeholder{width:100px;height:100px;border-radius:50%;background:#f1f5f9;border:3px dashed #94a3b8;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:2rem;cursor:pointer;}
 .photo-placeholder:hover{background:#e2e8f0;}
 .name-title{flex:1;}
-.resume-header h1{font-size:1.8rem;font-weight:700;margin-bottom:4px;color:#0f172a;}
-.contact-line{font-size:0.8rem;color:#475569;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;}
-.section-title{font-weight:700;font-size:0.95rem;text-transform:uppercase;letter-spacing:1px;border-left:4px solid #3b82f6;padding-left:12px;margin:20px 0 12px 0;color:#0f172a;}
-.list-item{margin-bottom:6px;font-size:0.9rem;}
+.resume-header h1{font-size:2rem;font-weight:700;margin-bottom:6px;color:#0f172a;}
+.contact-line{font-size:0.85rem;color:#475569;border-bottom:2px solid #e2e8f0;padding-bottom:14px;margin-bottom:18px;}
+.section-title{font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:1px;border-left:4px solid #3b82f6;padding-left:12px;margin:24px 0 14px 0;color:#0f172a;}
+.list-item{margin-bottom:8px;font-size:0.95rem;}
 .btn-sm-custom{padding:6px 14px;font-size:13px;}
 .photo-controls{display:flex;gap:8px;margin-top:10px;justify-content:center;}
 #statusMsg{font-size:12px;margin-top:8px;color:#16a34a;text-align:center;}
 hr{margin:12px 0;}
 @media print{
-@page{size:A4;margin:1.8cm;}
 body{background:white;padding:0;margin:0;}
 .no-print{display:none !important;}
 .preview-panel{box-shadow:none;margin:0;padding:0;}
 .resume-card{padding:0;max-width:100%;margin:0;width:100%;}
 [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-.section-title{border-left-color:#000;margin:14px 0 8px 0;}
+.section-title{border-left-color:#000;margin:18px 0 10px 0;}
 .photo-placeholder{display:none !important;}
-.profile-photo{border:2px solid #000;page-break-inside:avoid;}
-.contact-line{padding-bottom:6px;margin-bottom:10px;}
-.list-item{margin-bottom:4px;}
+.profile-photo{border:2px solid #000;}
+.contact-line{padding-bottom:8px;margin-bottom:12px;}
+.list-item{margin-bottom:5px;}
 }
 footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </style>
@@ -59,7 +58,7 @@ footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 <button id="addSkillBtn" class="btn btn-outline-primary btn-sm-custom w-100 mb-2"><i class="fas fa-plus-circle"></i> + Qualificação</button>
 <button id="addCourseBtn" class="btn btn-outline-success btn-sm-custom w-100 mb-3"><i class="fas fa-graduation-cap"></i> + Curso</button>
 <div class="alert alert-warning small py-2">
-<i class="fas fa-info-circle"></i> <strong>Atenção:</strong> Ao recarregar a página, a foto será removida. Os textos permanecem salvos.
+<i class="fas fa-info-circle"></i> <strong>Atenção:</strong> Ao recarregar a página, a foto será removida.
 </div>
 <button id="printResumeBtn" class="btn btn-primary w-100"><i class="fas fa-print"></i> 📄 Salvar PDF</button>
 <div id="statusMsg"></div>
@@ -106,7 +105,7 @@ footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </div>
 </div>
 </div>
-<footer class="no-print"><i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | Clique no círculo para adicionar sua foto (a foto some ao recarregar)</footer>
+<footer class="no-print"><i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | Clique no círculo para adicionar sua foto</footer>
 </div>
 <script>
 const photoUpload=document.getElementById('photoUpload');
@@ -154,7 +153,7 @@ let quality=0.8;
 let dataUrl=canvas.toDataURL('image/jpeg',quality);
 while(dataUrl.length>2.5*1024*1024&&quality>0.4){quality-=0.1;dataUrl=canvas.toDataURL('image/jpeg',quality);}
 updatePhotoUI(true,dataUrl);
-showMsg('Foto adicionada! (irá sumir ao recarregar a página)');
+showMsg('Foto adicionada!');
 };
 img.src=e.target.result;
 };
@@ -174,8 +173,12 @@ const cloneControls=cloneCard.querySelectorAll('.photo-controls');
 cloneControls.forEach(el=>el.remove());
 const cloneImg=cloneCard.querySelector('#profileImg');
 const clonePlaceholder=cloneCard.querySelector('#photoPlaceholder');
-if(cloneImg&&cloneImg.src&&cloneImg.style.display!=='none'){if(clonePlaceholder)clonePlaceholder.style.display='none';
-}else{if(cloneImg)cloneImg.style.display='none';if(clonePlaceholder)clonePlaceholder.style.display='flex';}
+if(cloneImg&&cloneImg.src&&cloneImg.style.display!=='none'){
+if(clonePlaceholder)clonePlaceholder.style.display='none';
+}else{
+if(cloneImg)cloneImg.style.display='none';
+if(clonePlaceholder)clonePlaceholder.style.display='flex';
+}
 const printHtml=`<!DOCTYPE html>
 <html>
 <head>
@@ -184,28 +187,99 @@ const printHtml=`<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-@page{size:A4;margin:1.8cm;}
-.resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0 auto;padding:0;}
-[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-.section-title{font-weight:700;font-size:0.9rem;text-transform:uppercase;border-left:3px solid #0f172a;padding-left:8px;margin:12px 0 6px 0;color:#0f172a;}
-.list-item{margin-bottom:4px;font-size:0.85rem;line-height:1.35;}
-.contact-line{border-bottom:1px solid #aaa;padding-bottom:5px;margin-bottom:8px;font-size:0.75rem;}
-.resume-header h1{font-size:1.5rem;margin-bottom:2px;font-weight:700;}
-.profile-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:1.5px solid #000;}
-.photo-placeholder{display:none;}
-.resume-header{display:flex;align-items:center;gap:15px;margin-bottom:10px;}
-.name-title{flex:1;}
-#objectiveText{font-size:0.85rem;margin-bottom:4px;}
-#academicGraduation, #academicHighSchool{font-size:0.85rem;margin-bottom:4px;line-height:1.35;}
+body{
+font-family:'Inter',sans-serif;
+background:white;
+margin:0;
+padding:2cm;
+display:block;
+}
+@page{
+size:A4;
+margin:0;
+}
+.resume-card{
+max-width:100%;
+width:100%;
+background:white;
+color:#1e293b;
+line-height:1.5;
+margin:0 auto;
+padding:0;
+}
+[contenteditable="true"]{
+border:none !important;
+background:transparent !important;
+padding:0;
+color:black;
+}
+.section-title{
+font-weight:700;
+font-size:1rem;
+text-transform:uppercase;
+border-left:4px solid #0f172a;
+padding-left:10px;
+margin:18px 0 10px 0;
+color:#0f172a;
+}
+.list-item{
+margin-bottom:6px;
+font-size:0.9rem;
+line-height:1.4;
+}
+.contact-line{
+border-bottom:2px solid #aaa;
+padding-bottom:8px;
+margin-bottom:12px;
+font-size:0.8rem;
+}
+.resume-header h1{
+font-size:1.8rem;
+margin-bottom:4px;
+font-weight:700;
+}
+.profile-photo{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #000;
+}
+.photo-placeholder{
+display:none;
+}
+.resume-header{
+display:flex;
+align-items:center;
+gap:18px;
+margin-bottom:14px;
+}
+.name-title{
+flex:1;
+}
+#objectiveText{
+font-size:0.9rem;
+margin-bottom:6px;
+}
+#academicGraduation, #academicHighSchool{
+font-size:0.9rem;
+margin-bottom:6px;
+line-height:1.4;
+}
 </style>
 </head>
 <body>
 <div class="resume-card">${cloneCard.innerHTML}</div>
-<script>window.onload=function(){setTimeout(function(){window.print();},200);};<\/script>
+<script>
+window.onload=function(){
+setTimeout(function(){
+window.print();
+},200);
+};
+<\/script>
 </body>
 </html>`;
-const printWindow=window.open('','_blank','width=900,height=800,toolbar=yes');
+const printWindow=window.open('','_blank','width=1000,height=900,toolbar=yes');
 if(!printWindow){alert("Permita pop-ups para gerar o PDF.");return;}
 printWindow.document.write(printHtml);
 printWindow.document.close();
@@ -213,7 +287,6 @@ printWindow.document.close();
 document.getElementById('printResumeBtn')?.addEventListener('click',printResume);
 try{localStorage.removeItem('curriculo_foto');}catch(e){}
 updatePhotoUI(false);
-showMsg('Foto removida automaticamente. Adicione uma nova se desejar.');
 </script>
 </body>
 </html>
