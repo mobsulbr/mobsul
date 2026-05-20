@@ -33,17 +33,17 @@ body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:20px 16px;}
 #statusMsg{font-size:12px;margin-top:8px;color:#16a34a;text-align:center;}
 hr{margin:12px 0;}
 @media print{
-@page{size:A4;margin:0.8cm;}
+@page{size:A4;margin:1.8cm;}
 body{background:white;padding:0;margin:0;}
 .no-print{display:none !important;}
 .preview-panel{box-shadow:none;margin:0;padding:0;}
 .resume-card{padding:0;max-width:100%;margin:0;width:100%;}
 [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-.section-title{border-left-color:#000;margin:12px 0 6px 0;}
+.section-title{border-left-color:#000;margin:14px 0 8px 0;}
 .photo-placeholder{display:none !important;}
 .profile-photo{border:2px solid #000;page-break-inside:avoid;}
-.contact-line{padding-bottom:6px;margin-bottom:8px;}
-.list-item{margin-bottom:3px;}
+.contact-line{padding-bottom:6px;margin-bottom:10px;}
+.list-item{margin-bottom:4px;}
 }
 footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </style>
@@ -184,11 +184,11 @@ const printHtml=`<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:block;}
-@page{size:A4;margin:0.8cm;}
-.resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+@page{size:A4;margin:1.8cm;}
+.resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0 auto;padding:0;}
 [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-.section-title{font-weight:700;font-size:0.9rem;text-transform:uppercase;border-left:3px solid #0f172a;padding-left:8px;margin:10px 0 6px 0;color:#0f172a;}
+.section-title{font-weight:700;font-size:0.9rem;text-transform:uppercase;border-left:3px solid #0f172a;padding-left:8px;margin:12px 0 6px 0;color:#0f172a;}
 .list-item{margin-bottom:4px;font-size:0.85rem;line-height:1.35;}
 .contact-line{border-bottom:1px solid #aaa;padding-bottom:5px;margin-bottom:8px;font-size:0.75rem;}
 .resume-header h1{font-size:1.5rem;margin-bottom:2px;font-weight:700;}
