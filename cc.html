@@ -42,7 +42,6 @@ body{background:white;padding:0;margin:0;}
 .section-title{border-left-color:#000;margin:12px 0 6px 0;}
 .photo-placeholder{display:none !important;}
 .profile-photo{border:2px solid #000;page-break-inside:avoid;}
-.resume-card{page-break-after:avoid;page-break-inside:avoid;}
 .contact-line{padding-bottom:6px;margin-bottom:8px;}
 .list-item{margin-bottom:3px;}
 }
@@ -59,8 +58,8 @@ footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 <hr>
 <button id="addSkillBtn" class="btn btn-outline-primary btn-sm-custom w-100 mb-2"><i class="fas fa-plus-circle"></i> + Qualificação</button>
 <button id="addCourseBtn" class="btn btn-outline-success btn-sm-custom w-100 mb-3"><i class="fas fa-graduation-cap"></i> + Curso</button>
-<div class="alert alert-info small py-2">
-<i class="fas fa-info-circle"></i> <strong>PDF:</strong> Clique em "Salvar PDF" → escolha "Salvar como PDF" → A4.
+<div class="alert alert-warning small py-2">
+<i class="fas fa-info-circle"></i> <strong>Atenção:</strong> Ao recarregar a página, a foto será removida. Os textos permanecem salvos.
 </div>
 <button id="printResumeBtn" class="btn btn-primary w-100"><i class="fas fa-print"></i> 📄 Salvar PDF</button>
 <div id="statusMsg"></div>
@@ -107,205 +106,114 @@ footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </div>
 </div>
 </div>
-<footer class="no-print"><i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | Clique no círculo para adicionar sua foto</footer>
+<footer class="no-print"><i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | Clique no círculo para adicionar sua foto (a foto some ao recarregar)</footer>
 </div>
-
 <script>
-// Elementos da foto
-const photoUpload = document.getElementById('photoUpload');
-const profileImg = document.getElementById('profileImg');
-const photoPlaceholder = document.getElementById('photoPlaceholder');
-const changePhotoBtn = document.getElementById('changePhotoBtn');
-const removePhotoBtn = document.getElementById('removePhotoBtn');
-let currentPhotoData = null;
-
-function updatePhotoUI(hasPhoto, photoSrc = null) {
-    if(hasPhoto && photoSrc) {
-        profileImg.src = photoSrc;
-        profileImg.style.display = 'block';
-        photoPlaceholder.style.display = 'none';
-        changePhotoBtn.style.display = 'inline-block';
-        removePhotoBtn.style.display = 'inline-block';
-        currentPhotoData = photoSrc;
-    } else {
-        profileImg.style.display = 'none';
-        photoPlaceholder.style.display = 'flex';
-        changePhotoBtn.style.display = 'none';
-        removePhotoBtn.style.display = 'none';
-        currentPhotoData = null;
-    }
-    savePhotoToLocal();
+const photoUpload=document.getElementById('photoUpload');
+const profileImg=document.getElementById('profileImg');
+const photoPlaceholder=document.getElementById('photoPlaceholder');
+const changePhotoBtn=document.getElementById('changePhotoBtn');
+const removePhotoBtn=document.getElementById('removePhotoBtn');
+let currentPhotoData=null;
+function updatePhotoUI(hasPhoto,photoSrc=null){
+if(hasPhoto&&photoSrc){
+profileImg.src=photoSrc;
+profileImg.style.display='block';
+photoPlaceholder.style.display='none';
+changePhotoBtn.style.display='inline-block';
+removePhotoBtn.style.display='inline-block';
+currentPhotoData=photoSrc;
+}else{
+profileImg.style.display='none';
+photoPlaceholder.style.display='flex';
+changePhotoBtn.style.display='none';
+removePhotoBtn.style.display='none';
+currentPhotoData=null;
+}}
+function compressAndSetPhoto(file){
+if(!file||!file.type.match('image.*')){showMsg('Selecione uma imagem JPG ou PNG.',true);return;}
+if(file.size>15*1024*1024){showMsg(`Imagem muito grande: ${(file.size/1024/1024).toFixed(1)}MB (máx 15MB)`,true);return;}
+showMsg('Processando foto...');
+const reader=new FileReader();
+reader.onload=function(e){
+const img=new Image();
+img.onload=function(){
+const canvas=document.createElement('canvas');
+let width=img.width,height=img.height;
+const maxSize=400;
+if(width>height){
+if(width>maxSize){height=Math.round(height*maxSize/width);width=maxSize;}
+}else{
+if(height>maxSize){width=Math.round(width*maxSize/height);height=maxSize;}
 }
-
-function compressAndSetPhoto(file) {
-    if(!file || !file.type.match('image.*')) {
-        showMsg('Selecione uma imagem JPG ou PNG.', true);
-        return;
-    }
-    if(file.size > 15 * 1024 * 1024) {
-        showMsg(`Imagem muito grande: ${(file.size/1024/1024).toFixed(1)}MB (máx 15MB)`, true);
-        return;
-    }
-    showMsg('Processando foto...');
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            let width = img.width, height = img.height;
-            const maxSize = 400;
-            if(width > height) {
-                if(width > maxSize) { height = Math.round(height * maxSize / width); width = maxSize; }
-            } else {
-                if(height > maxSize) { width = Math.round(width * maxSize / height); height = maxSize; }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            let quality = 0.8;
-            let dataUrl = canvas.toDataURL('image/jpeg', quality);
-            while(dataUrl.length > 2.5 * 1024 * 1024 && quality > 0.4) {
-                quality -= 0.1;
-                dataUrl = canvas.toDataURL('image/jpeg', quality);
-            }
-            updatePhotoUI(true, dataUrl);
-            showMsg('Foto adicionada!');
-        };
-        img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+canvas.width=width;
+canvas.height=height;
+const ctx=canvas.getContext('2d');
+ctx.drawImage(img,0,0,width,height);
+let quality=0.8;
+let dataUrl=canvas.toDataURL('image/jpeg',quality);
+while(dataUrl.length>2.5*1024*1024&&quality>0.4){quality-=0.1;dataUrl=canvas.toDataURL('image/jpeg',quality);}
+updatePhotoUI(true,dataUrl);
+showMsg('Foto adicionada! (irá sumir ao recarregar a página)');
+};
+img.src=e.target.result;
+};
+reader.readAsDataURL(file);
 }
-
-photoUpload.addEventListener('change', function(e) {
-    if(e.target.files && e.target.files[0]) compressAndSetPhoto(e.target.files[0]);
-    photoUpload.value = '';
-});
-
-removePhotoBtn.addEventListener('click', function() {
-    updatePhotoUI(false);
-    showMsg('Foto removida');
-});
-
-function showMsg(msg, isErr=false) {
-    const el = document.getElementById('statusMsg');
-    if(!el) return;
-    el.textContent = msg;
-    el.style.color = isErr ? '#dc2626' : '#16a34a';
-    setTimeout(() => { if(el.textContent === msg) el.textContent = ''; }, 3000);
+photoUpload.addEventListener('change',function(e){if(e.target.files&&e.target.files[0])compressAndSetPhoto(e.target.files[0]);photoUpload.value='';});
+removePhotoBtn.addEventListener('click',function(){updatePhotoUI(false);showMsg('Foto removida');});
+function showMsg(msg,isErr=false){const el=document.getElementById('statusMsg');if(!el)return;el.textContent=msg;el.style.color=isErr?'#dc2626':'#16a34a';setTimeout(()=>{if(el.textContent===msg)el.textContent='';},3000);}
+function addNewQualification(){const container=document.getElementById('qualificationsList');const newItem=document.createElement('div');newItem.setAttribute('contenteditable','true');newItem.className='list-item';newItem.innerText='• Nova qualificação';container.appendChild(newItem);newItem.focus();}
+function addNewCourse(){const container=document.getElementById('complementaryList');const newItem=document.createElement('div');newItem.setAttribute('contenteditable','true');newItem.className='list-item';newItem.innerText='• Novo curso';container.appendChild(newItem);newItem.focus();}
+document.getElementById('addSkillBtn')?.addEventListener('click',addNewQualification);
+document.getElementById('addCourseBtn')?.addEventListener('click',addNewCourse);
+function printResume(){
+const originalCard=document.getElementById('resumeContent');
+const cloneCard=originalCard.cloneNode(true);
+const cloneControls=cloneCard.querySelectorAll('.photo-controls');
+cloneControls.forEach(el=>el.remove());
+const cloneImg=cloneCard.querySelector('#profileImg');
+const clonePlaceholder=cloneCard.querySelector('#photoPlaceholder');
+if(cloneImg&&cloneImg.src&&cloneImg.style.display!=='none'){if(clonePlaceholder)clonePlaceholder.style.display='none';
+}else{if(cloneImg)cloneImg.style.display='none';if(clonePlaceholder)clonePlaceholder.style.display='flex';}
+const printHtml=`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Curriculo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:block;}
+@page{size:A4;margin:0.8cm;}
+.resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0;padding:0;}
+[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
+.section-title{font-weight:700;font-size:0.9rem;text-transform:uppercase;border-left:3px solid #0f172a;padding-left:8px;margin:10px 0 6px 0;color:#0f172a;}
+.list-item{margin-bottom:4px;font-size:0.85rem;line-height:1.35;}
+.contact-line{border-bottom:1px solid #aaa;padding-bottom:5px;margin-bottom:8px;font-size:0.75rem;}
+.resume-header h1{font-size:1.5rem;margin-bottom:2px;font-weight:700;}
+.profile-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:1.5px solid #000;}
+.photo-placeholder{display:none;}
+.resume-header{display:flex;align-items:center;gap:15px;margin-bottom:10px;}
+.name-title{flex:1;}
+#objectiveText{font-size:0.85rem;margin-bottom:4px;}
+#academicGraduation, #academicHighSchool{font-size:0.85rem;margin-bottom:4px;line-height:1.35;}
+</style>
+</head>
+<body>
+<div class="resume-card">${cloneCard.innerHTML}</div>
+<script>window.onload=function(){setTimeout(function(){window.print();},200);};<\/script>
+</body>
+</html>`;
+const printWindow=window.open('','_blank','width=900,height=800,toolbar=yes');
+if(!printWindow){alert("Permita pop-ups para gerar o PDF.");return;}
+printWindow.document.write(printHtml);
+printWindow.document.close();
 }
-
-function savePhotoToLocal() {
-    if(currentPhotoData) {
-        try { localStorage.setItem('curriculo_foto', currentPhotoData); } catch(e) {}
-    } else {
-        try { localStorage.removeItem('curriculo_foto'); } catch(e) {}
-    }
-}
-
-function addNewQualification() {
-    const container = document.getElementById('qualificationsList');
-    const newItem = document.createElement('div');
-    newItem.setAttribute('contenteditable', 'true');
-    newItem.className = 'list-item';
-    newItem.innerText = '• Nova qualificação';
-    container.appendChild(newItem);
-    newItem.focus();
-}
-
-function addNewCourse() {
-    const container = document.getElementById('complementaryList');
-    const newItem = document.createElement('div');
-    newItem.setAttribute('contenteditable', 'true');
-    newItem.className = 'list-item';
-    newItem.innerText = '• Novo curso';
-    container.appendChild(newItem);
-    newItem.focus();
-}
-
-document.getElementById('addSkillBtn')?.addEventListener('click', addNewQualification);
-document.getElementById('addCourseBtn')?.addEventListener('click', addNewCourse);
-
-// Gerar PDF - layout otimizado para preencher a folha
-function printResume() {
-    const originalCard = document.getElementById('resumeContent');
-    const cloneCard = originalCard.cloneNode(true);
-    
-    const cloneControls = cloneCard.querySelectorAll('.photo-controls');
-    cloneControls.forEach(el => el.remove());
-    
-    const cloneImg = cloneCard.querySelector('#profileImg');
-    const clonePlaceholder = cloneCard.querySelector('#photoPlaceholder');
-    if(cloneImg && cloneImg.src && cloneImg.style.display !== 'none') {
-        if(clonePlaceholder) clonePlaceholder.style.display = 'none';
-    } else {
-        if(cloneImg) cloneImg.style.display = 'none';
-        if(clonePlaceholder) clonePlaceholder.style.display = 'flex';
-    }
-    
-    const printHtml = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Curriculo</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-        <style>
-            *{margin:0;padding:0;box-sizing:border-box;}
-            body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:block;}
-            @page{size:A4;margin:0.8cm;}
-            .resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0;padding:0;}
-            [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-            .section-title{font-weight:700;font-size:0.9rem;text-transform:uppercase;border-left:3px solid #0f172a;padding-left:8px;margin:10px 0 6px 0;color:#0f172a;}
-            .list-item{margin-bottom:4px;font-size:0.85rem;line-height:1.35;}
-            .contact-line{border-bottom:1px solid #aaa;padding-bottom:5px;margin-bottom:8px;font-size:0.75rem;}
-            .resume-header h1{font-size:1.5rem;margin-bottom:2px;font-weight:700;}
-            .profile-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:1.5px solid #000;}
-            .photo-placeholder{display:none;}
-            .resume-header{display:flex;align-items:center;gap:15px;margin-bottom:10px;}
-            .name-title{flex:1;}
-            #objectiveText{font-size:0.85rem;margin-bottom:4px;}
-            #academicGraduation, #academicHighSchool{font-size:0.85rem;margin-bottom:4px;line-height:1.35;}
-            .resume-card > div:last-child{margin-bottom:0;}
-        </style>
-    </head>
-    <body>
-        <div class="resume-card">${cloneCard.innerHTML}</div>
-        <script>
-            window.onload = function() {
-                setTimeout(function() {
-                    window.print();
-                }, 200);
-            };
-        <\/script>
-    </body>
-    </html>`;
-    
-    const printWindow = window.open('', '_blank', 'width=900,height=800,toolbar=yes');
-    if(!printWindow) {
-        alert("Permita pop-ups para gerar o PDF.");
-        return;
-    }
-    printWindow.document.write(printHtml);
-    printWindow.document.close();
-}
-
-document.getElementById('printResumeBtn')?.addEventListener('click', printResume);
-
-// Carregar foto salva
-(function() {
-    try {
-        const saved = localStorage.getItem('curriculo_foto');
-        if(saved && saved.startsWith('data:image')) {
-            profileImg.src = saved;
-            profileImg.style.display = 'block';
-            photoPlaceholder.style.display = 'none';
-            changePhotoBtn.style.display = 'inline-block';
-            removePhotoBtn.style.display = 'inline-block';
-            currentPhotoData = saved;
-        }
-    } catch(e) {}
-})();
+document.getElementById('printResumeBtn')?.addEventListener('click',printResume);
+try{localStorage.removeItem('curriculo_foto');}catch(e){}
+updatePhotoUI(false);
+showMsg('Foto removida automaticamente. Adicione uma nova se desejar.');
 </script>
 </body>
 </html>
