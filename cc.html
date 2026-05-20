@@ -33,9 +33,10 @@ i{margin-right:6px;}
 .photo-actions{display:flex;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap;}
 .photo-actions button{font-size:12px;padding:6px 12px;border-radius:8px;}
 .photo-controls{display:flex;gap:10px;margin-top:10px;justify-content:center;}
+#statusMsg{font-size:12px;margin-top:5px;color:#059669;}
 @media print{
 body{background:white;padding:0;margin:0;}
-.no-print,.editor-panel,.btn-group,.btn,.action-buttons,.footer-tip,.print-hide,.photo-actions,.photo-controls{display:none !important;}
+.no-print,.editor-panel,.btn-group,.btn,.action-buttons,.footer-tip,.print-hide,.photo-actions,.photo-controls,#statusMsg{display:none !important;}
 .preview-panel{box-shadow:none;margin:0;padding:0;}
 .resume-card{padding:1.5cm;max-width:100%;margin:0 auto;}
 [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
@@ -67,6 +68,7 @@ footer{font-size:12px;text-align:center;margin-top:1.5rem;color:#475569;}
 <div class="action-buttons d-grid gap-2 mt-3">
 <button id="printResumeBtn" class="btn btn-primary"><i class="fas fa-print"></i> 🖨️ Imprimir / Salvar PDF</button>
 </div>
+<div id="statusMsg" class="text-center mt-2"></div>
 </div>
 </div>
 <div class="col-lg-8">
@@ -121,9 +123,18 @@ const profileImage = document.getElementById('profileImage');
 const photoPlaceholderDiv = document.getElementById('photoPlaceholderDiv');
 const addPhotoBtn = document.getElementById('addPhotoBtn');
 const removePhotoBtn2 = document.getElementById('removePhotoBtn2');
+const statusMsg = document.getElementById('statusMsg');
+
+function showMessage(msg, isError = false) {
+    statusMsg.textContent = msg;
+    statusMsg.style.color = isError ? '#dc2626' : '#059669';
+    setTimeout(() => {
+        if(statusMsg.textContent === msg) statusMsg.textContent = '';
+    }, 3000);
+}
 
 function updatePhotoDisplay(hasPhoto) {
-    if(hasPhoto && profileImage.src && profileImage.style.display !== 'none') {
+    if(hasPhoto && profileImage.src && profileImage.style.display !== 'none' && profileImage.src !== '') {
         profileImage.style.display = 'block';
         photoPlaceholderDiv.style.display = 'none';
         removePhotoBtn2.style.display = 'inline-block';
@@ -140,13 +151,29 @@ function updatePhotoDisplay(hasPhoto) {
 
 function setPhotoFromFile(file) {
     if(file && file.type.startsWith('image/')) {
+        if(file.size > 2 * 1024 * 1024) {
+            showMessage('A imagem é muito grande! Use uma foto de até 2MB.', true);
+            return;
+        }
         const reader = new FileReader();
         reader.onload = function(e) {
-            profileImage.src = e.target.result;
+            const imageData = e.target.result;
+            profileImage.src = imageData;
             updatePhotoDisplay(true);
-            localStorage.setItem('profilePhotoData', e.target.result);
+            try {
+                localStorage.setItem('profilePhotoData', imageData);
+                showMessage('Foto salva com sucesso!');
+            } catch(err) {
+                showMessage('Erro ao salvar foto no navegador. Tente uma imagem menor.', true);
+                console.error('localStorage error:', err);
+            }
+        };
+        reader.onerror = function() {
+            showMessage('Erro ao ler o arquivo. Tente novamente.', true);
         };
         reader.readAsDataURL(file);
+    } else {
+        showMessage('Por favor, selecione um arquivo de imagem (JPG ou PNG).', true);
     }
 }
 
@@ -166,15 +193,29 @@ removePhotoBtn2.addEventListener('click', function(e) {
     e.preventDefault();
     profileImage.src = '';
     updatePhotoDisplay(false);
-    localStorage.removeItem('profilePhotoData');
+    try {
+        localStorage.removeItem('profilePhotoData');
+        showMessage('Foto removida com sucesso!');
+    } catch(err) {
+        console.error('localStorage remove error:', err);
+    }
 });
 
 function loadSavedPhoto() {
-    const savedPhoto = localStorage.getItem('profilePhotoData');
-    if(savedPhoto && savedPhoto.startsWith('data:image')) {
-        profileImage.src = savedPhoto;
-        updatePhotoDisplay(true);
-    } else {
+    try {
+        const savedPhoto = localStorage.getItem('profilePhotoData');
+        if(savedPhoto && savedPhoto.startsWith('data:image') && savedPhoto.length > 100) {
+            profileImage.src = savedPhoto;
+            updatePhotoDisplay(true);
+            showMessage('Foto carregada do navegador.');
+        } else {
+            updatePhotoDisplay(false);
+            if(savedPhoto && savedPhoto.length < 100) {
+                localStorage.removeItem('profilePhotoData');
+            }
+        }
+    } catch(err) {
+        console.error('Error loading photo:', err);
         updatePhotoDisplay(false);
     }
 }
@@ -253,7 +294,10 @@ document.getElementById('addCourseBtn')?.addEventListener('click',addNewCourse);
 document.getElementById('printResumeBtn')?.addEventListener('click',printResume);
 document.addEventListener('dragstart',(e)=>{if(e.target.getAttribute('contenteditable')==='true'){e.preventDefault();}});
 
-loadSavedPhoto();
+window.addEventListener('DOMContentLoaded', () => {
+    loadSavedPhoto();
+    showMessage('Pronto! Adicione sua foto clicando no botão.');
+});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
