@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Currículo Inteligente - Auto Ajuste</title>
+<title>Currículo Fácil Mobsul</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:20px 16px;}
-.app-container{max-width:1400px;margin:0 auto;}
+body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:0;margin:0;}
+.app-container{max-width:1400px;margin:0 auto;padding:20px 16px;}
 .editor-panel,.preview-panel{background:white;border-radius:24px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;}
 .editor-panel{padding:20px;position:sticky;top:20px;}
 .preview-panel{background:#fefefe;}
@@ -38,10 +38,50 @@ hr{margin:12px 0;}
 @media print{
 .no-print{display:none !important;}
 }
-footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
+header{background:#2056b6;padding:16px 0 12px 0;border-bottom:3px solid #ffb347;}
+.header-flex{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;max-width:1400px;margin:0 auto;padding:0 20px;}
+.logo-area{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.logo-svg{width:60px;height:60px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));transition:transform 0.2s ease;}
+.logo-svg:hover{transform:scale(1.02);}
+.logo-texto{text-align:left;line-height:1.2;}
+.logo-mobsul{font-size:2.2rem;font-weight:800;letter-spacing:2px;color:white;text-shadow:2px 2px 4px rgba(0,0,0,0.2);}
+.logo-mobsul span{color:#ffb347;}
+.logo-slogan{font-size:0.75rem;font-weight:400;letter-spacing:3px;color:rgba(255,255,255,0.85);text-transform:uppercase;margin-top:2px;}
+footer{background:#2056b6;color:#e0e9ff;text-align:center;padding:20px 20px;border-radius:28px 28px 0 0;margin-top:40px;font-size:0.8rem;}
+footer p{margin:6px 0;}
+.direitos{font-weight:500;}
+.footer-links{margin-top:8px;font-size:0.75rem;}
+.footer-links a{color:#ffb347;text-decoration:none;}
+.footer-links a:hover{text-decoration:underline;}
+@media (max-width:640px){.logo-svg{width:50px;height:50px;}.logo-mobsul{font-size:1.8rem;}.logo-slogan{font-size:0.65rem;letter-spacing:2px;}}
 </style>
 </head>
 <body>
+<header>
+<div class="header-flex">
+<div class="logo-area">
+<div class="logo-svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60">
+<g transform="translate(25, 12)">
+<rect x="0" y="0" width="70" height="120" rx="12" fill="white" opacity="0.95"/>
+<rect x="8" y="18" width="54" height="78" rx="4" fill="#2056b6"/>
+<circle cx="35" cy="108" r="6" fill="white" opacity="0.5"/>
+<circle cx="35" cy="10" r="4" fill="white" opacity="0.4"/>
+<rect x="26" y="5" width="18" height="2.5" rx="1" fill="white" opacity="0.3"/>
+<g transform="translate(35, 57)" stroke="#ffb347" stroke-width="5" stroke-linecap="round">
+<line x1="-12" y1="-12" x2="12" y2="12"/>
+<line x1="12" y1="-12" x2="-12" y2="12"/>
+</g>
+</g>
+</svg>
+</div>
+<div class="logo-texto">
+<div class="logo-mobsul">MOB<span>SUL</span></div>
+<div class="logo-slogan">Currículo Fácil</div>
+</div>
+</div>
+</div>
+</header>
 <div class="app-container">
 <div class="row g-3">
 <div class="col-lg-4 no-print">
@@ -103,8 +143,15 @@ footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </div>
 </div>
 </div>
-<footer class="no-print"><i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | A foto some ao recarregar</footer>
 </div>
+<footer>
+<p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul - Currículo Fácil - Todos os direitos reservados.</p>
+<div class="footer-links">
+<a href="https://mobsul.com.br/politica/politica-de-privacidade.html">Política de Privacidade</a> |
+<a href="https://mobsul.com.br/politica/politica-de-cookies.html">Política de Cookies</a> |
+<a href="https://mobsul.com.br/politica/termo-de-uso.html">Termo de Uso</a>
+</div>
+</footer>
 <script>
 const photoUpload=document.getElementById('photoUpload');
 const profileImg=document.getElementById('profileImg');
@@ -181,86 +228,24 @@ const printHtml=`<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Curriculo</title>
+<title>Curriculo Mobsul</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-font-family:'Inter',sans-serif;
-background:white;
-margin:0;
-padding:1.2cm;
-display:block;
-}
-@page{
-size:A4;
-margin:0.8cm;
-}
-.resume-card{
-max-width:100%;
-width:100%;
-background:white;
-color:#1e293b;
-line-height:1.45;
-margin:0 auto;
-padding:0;
-}
-[contenteditable="true"]{
-border:none !important;
-background:transparent !important;
-padding:0;
-color:black;
-}
-.section-title{
-font-weight:700;
-font-size:1rem;
-text-transform:uppercase;
-border-left:4px solid #0f172a;
-padding-left:10px;
-margin:16px 0 10px 0;
-color:#0f172a;
-}
-.list-item{
-margin-bottom:6px;
-font-size:0.9rem;
-line-height:1.4;
-}
-.contact-info{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-margin-bottom:16px;
-padding-bottom:8px;
-border-bottom:2px solid #e2e8f0;
-}
-.contact-item{
-display:flex;
-align-items:center;
-gap:6px;
-font-size:0.8rem;
-color:#475569;
-}
+body{font-family:'Inter',sans-serif;background:white;margin:0;padding:1.2cm;display:block;}
+@page{size:A4;margin:0.8cm;}
+.resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0 auto;padding:0;}
+[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
+.section-title{font-weight:700;font-size:1rem;text-transform:uppercase;border-left:4px solid #0f172a;padding-left:10px;margin:16px 0 10px 0;color:#0f172a;}
+.list-item{margin-bottom:6px;font-size:0.9rem;line-height:1.4;}
+.contact-info{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #e2e8f0;}
+.contact-item{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#475569;}
 .contact-item i{width:14px;color:#3b82f6;}
 .contact-item [contenteditable="true"]{border:none;background:transparent;padding:0;}
-.resume-header h1{
-font-size:1.6rem;
-margin-bottom:6px;
-font-weight:700;
-}
-.profile-photo{
-width:85px;
-height:85px;
-border-radius:50%;
-object-fit:cover;
-border:2px solid #000;
-}
+.resume-header h1{font-size:1.6rem;margin-bottom:6px;font-weight:700;}
+.profile-photo{width:85px;height:85px;border-radius:50%;object-fit:cover;border:2px solid #000;}
 .photo-placeholder{display:none;}
-.resume-header{
-display:flex;
-align-items:center;
-gap:18px;
-margin-bottom:12px;
-}
+.resume-header{display:flex;align-items:center;gap:18px;margin-bottom:12px;}
 .name-title{flex:1;}
 #objectiveText{font-size:0.9rem;margin-bottom:6px;}
 #academicGraduation, #academicHighSchool{font-size:0.9rem;margin-bottom:6px;line-height:1.4;}
