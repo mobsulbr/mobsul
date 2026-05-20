@@ -14,7 +14,7 @@ body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:20px 16px;}
 .editor-panel,.preview-panel{background:white;border-radius:24px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;}
 .editor-panel{padding:20px;position:sticky;top:20px;}
 .preview-panel{background:#fefefe;}
-.resume-card{background:white;padding:28px;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.5;}
+.resume-card{background:white;padding:28px;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.45;}
 [contenteditable="true"]{outline:none;border-bottom:1px dashed #94a3b8;background:#fef9e6;transition:0.15s;padding:2px 4px;border-radius:6px;cursor:text;display:inline-block;min-width:80px;}
 [contenteditable="true"]:hover{background:#fef3c7;border-bottom-color:#f59e0b;}
 [contenteditable="true"]:focus{background:#fffbeb;border-bottom:2px solid #3b82f6;}
@@ -33,16 +33,18 @@ body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:20px 16px;}
 #statusMsg{font-size:12px;margin-top:8px;color:#16a34a;text-align:center;}
 hr{margin:12px 0;}
 @media print{
-@page{size:A4;margin:1.2cm;}
+@page{size:A4;margin:0.8cm;}
 body{background:white;padding:0;margin:0;}
 .no-print{display:none !important;}
 .preview-panel{box-shadow:none;margin:0;padding:0;}
-.resume-card{padding:0;max-width:100%;}
+.resume-card{padding:0;max-width:100%;margin:0;width:100%;}
 [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-.section-title{border-left-color:#000;}
+.section-title{border-left-color:#000;margin:12px 0 6px 0;}
 .photo-placeholder{display:none !important;}
 .profile-photo{border:2px solid #000;page-break-inside:avoid;}
 .resume-card{page-break-after:avoid;page-break-inside:avoid;}
+.contact-line{padding-bottom:6px;margin-bottom:8px;}
+.list-item{margin-bottom:3px;}
 }
 footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </style>
@@ -132,6 +134,7 @@ function updatePhotoUI(hasPhoto, photoSrc = null) {
         removePhotoBtn.style.display = 'none';
         currentPhotoData = null;
     }
+    savePhotoToLocal();
 }
 
 function compressAndSetPhoto(file) {
@@ -192,7 +195,14 @@ function showMsg(msg, isErr=false) {
     setTimeout(() => { if(el.textContent === msg) el.textContent = ''; }, 3000);
 }
 
-// Adicionar itens
+function savePhotoToLocal() {
+    if(currentPhotoData) {
+        try { localStorage.setItem('curriculo_foto', currentPhotoData); } catch(e) {}
+    } else {
+        try { localStorage.removeItem('curriculo_foto'); } catch(e) {}
+    }
+}
+
 function addNewQualification() {
     const container = document.getElementById('qualificationsList');
     const newItem = document.createElement('div');
@@ -216,16 +226,14 @@ function addNewCourse() {
 document.getElementById('addSkillBtn')?.addEventListener('click', addNewQualification);
 document.getElementById('addCourseBtn')?.addEventListener('click', addNewCourse);
 
-// Gerar PDF - método universal e compatível
+// Gerar PDF - layout otimizado para preencher a folha
 function printResume() {
     const originalCard = document.getElementById('resumeContent');
     const cloneCard = originalCard.cloneNode(true);
     
-    // Remove botões de controle da foto do clone
     const cloneControls = cloneCard.querySelectorAll('.photo-controls');
     cloneControls.forEach(el => el.remove());
     
-    // Garante que a imagem apareça no PDF (se existir)
     const cloneImg = cloneCard.querySelector('#profileImg');
     const clonePlaceholder = cloneCard.querySelector('#photoPlaceholder');
     if(cloneImg && cloneImg.src && cloneImg.style.display !== 'none') {
@@ -235,7 +243,6 @@ function printResume() {
         if(clonePlaceholder) clonePlaceholder.style.display = 'flex';
     }
     
-    // Conteúdo HTML para impressão
     const printHtml = `
     <!DOCTYPE html>
     <html>
@@ -245,18 +252,21 @@ function printResume() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
         <style>
             *{margin:0;padding:0;box-sizing:border-box;}
-            body{font-family:'Inter',sans-serif;background:white;margin:0;padding:1.2cm;display:flex;justify-content:center;}
-            @page{size:A4;margin:1.2cm;}
-            .resume-card{max-width:100%;background:white;color:#1e293b;line-height:1.45;}
+            body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:block;}
+            @page{size:A4;margin:0.8cm;}
+            .resume-card{max-width:100%;width:100%;background:white;color:#1e293b;line-height:1.45;margin:0;padding:0;}
             [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-            .section-title{font-weight:700;font-size:0.95rem;text-transform:uppercase;border-left:4px solid #0f172a;padding-left:10px;margin:14px 0 8px 0;}
-            .list-item{margin-bottom:5px;font-size:0.85rem;}
-            .contact-line{border-bottom:1px solid #aaa;padding-bottom:6px;margin-bottom:12px;font-size:0.75rem;}
-            .resume-header h1{font-size:1.6rem;margin-bottom:4px;}
-            .profile-photo{width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #000;}
+            .section-title{font-weight:700;font-size:0.9rem;text-transform:uppercase;border-left:3px solid #0f172a;padding-left:8px;margin:10px 0 6px 0;color:#0f172a;}
+            .list-item{margin-bottom:4px;font-size:0.85rem;line-height:1.35;}
+            .contact-line{border-bottom:1px solid #aaa;padding-bottom:5px;margin-bottom:8px;font-size:0.75rem;}
+            .resume-header h1{font-size:1.5rem;margin-bottom:2px;font-weight:700;}
+            .profile-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:1.5px solid #000;}
             .photo-placeholder{display:none;}
-            .resume-header{display:flex;align-items:center;gap:18px;margin-bottom:12px;}
+            .resume-header{display:flex;align-items:center;gap:15px;margin-bottom:10px;}
             .name-title{flex:1;}
+            #objectiveText{font-size:0.85rem;margin-bottom:4px;}
+            #academicGraduation, #academicHighSchool{font-size:0.85rem;margin-bottom:4px;line-height:1.35;}
+            .resume-card > div:last-child{margin-bottom:0;}
         </style>
     </head>
     <body>
@@ -281,61 +291,6 @@ function printResume() {
 }
 
 document.getElementById('printResumeBtn')?.addEventListener('click', printResume);
-
-// Carregar foto salva no localStorage
-function loadSavedPhoto() {
-    try {
-        const saved = localStorage.getItem('curriculo_foto');
-        if(saved && saved.startsWith('data:image')) {
-            updatePhotoUI(true, saved);
-        }
-    } catch(e) {}
-}
-
-// Salvar foto automaticamente ao adicionar/remover
-function savePhotoToLocal() {
-    if(currentPhotoData) {
-        try { localStorage.setItem('curriculo_foto', currentPhotoData); } catch(e) {}
-    } else {
-        try { localStorage.removeItem('curriculo_foto'); } catch(e) {}
-    }
-}
-
-// Interceptar atualizações da foto para salvar
-const originalUpdate = updatePhotoUI;
-window.updatePhotoUI = function(hasPhoto, src) {
-    originalUpdate(hasPhoto, src);
-    savePhotoToLocal();
-};
-updatePhotoUI = window.updatePhotoUI;
-
-// Substituir método original para persistência
-updatePhotoUI = function(hasPhoto, src) {
-    if(hasPhoto && src) {
-        profileImg.src = src;
-        profileImg.style.display = 'block';
-        photoPlaceholder.style.display = 'none';
-        changePhotoBtn.style.display = 'inline-block';
-        removePhotoBtn.style.display = 'inline-block';
-        currentPhotoData = src;
-    } else {
-        profileImg.style.display = 'none';
-        photoPlaceholder.style.display = 'flex';
-        changePhotoBtn.style.display = 'none';
-        removePhotoBtn.style.display = 'none';
-        currentPhotoData = null;
-    }
-    savePhotoToLocal();
-};
-
-// Reassinar eventos
-removePhotoBtn.onclick = () => { updatePhotoUI(false); showMsg('Foto removida'); };
-changePhotoBtn.onclick = () => { photoUpload.click(); };
-photoPlaceholder.onclick = () => { photoUpload.click(); };
-photoUpload.onchange = (e) => {
-    if(e.target.files && e.target.files[0]) compressAndSetPhoto(e.target.files[0]);
-    photoUpload.value = '';
-};
 
 // Carregar foto salva
 (function() {
