@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Editor de Currículo - Com Foto Circular</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#e9ecef;font-family:'Inter',sans-serif;padding:2rem 1rem;}
+.app-container{max-width:1400px;margin:0 auto;}
+.editor-panel,.preview-panel{background:white;border-radius:20px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.02);overflow:hidden;}
+.editor-panel{padding:1.5rem;height:fit-content;position:sticky;top:1rem;}
+.preview-panel{background:#fefefe;}
+.resume-card{background:white;font-family:'Inter',sans-serif;padding:2rem;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.6;}
+[contenteditable="true"]{outline:none;border-bottom:1px dashed #cbd5e1;background-color:#fefce8;transition:background 0.2s;padding:0 2px;border-radius:6px;cursor:text;display:inline-block;min-width:50px;}
+[contenteditable="true"]:hover{background-color:#fef9c3;border-bottom-color:#f59e0b;}
+[contenteditable="true"]:focus{background-color:#fffbeb;border-bottom:2px solid #3b82f6;box-shadow:0 2px 4px rgba(0,0,0,0.02);}
+.editable-block{display:block;width:100%;}
+.resume-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:0.75rem;flex-wrap:wrap;}
+.profile-photo-container{flex-shrink:0;text-align:center;}
+.profile-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #3b82f6;background:#f1f5f9;}
+.photo-placeholder{width:100px;height:100px;border-radius:50%;background:#f1f5f9;border:3px dashed #cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:2rem;}
+.name-title{flex:1;}
+.resume-header h1{font-size:2.5rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:0.25rem;color:#0f172a;}
+.contact-line{font-size:0.95rem;color:#334155;border-bottom:1px solid #e2e8f0;padding-bottom:1rem;margin-bottom:1.5rem;}
+.section-title{font-weight:700;font-size:1.2rem;text-transform:uppercase;letter-spacing:1px;border-left:5px solid #3b82f6;padding-left:12px;margin:1.5rem 0 1rem 0;color:#0f172a;}
+.list-item{margin-bottom:0.75rem;font-size:1rem;}
+.btn-sm-custom{padding:0.4rem 1rem;}
+i{margin-right:6px;}
+.photo-actions{display:flex;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap;}
+.photo-actions button{font-size:12px;padding:6px 12px;border-radius:8px;}
+.photo-controls{display:flex;gap:10px;margin-top:10px;justify-content:center;}
+@media print{
+body{background:white;padding:0;margin:0;}
+.no-print,.editor-panel,.btn-group,.btn,.action-buttons,.footer-tip,.print-hide,.photo-actions,.photo-controls{display:none !important;}
+.preview-panel{box-shadow:none;margin:0;padding:0;}
+.resume-card{padding:1.5cm;max-width:100%;margin:0 auto;}
+[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
+.section-title{border-left-color:#000;}
+.resume-header h1{font-size:2.2rem;}
+.contact-line{font-size:0.9rem;}
+.list-item{margin-bottom:0.7rem;}
+.profile-photo{border:2px solid #000;}
+}
+footer{font-size:12px;text-align:center;margin-top:1.5rem;color:#475569;}
+</style>
+</head>
+<body>
+<div class="app-container">
+<div class="row g-4">
+<div class="col-lg-4 no-print">
+<div class="editor-panel">
+<h4 class="mb-3"><i class="fas fa-edit"></i> Editar Currículo</h4>
+<p class="text-muted small">Clique nos campos para editar texto.</p>
+<hr>
+<div class="d-flex flex-column gap-2">
+<button id="addSkillBtn" class="btn btn-outline-primary btn-sm-custom"><i class="fas fa-plus-circle"></i> Adicionar Qualificação</button>
+<button id="addCourseBtn" class="btn btn-outline-success btn-sm-custom"><i class="fas fa-graduation-cap"></i> Adicionar Curso</button>
+</div>
+<hr>
+<div class="alert alert-light border mt-2">
+<i class="fas fa-info-circle text-info"></i> <strong>Gerar PDF:</strong> Clique em "Imprimir / Salvar PDF" → escolha "Salvar como PDF" → papel A4.
+</div>
+<div class="action-buttons d-grid gap-2 mt-3">
+<button id="printResumeBtn" class="btn btn-primary"><i class="fas fa-print"></i> 🖨️ Imprimir / Salvar PDF</button>
+</div>
+</div>
+</div>
+<div class="col-lg-8">
+<div class="preview-panel">
+<div class="resume-card" id="resumeContent">
+<div class="resume-header">
+<div class="profile-photo-container" id="photoContainer">
+<div id="photoDisplay">
+<img id="profileImage" class="profile-photo" style="display:none;" alt="Foto de perfil">
+<div id="photoPlaceholderDiv" class="photo-placeholder" style="display:flex;">
+<i class="fas fa-user-circle"></i>
+</div>
+</div>
+<div class="photo-controls no-print">
+<button id="addPhotoBtn" class="btn btn-sm btn-outline-primary"><i class="fas fa-camera"></i> Adicionar Foto</button>
+<button id="removePhotoBtn2" class="btn btn-sm btn-outline-danger" style="display:none;"><i class="fas fa-trash"></i> Remover</button>
+</div>
+</div>
+<div class="name-title">
+<h1 contenteditable="true" class="editable-block" id="fullName">Seu nome completo</h1>
+</div>
+</div>
+<div class="contact-line" contenteditable="true" id="contactInfo">(11) 99999-9999 | seu.email@email.com<br>Seu bairro - Sua cidade - UF</div>
+<div class="section-title">Objetivo</div>
+<div contenteditable="true" id="objectiveText" class="mb-3" style="display:block;">Ex: Jovem Aprendiz ou Estágio em Administração</div>
+<div class="section-title">Formação Acadêmica</div>
+<div contenteditable="true" id="academicGraduation" class="mb-3" style="display:block;"><strong>Graduação em Administração - Xº período</strong><br>Nome da faculdade - conclusão prevista Mês/Ano</div>
+<div contenteditable="true" id="academicHighSchool" style="display:block; margin-bottom: 0.5rem;"><strong>Ensino Médio (Ano início - Ano conclusão)</strong><br>Nome da escola</div>
+<div class="section-title">Qualificações</div>
+<div id="qualificationsList">
+<div contenteditable="true" class="list-item mb-2 editable-qualif">• Exemplo: Representante de turma, liderando iniciativas acadêmicas</div>
+<div contenteditable="true" class="list-item mb-2 editable-qualif">• Exemplo: Trabalho voluntário, organização de eventos</div>
+</div>
+<div class="section-title">Formação Complementar</div>
+<div id="complementaryList">
+<div contenteditable="true" class="list-item mb-2 editable-course">• Curso de Auxiliar Administrativo – SENAI (2022)</div>
+<div contenteditable="true" class="list-item mb-2 editable-course">• Excel Básico – Fundação Bradesco (2023)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="no-print">
+<i class="fas fa-mouse-pointer"></i> Currículo totalmente editável - Use o botão "Adicionar Foto" para colocar sua imagem.
+</footer>
+</div>
+<input type="file" id="photoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+
+<script>
+const photoInput = document.getElementById('photoInput');
+const profileImage = document.getElementById('profileImage');
+const photoPlaceholderDiv = document.getElementById('photoPlaceholderDiv');
+const addPhotoBtn = document.getElementById('addPhotoBtn');
+const removePhotoBtn2 = document.getElementById('removePhotoBtn2');
+
+function updatePhotoDisplay(hasPhoto) {
+    if(hasPhoto && profileImage.src && profileImage.style.display !== 'none') {
+        profileImage.style.display = 'block';
+        photoPlaceholderDiv.style.display = 'none';
+        removePhotoBtn2.style.display = 'inline-block';
+        addPhotoBtn.textContent = ' Trocar Foto';
+        addPhotoBtn.innerHTML = '<i class="fas fa-sync"></i> Trocar Foto';
+    } else {
+        profileImage.style.display = 'none';
+        photoPlaceholderDiv.style.display = 'flex';
+        removePhotoBtn2.style.display = 'none';
+        addPhotoBtn.textContent = ' Adicionar Foto';
+        addPhotoBtn.innerHTML = '<i class="fas fa-camera"></i> Adicionar Foto';
+    }
+}
+
+function setPhotoFromFile(file) {
+    if(file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            profileImage.src = e.target.result;
+            updatePhotoDisplay(true);
+            localStorage.setItem('profilePhotoData', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+photoInput.addEventListener('change', function(e) {
+    if(e.target.files && e.target.files[0]) {
+        setPhotoFromFile(e.target.files[0]);
+    }
+    photoInput.value = '';
+});
+
+addPhotoBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    photoInput.click();
+});
+
+removePhotoBtn2.addEventListener('click', function(e) {
+    e.preventDefault();
+    profileImage.src = '';
+    updatePhotoDisplay(false);
+    localStorage.removeItem('profilePhotoData');
+});
+
+function loadSavedPhoto() {
+    const savedPhoto = localStorage.getItem('profilePhotoData');
+    if(savedPhoto && savedPhoto.startsWith('data:image')) {
+        profileImage.src = savedPhoto;
+        updatePhotoDisplay(true);
+    } else {
+        updatePhotoDisplay(false);
+    }
+}
+
+function addNewQualification(){
+const container=document.getElementById('qualificationsList');
+const newItem=document.createElement('div');
+newItem.setAttribute('contenteditable','true');
+newItem.className='list-item mb-2 editable-qualif';
+newItem.innerText='• Nova qualificação';
+container.appendChild(newItem);
+newItem.focus();
+const range=document.createRange();
+const sel=window.getSelection();
+range.selectNodeContents(newItem);
+range.collapse(false);
+sel?.removeAllRanges();
+sel?.addRange(range);
+}
+
+function addNewCourse(){
+const container=document.getElementById('complementaryList');
+const newItem=document.createElement('div');
+newItem.setAttribute('contenteditable','true');
+newItem.className='list-item mb-2 editable-course';
+newItem.innerText='• Novo curso';
+container.appendChild(newItem);
+newItem.focus();
+const range=document.createRange();
+const sel=window.getSelection();
+range.selectNodeContents(newItem);
+range.collapse(false);
+sel?.removeAllRanges();
+sel?.addRange(range);
+}
+
+function printResume(){
+const originalContent=document.getElementById('resumeContent');
+const printWindow=window.open('','_blank','width=1000,height=900,toolbar=yes,scrollbars=yes');
+if(!printWindow){alert("Por favor, permitir pop-ups para gerar o PDF.");return;}
+const cloneContent=originalContent.cloneNode(true);
+const clonePhotoControls = cloneContent.querySelectorAll('.photo-controls');
+clonePhotoControls.forEach(el => el.remove());
+const style=document.createElement('style');
+style.textContent=`
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter','Segoe UI',sans-serif;background:white;margin:0 auto;padding:0;}
+.resume-card{max-width:100%;margin:0 auto;background:white;padding:1.8cm;color:#1e293b;line-height:1.6;min-height:100vh;}
+[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;box-shadow:none;outline:none;}
+.section-title{font-weight:700;font-size:1.3rem;text-transform:uppercase;border-left:5px solid #0f172a;padding-left:12px;margin:1.8rem 0 1rem 0;color:#0f172a;}
+.list-item{margin-bottom:0.9rem;font-size:1rem;}
+.contact-line{border-bottom:2px solid #ccc;padding-bottom:0.8rem;margin-bottom:1.5rem;font-size:1rem;}
+h1{font-size:2.4rem;margin-bottom:0.8rem;}
+#objectiveText{margin-bottom:1rem;font-size:1rem;}
+#academicGraduation, #academicHighSchool{margin-bottom:0.8rem;}
+.profile-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:2px solid #000;background:#f1f5f9;}
+.photo-placeholder{display:none;}
+.resume-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:0.75rem;}
+`;
+printWindow.document.head.appendChild(style);
+const linkFont=printWindow.document.createElement('link');
+linkFont.href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap";
+linkFont.rel="stylesheet";
+printWindow.document.head.appendChild(linkFont);
+const containerDiv=printWindow.document.createElement('div');
+containerDiv.appendChild(cloneContent);
+printWindow.document.body.appendChild(containerDiv);
+const nomeCurriculo=document.getElementById('fullName')?.innerText||'Curriculo';
+printWindow.document.title=`Curriculo_${nomeCurriculo}`;
+printWindow.onload=()=>{setTimeout(()=>{printWindow.print();},300);};
+if(printWindow.document.readyState==='complete'){setTimeout(()=>{printWindow.print();},400);}
+}
+
+document.getElementById('addSkillBtn')?.addEventListener('click',addNewQualification);
+document.getElementById('addCourseBtn')?.addEventListener('click',addNewCourse);
+document.getElementById('printResumeBtn')?.addEventListener('click',printResume);
+document.addEventListener('dragstart',(e)=>{if(e.target.getAttribute('contenteditable')==='true'){e.preventDefault();}});
+
+loadSavedPhoto();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
