@@ -2,74 +2,65 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Editor de Currículo - Com Foto Circular</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Currículo Profissional - Editor Online</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#e9ecef;font-family:'Inter',sans-serif;padding:2rem 1rem;}
+body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:20px 16px;}
 .app-container{max-width:1400px;margin:0 auto;}
-.editor-panel,.preview-panel{background:white;border-radius:20px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1),0 8px 10px -6px rgba(0,0,0,0.02);overflow:hidden;}
-.editor-panel{padding:1.5rem;height:fit-content;position:sticky;top:1rem;}
+.editor-panel,.preview-panel{background:white;border-radius:24px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;}
+.editor-panel{padding:20px;position:sticky;top:20px;}
 .preview-panel{background:#fefefe;}
-.resume-card{background:white;font-family:'Inter',sans-serif;padding:2rem;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.5;}
-[contenteditable="true"]{outline:none;border-bottom:1px dashed #cbd5e1;background-color:#fefce8;transition:background 0.2s;padding:0 2px;border-radius:6px;cursor:text;display:inline-block;min-width:50px;}
-[contenteditable="true"]:hover{background-color:#fef9c3;border-bottom-color:#f59e0b;}
-[contenteditable="true"]:focus{background-color:#fffbeb;border-bottom:2px solid #3b82f6;box-shadow:0 2px 4px rgba(0,0,0,0.02);}
-.editable-block{display:block;width:100%;}
-.resume-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:0.75rem;flex-wrap:wrap;}
+.resume-card{background:white;padding:28px;max-width:1000px;margin:0 auto;color:#1e293b;line-height:1.5;}
+[contenteditable="true"]{outline:none;border-bottom:1px dashed #94a3b8;background:#fef9e6;transition:0.15s;padding:2px 4px;border-radius:6px;cursor:text;display:inline-block;min-width:80px;}
+[contenteditable="true"]:hover{background:#fef3c7;border-bottom-color:#f59e0b;}
+[contenteditable="true"]:focus{background:#fffbeb;border-bottom:2px solid #3b82f6;}
+.resume-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px;}
 .profile-photo-container{flex-shrink:0;text-align:center;}
 .profile-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #3b82f6;background:#f1f5f9;}
-.photo-placeholder{width:100px;height:100px;border-radius:50%;background:#f1f5f9;border:3px dashed #cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:2rem;}
+.photo-placeholder{width:100px;height:100px;border-radius:50%;background:#f1f5f9;border:3px dashed #94a3b8;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:2rem;cursor:pointer;}
+.photo-placeholder:hover{background:#e2e8f0;}
 .name-title{flex:1;}
-.resume-header h1{font-size:2rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:0.25rem;color:#0f172a;}
-.contact-line{font-size:0.85rem;color:#334155;border-bottom:1px solid #e2e8f0;padding-bottom:0.75rem;margin-bottom:1rem;}
-.section-title{font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:1px;border-left:5px solid #3b82f6;padding-left:12px;margin:1rem 0 0.75rem 0;color:#0f172a;}
-.list-item{margin-bottom:0.5rem;font-size:0.95rem;}
-.btn-sm-custom{padding:0.4rem 1rem;}
-i{margin-right:6px;}
-.photo-controls{display:flex;gap:10px;margin-top:8px;justify-content:center;}
-#statusMsg{font-size:12px;margin-top:5px;color:#059669;text-align:center;}
+.resume-header h1{font-size:1.8rem;font-weight:700;margin-bottom:4px;color:#0f172a;}
+.contact-line{font-size:0.8rem;color:#475569;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;}
+.section-title{font-weight:700;font-size:0.95rem;text-transform:uppercase;letter-spacing:1px;border-left:4px solid #3b82f6;padding-left:12px;margin:20px 0 12px 0;color:#0f172a;}
+.list-item{margin-bottom:6px;font-size:0.9rem;}
+.btn-sm-custom{padding:6px 14px;font-size:13px;}
+.photo-controls{display:flex;gap:8px;margin-top:10px;justify-content:center;}
+#statusMsg{font-size:12px;margin-top:8px;color:#16a34a;text-align:center;}
+hr{margin:12px 0;}
 @media print{
-@page{size:A4;margin:0.8cm;}
+@page{size:A4;margin:1.2cm;}
 body{background:white;padding:0;margin:0;}
-.no-print,.editor-panel,.btn-group,.btn,.action-buttons,.footer-tip,.print-hide,.photo-controls,#statusMsg{display:none !important;}
+.no-print{display:none !important;}
 .preview-panel{box-shadow:none;margin:0;padding:0;}
-.resume-card{padding:0.6cm;max-width:100%;margin:0 auto;background:white;page-break-after:avoid;page-break-inside:avoid;}
-[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;box-shadow:none;outline:none;color:black;}
+.resume-card{padding:0;max-width:100%;}
+[contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
 .section-title{border-left-color:#000;}
-.resume-header h1{font-size:1.6rem;margin-bottom:0.2rem;}
-.contact-line{font-size:0.75rem;padding-bottom:0.5rem;margin-bottom:0.8rem;}
-.section-title{font-size:0.9rem;margin:0.8rem 0 0.5rem 0;}
-.list-item{margin-bottom:0.35rem;font-size:0.85rem;}
-.profile-photo{width:80px;height:80px;border:2px solid #000;}
-.resume-header{gap:1rem;}
+.photo-placeholder{display:none !important;}
+.profile-photo{border:2px solid #000;page-break-inside:avoid;}
+.resume-card{page-break-after:avoid;page-break-inside:avoid;}
 }
-footer{font-size:12px;text-align:center;margin-top:1.5rem;color:#475569;}
+footer{font-size:11px;text-align:center;margin-top:20px;color:#64748b;}
 </style>
 </head>
 <body>
 <div class="app-container">
-<div class="row g-4">
+<div class="row g-3">
 <div class="col-lg-4 no-print">
 <div class="editor-panel">
-<h4 class="mb-3"><i class="fas fa-edit"></i> Editar Currículo</h4>
-<p class="text-muted small">Clique nos campos para editar texto.</p>
+<h5 class="mb-2"><i class="fas fa-edit"></i> Editar Currículo</h5>
+<p class="text-muted small">Clique em qualquer texto abaixo para editar.</p>
 <hr>
-<div class="d-flex flex-column gap-2">
-<button id="addSkillBtn" class="btn btn-outline-primary btn-sm-custom"><i class="fas fa-plus-circle"></i> Adicionar Qualificação</button>
-<button id="addCourseBtn" class="btn btn-outline-success btn-sm-custom"><i class="fas fa-graduation-cap"></i> Adicionar Curso</button>
+<button id="addSkillBtn" class="btn btn-outline-primary btn-sm-custom w-100 mb-2"><i class="fas fa-plus-circle"></i> + Qualificação</button>
+<button id="addCourseBtn" class="btn btn-outline-success btn-sm-custom w-100 mb-3"><i class="fas fa-graduation-cap"></i> + Curso</button>
+<div class="alert alert-info small py-2">
+<i class="fas fa-info-circle"></i> <strong>PDF:</strong> Clique em "Salvar PDF" → escolha "Salvar como PDF" → A4.
 </div>
-<hr>
-<div class="alert alert-light border mt-2">
-<i class="fas fa-info-circle text-info"></i> <strong>Gerar PDF:</strong> Clique no botão abaixo → escolha "Salvar como PDF" → papel A4.<br>
-<i class="fas fa-image"></i> <strong>Foto:</strong> Máximo 15MB (será comprimida automaticamente)
-</div>
-<div class="action-buttons d-grid gap-2 mt-3">
-<button id="printResumeBtn" class="btn btn-primary"><i class="fas fa-print"></i> 🖨️ Imprimir / Salvar PDF</button>
-</div>
+<button id="printResumeBtn" class="btn btn-primary w-100"><i class="fas fa-print"></i> 📄 Salvar PDF</button>
 <div id="statusMsg"></div>
 </div>
 </div>
@@ -77,265 +68,289 @@ footer{font-size:12px;text-align:center;margin-top:1.5rem;color:#475569;}
 <div class="preview-panel">
 <div class="resume-card" id="resumeContent">
 <div class="resume-header">
-<div class="profile-photo-container" id="photoContainer">
-<div id="photoDisplay">
-<img id="profileImage" class="profile-photo" style="display:none;" alt="Foto de perfil">
-<div id="photoPlaceholderDiv" class="photo-placeholder" style="display:flex;">
-<i class="fas fa-user-circle"></i>
+<div class="profile-photo-container">
+<input type="file" id="photoUpload" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+<div id="photoArea">
+<img id="profileImg" class="profile-photo" src="" style="display:none;" alt="foto">
+<div id="photoPlaceholder" class="photo-placeholder" onclick="document.getElementById('photoUpload').click();">
+<i class="fas fa-camera"></i>
 </div>
 </div>
-<div class="photo-controls no-print">
-<button id="addPhotoBtn" class="btn btn-sm btn-outline-primary"><i class="fas fa-camera"></i> Adicionar Foto</button>
-<button id="removePhotoBtn2" class="btn btn-sm btn-outline-danger" style="display:none;"><i class="fas fa-trash"></i> Remover</button>
+<div class="photo-controls">
+<button id="changePhotoBtn" class="btn btn-sm btn-outline-secondary" style="display:none;" onclick="document.getElementById('photoUpload').click();"><i class="fas fa-sync"></i> Trocar</button>
+<button id="removePhotoBtn" class="btn btn-sm btn-outline-danger" style="display:none;"><i class="fas fa-trash"></i> Remover</button>
 </div>
 </div>
 <div class="name-title">
-<h1 contenteditable="true" class="editable-block" id="fullName">Seu nome completo</h1>
+<h1 contenteditable="true" id="fullName">Seu nome completo</h1>
 </div>
 </div>
-<div class="contact-line" contenteditable="true" id="contactInfo">(11) 99999-9999 | seu.email@email.com<br>Seu bairro - Sua cidade - UF</div>
+<div class="contact-line" contenteditable="true" id="contactInfo">(11) 99999-9999 | seu.email@email.com<br>Seu bairro - Cidade - UF</div>
 <div class="section-title">Objetivo</div>
-<div contenteditable="true" id="objectiveText" class="mb-2" style="display:block;">Ex: Jovem Aprendiz ou Estágio em Administração</div>
+<div contenteditable="true" id="objectiveText">Jovem Aprendiz ou Estágio</div>
 <div class="section-title">Formação Acadêmica</div>
-<div contenteditable="true" id="academicGraduation" class="mb-2" style="display:block;"><strong>Graduação em Administração - Xº período</strong><br>Nome da faculdade - conclusão prevista Mês/Ano</div>
-<div contenteditable="true" id="academicHighSchool" style="display:block; margin-bottom: 0.3rem;"><strong>Ensino Médio (Ano início - Ano conclusão)</strong><br>Nome da escola</div>
+<div contenteditable="true" id="academicGraduation"><strong>Graduação em Administração - 4º período</strong><br>Nome da faculdade - conclusão Dez/2026</div>
+<div contenteditable="true" id="academicHighSchool"><strong>Ensino Médio (2020-2022)</strong><br>Nome da escola</div>
 <div class="section-title">Qualificações</div>
 <div id="qualificationsList">
-<div contenteditable="true" class="list-item mb-1 editable-qualif">• Exemplo: Representante de turma, liderando iniciativas acadêmicas</div>
-<div contenteditable="true" class="list-item mb-1 editable-qualif">• Exemplo: Trabalho voluntário, organização de eventos</div>
+<div contenteditable="true" class="list-item">• Liderança e trabalho em equipe</div>
+<div contenteditable="true" class="list-item">• Comunicação assertiva</div>
 </div>
 <div class="section-title">Formação Complementar</div>
 <div id="complementaryList">
-<div contenteditable="true" class="list-item mb-1 editable-course">• Curso de Auxiliar Administrativo – SENAI (2022)</div>
-<div contenteditable="true" class="list-item mb-1 editable-course">• Excel Básico – Fundação Bradesco (2023)</div>
+<div contenteditable="true" class="list-item">• Auxiliar Administrativo – SENAI (2022)</div>
+<div contenteditable="true" class="list-item">• Excel Básico – Fundação Bradesco (2023)</div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<footer class="no-print">
-<i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | Botão "Adicionar Foto" para incluir sua imagem
-</footer>
+<footer class="no-print"><i class="fas fa-mouse-pointer"></i> Clique nos textos para editar | Clique no círculo para adicionar sua foto</footer>
 </div>
-<input type="file" id="photoInput" accept="image/jpeg,image/png,image/jpg" style="display:none;">
 
 <script>
-const photoInput = document.getElementById('photoInput');
-const profileImage = document.getElementById('profileImage');
-const photoPlaceholderDiv = document.getElementById('photoPlaceholderDiv');
-const addPhotoBtn = document.getElementById('addPhotoBtn');
-const removePhotoBtn2 = document.getElementById('removePhotoBtn2');
-const statusMsg = document.getElementById('statusMsg');
+// Elementos da foto
+const photoUpload = document.getElementById('photoUpload');
+const profileImg = document.getElementById('profileImg');
+const photoPlaceholder = document.getElementById('photoPlaceholder');
+const changePhotoBtn = document.getElementById('changePhotoBtn');
+const removePhotoBtn = document.getElementById('removePhotoBtn');
+let currentPhotoData = null;
 
-function showMessage(msg, isError = false) {
-    statusMsg.textContent = msg;
-    statusMsg.style.color = isError ? '#dc2626' : '#059669';
-    setTimeout(() => {
-        if(statusMsg.textContent === msg) statusMsg.textContent = '';
-    }, 4000);
-}
-
-function updatePhotoDisplay(hasPhoto) {
-    if(hasPhoto && profileImage.src && profileImage.style.display !== 'none' && profileImage.src && !profileImage.src.includes('null')) {
-        profileImage.style.display = 'block';
-        photoPlaceholderDiv.style.display = 'none';
-        removePhotoBtn2.style.display = 'inline-block';
-        addPhotoBtn.innerHTML = '<i class="fas fa-sync"></i> Trocar Foto';
+function updatePhotoUI(hasPhoto, photoSrc = null) {
+    if(hasPhoto && photoSrc) {
+        profileImg.src = photoSrc;
+        profileImg.style.display = 'block';
+        photoPlaceholder.style.display = 'none';
+        changePhotoBtn.style.display = 'inline-block';
+        removePhotoBtn.style.display = 'inline-block';
+        currentPhotoData = photoSrc;
     } else {
-        profileImage.style.display = 'none';
-        photoPlaceholderDiv.style.display = 'flex';
-        removePhotoBtn2.style.display = 'none';
-        addPhotoBtn.innerHTML = '<i class="fas fa-camera"></i> Adicionar Foto';
+        profileImg.style.display = 'none';
+        photoPlaceholder.style.display = 'flex';
+        changePhotoBtn.style.display = 'none';
+        removePhotoBtn.style.display = 'none';
+        currentPhotoData = null;
     }
 }
 
-function compressImage(file, maxWidth, maxHeight, callback) {
+function compressAndSetPhoto(file) {
+    if(!file || !file.type.match('image.*')) {
+        showMsg('Selecione uma imagem JPG ou PNG.', true);
+        return;
+    }
+    if(file.size > 15 * 1024 * 1024) {
+        showMsg(`Imagem muito grande: ${(file.size/1024/1024).toFixed(1)}MB (máx 15MB)`, true);
+        return;
+    }
+    showMsg('Processando foto...');
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            let width = img.width;
-            let height = img.height;
-            let newWidth = width;
-            let newHeight = height;
-            
-            if (width > height) {
-                if (width > maxWidth) {
-                    newHeight = Math.round(height * (maxWidth / width));
-                    newWidth = maxWidth;
-                }
-            } else {
-                if (height > maxHeight) {
-                    newWidth = Math.round(width * (maxHeight / height));
-                    newHeight = maxHeight;
-                }
-            }
-            
             const canvas = document.createElement('canvas');
-            canvas.width = newWidth;
-            canvas.height = newHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, newWidth, newHeight);
-            
-            let quality = 0.8;
-            let compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
-            
-            while (compressedDataUrl.length > 3 * 1024 * 1024 && quality > 0.4) {
-                quality -= 0.1;
-                compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+            let width = img.width, height = img.height;
+            const maxSize = 400;
+            if(width > height) {
+                if(width > maxSize) { height = Math.round(height * maxSize / width); width = maxSize; }
+            } else {
+                if(height > maxSize) { width = Math.round(width * maxSize / height); height = maxSize; }
             }
-            
-            callback(compressedDataUrl);
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            let quality = 0.8;
+            let dataUrl = canvas.toDataURL('image/jpeg', quality);
+            while(dataUrl.length > 2.5 * 1024 * 1024 && quality > 0.4) {
+                quality -= 0.1;
+                dataUrl = canvas.toDataURL('image/jpeg', quality);
+            }
+            updatePhotoUI(true, dataUrl);
+            showMsg('Foto adicionada!');
         };
         img.src = e.target.result;
     };
     reader.readAsDataURL(file);
 }
 
-function setPhotoFromFile(file) {
-    if(!file || !file.type.startsWith('image/')) {
-        showMessage('Selecione uma imagem JPG ou PNG.', true);
-        return;
-    }
-    
-    if(file.size > 15 * 1024 * 1024) {
-        showMessage(`Imagem muito grande: ${(file.size/1024/1024).toFixed(1)}MB (máx 15MB)`, true);
-        return;
-    }
-    
-    showMessage('Processando imagem...');
-    
-    compressImage(file, 400, 400, (compressedDataUrl) => {
-        profileImage.src = compressedDataUrl;
-        updatePhotoDisplay(true);
-        try {
-            localStorage.setItem('profilePhotoData', compressedDataUrl);
-            const sizeKB = (compressedDataUrl.length * 0.75 / 1024).toFixed(1);
-            showMessage(`Foto salva! Tamanho: ${sizeKB}KB`);
-        } catch(err) {
-            if(err.name === 'QuotaExceededError') {
-                showMessage('Espaço insuficiente no navegador. Tente uma foto menor.', true);
-            } else {
-                showMessage('Erro ao salvar foto.', true);
-            }
-        }
-    });
+photoUpload.addEventListener('change', function(e) {
+    if(e.target.files && e.target.files[0]) compressAndSetPhoto(e.target.files[0]);
+    photoUpload.value = '';
+});
+
+removePhotoBtn.addEventListener('click', function() {
+    updatePhotoUI(false);
+    showMsg('Foto removida');
+});
+
+function showMsg(msg, isErr=false) {
+    const el = document.getElementById('statusMsg');
+    if(!el) return;
+    el.textContent = msg;
+    el.style.color = isErr ? '#dc2626' : '#16a34a';
+    setTimeout(() => { if(el.textContent === msg) el.textContent = ''; }, 3000);
 }
 
-photoInput.addEventListener('change', function(e) {
-    if(e.target.files && e.target.files[0]) {
-        setPhotoFromFile(e.target.files[0]);
-    }
-    photoInput.value = '';
-});
-
-addPhotoBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    photoInput.click();
-});
-
-removePhotoBtn2.addEventListener('click', function(e) {
-    e.preventDefault();
-    profileImage.src = '';
-    updatePhotoDisplay(false);
-    try {
-        localStorage.removeItem('profilePhotoData');
-        showMessage('Foto removida!');
-    } catch(err) {}
-});
-
-function loadSavedPhoto() {
-    try {
-        const savedPhoto = localStorage.getItem('profilePhotoData');
-        if(savedPhoto && savedPhoto.startsWith('data:image') && savedPhoto.length > 500) {
-            profileImage.src = savedPhoto;
-            updatePhotoDisplay(true);
-        } else {
-            updatePhotoDisplay(false);
-        }
-    } catch(err) {
-        updatePhotoDisplay(false);
-    }
-}
-
-function addNewQualification(){
-    const container=document.getElementById('qualificationsList');
-    const newItem=document.createElement('div');
-    newItem.setAttribute('contenteditable','true');
-    newItem.className='list-item mb-1 editable-qualif';
-    newItem.innerText='• Nova qualificação';
+// Adicionar itens
+function addNewQualification() {
+    const container = document.getElementById('qualificationsList');
+    const newItem = document.createElement('div');
+    newItem.setAttribute('contenteditable', 'true');
+    newItem.className = 'list-item';
+    newItem.innerText = '• Nova qualificação';
     container.appendChild(newItem);
     newItem.focus();
 }
 
-function addNewCourse(){
-    const container=document.getElementById('complementaryList');
-    const newItem=document.createElement('div');
-    newItem.setAttribute('contenteditable','true');
-    newItem.className='list-item mb-1 editable-course';
-    newItem.innerText='• Novo curso';
+function addNewCourse() {
+    const container = document.getElementById('complementaryList');
+    const newItem = document.createElement('div');
+    newItem.setAttribute('contenteditable', 'true');
+    newItem.className = 'list-item';
+    newItem.innerText = '• Novo curso';
     container.appendChild(newItem);
     newItem.focus();
 }
 
-function printResume(){
-    const printWindow = window.open('', '_blank', 'width=900,height=800');
-    if(!printWindow){alert("Permita pop-ups para gerar o PDF.");return;}
+document.getElementById('addSkillBtn')?.addEventListener('click', addNewQualification);
+document.getElementById('addCourseBtn')?.addEventListener('click', addNewCourse);
+
+// Gerar PDF - método universal e compatível
+function printResume() {
+    const originalCard = document.getElementById('resumeContent');
+    const cloneCard = originalCard.cloneNode(true);
     
-    const originalContent = document.getElementById('resumeContent');
-    const cloneContent = originalContent.cloneNode(true);
-    const clonePhotoControls = cloneContent.querySelectorAll('.photo-controls');
-    clonePhotoControls.forEach(el => el.remove());
+    // Remove botões de controle da foto do clone
+    const cloneControls = cloneCard.querySelectorAll('.photo-controls');
+    cloneControls.forEach(el => el.remove());
     
-    const htmlContent = `
+    // Garante que a imagem apareça no PDF (se existir)
+    const cloneImg = cloneCard.querySelector('#profileImg');
+    const clonePlaceholder = cloneCard.querySelector('#photoPlaceholder');
+    if(cloneImg && cloneImg.src && cloneImg.style.display !== 'none') {
+        if(clonePlaceholder) clonePlaceholder.style.display = 'none';
+    } else {
+        if(cloneImg) cloneImg.style.display = 'none';
+        if(clonePlaceholder) clonePlaceholder.style.display = 'flex';
+    }
+    
+    // Conteúdo HTML para impressão
+    const printHtml = `
     <!DOCTYPE html>
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Currículo</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+        <title>Curriculo</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
         <style>
             *{margin:0;padding:0;box-sizing:border-box;}
-            body{font-family:'Inter',sans-serif;background:white;margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-            @page{size:A4;margin:0.8cm;}
-            .resume-card{max-width:100%;background:white;padding:0.6cm;color:#1e293b;line-height:1.4;}
+            body{font-family:'Inter',sans-serif;background:white;margin:0;padding:1.2cm;display:flex;justify-content:center;}
+            @page{size:A4;margin:1.2cm;}
+            .resume-card{max-width:100%;background:white;color:#1e293b;line-height:1.45;}
             [contenteditable="true"]{border:none !important;background:transparent !important;padding:0;color:black;}
-            .section-title{font-weight:700;font-size:0.95rem;text-transform:uppercase;border-left:4px solid #0f172a;padding-left:10px;margin:0.7rem 0 0.5rem 0;color:#0f172a;}
-            .list-item{margin-bottom:0.3rem;font-size:0.85rem;}
-            .contact-line{border-bottom:1px solid #ccc;padding-bottom:0.5rem;margin-bottom:0.8rem;font-size:0.8rem;}
-            .resume-header h1{font-size:1.6rem;margin-bottom:0.2rem;font-weight:700;}
-            .profile-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid #333;}
+            .section-title{font-weight:700;font-size:0.95rem;text-transform:uppercase;border-left:4px solid #0f172a;padding-left:10px;margin:14px 0 8px 0;}
+            .list-item{margin-bottom:5px;font-size:0.85rem;}
+            .contact-line{border-bottom:1px solid #aaa;padding-bottom:6px;margin-bottom:12px;font-size:0.75rem;}
+            .resume-header h1{font-size:1.6rem;margin-bottom:4px;}
+            .profile-photo{width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid #000;}
             .photo-placeholder{display:none;}
-            .resume-header{display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;}
+            .resume-header{display:flex;align-items:center;gap:18px;margin-bottom:12px;}
             .name-title{flex:1;}
-            #objectiveText{margin-bottom:0.5rem;font-size:0.85rem;}
-            #academicGraduation, #academicHighSchool{font-size:0.85rem;margin-bottom:0.3rem;}
         </style>
     </head>
     <body>
-        <div class="resume-card">${cloneContent.innerHTML}</div>
+        <div class="resume-card">${cloneCard.innerHTML}</div>
         <script>
             window.onload = function() {
                 setTimeout(function() {
                     window.print();
-                    setTimeout(function() { window.close(); }, 500);
                 }, 200);
             };
         <\/script>
     </body>
     </html>`;
     
-    printWindow.document.write(htmlContent);
+    const printWindow = window.open('', '_blank', 'width=900,height=800,toolbar=yes');
+    if(!printWindow) {
+        alert("Permita pop-ups para gerar o PDF.");
+        return;
+    }
+    printWindow.document.write(printHtml);
     printWindow.document.close();
 }
 
-document.getElementById('addSkillBtn')?.addEventListener('click',addNewQualification);
-document.getElementById('addCourseBtn')?.addEventListener('click',addNewCourse);
-document.getElementById('printResumeBtn')?.addEventListener('click',printResume);
+document.getElementById('printResumeBtn')?.addEventListener('click', printResume);
 
-window.addEventListener('DOMContentLoaded', () => {
-    loadSavedPhoto();
-});
+// Carregar foto salva no localStorage
+function loadSavedPhoto() {
+    try {
+        const saved = localStorage.getItem('curriculo_foto');
+        if(saved && saved.startsWith('data:image')) {
+            updatePhotoUI(true, saved);
+        }
+    } catch(e) {}
+}
+
+// Salvar foto automaticamente ao adicionar/remover
+function savePhotoToLocal() {
+    if(currentPhotoData) {
+        try { localStorage.setItem('curriculo_foto', currentPhotoData); } catch(e) {}
+    } else {
+        try { localStorage.removeItem('curriculo_foto'); } catch(e) {}
+    }
+}
+
+// Interceptar atualizações da foto para salvar
+const originalUpdate = updatePhotoUI;
+window.updatePhotoUI = function(hasPhoto, src) {
+    originalUpdate(hasPhoto, src);
+    savePhotoToLocal();
+};
+updatePhotoUI = window.updatePhotoUI;
+
+// Substituir método original para persistência
+updatePhotoUI = function(hasPhoto, src) {
+    if(hasPhoto && src) {
+        profileImg.src = src;
+        profileImg.style.display = 'block';
+        photoPlaceholder.style.display = 'none';
+        changePhotoBtn.style.display = 'inline-block';
+        removePhotoBtn.style.display = 'inline-block';
+        currentPhotoData = src;
+    } else {
+        profileImg.style.display = 'none';
+        photoPlaceholder.style.display = 'flex';
+        changePhotoBtn.style.display = 'none';
+        removePhotoBtn.style.display = 'none';
+        currentPhotoData = null;
+    }
+    savePhotoToLocal();
+};
+
+// Reassinar eventos
+removePhotoBtn.onclick = () => { updatePhotoUI(false); showMsg('Foto removida'); };
+changePhotoBtn.onclick = () => { photoUpload.click(); };
+photoPlaceholder.onclick = () => { photoUpload.click(); };
+photoUpload.onchange = (e) => {
+    if(e.target.files && e.target.files[0]) compressAndSetPhoto(e.target.files[0]);
+    photoUpload.value = '';
+};
+
+// Carregar foto salva
+(function() {
+    try {
+        const saved = localStorage.getItem('curriculo_foto');
+        if(saved && saved.startsWith('data:image')) {
+            profileImg.src = saved;
+            profileImg.style.display = 'block';
+            photoPlaceholder.style.display = 'none';
+            changePhotoBtn.style.display = 'inline-block';
+            removePhotoBtn.style.display = 'inline-block';
+            currentPhotoData = saved;
+        }
+    } catch(e) {}
+})();
 </script>
 </body>
 </html>
