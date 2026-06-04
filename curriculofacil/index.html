@@ -44,7 +44,7 @@ hr{margin:12px 0;}
 .btn-remover-item:hover,.btn-remover-academico:hover,.btn-remover-secao:hover{opacity:1;color:#dc2626;}
 header{background:#2056b6;padding:16px 0 12px 0;border-bottom:3px solid #ffb347;}
 .header-flex{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;max-width:1400px;margin:0 auto;padding:0 20px;}
-.logo-area{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.logo-area{display:flex;align-items:center;gap:14px;flex-wrap:wrap;cursor:pointer;}
 .logo-svg{width:60px;height:60px;display:block;}
 .logo-texto{text-align:left;line-height:1.2;}
 .logo-mobsul{font-size:2.2rem;font-weight:800;letter-spacing:2px;color:white;}
@@ -54,14 +54,15 @@ footer{background:#2056b6;color:#e0e9ff;text-align:center;padding:20px 20px;bord
 footer p{margin:6px 0;}
 .direitos{font-weight:500;}
 .footer-links{margin-top:8px;font-size:0.75rem;}
-.footer-links a{color:#ffb347;text-decoration:none;}
+.footer-links a{color:#ffb347;text-decoration:none;margin:0 4px;}
+.footer-links a:hover{text-decoration:underline;}
 @media (max-width:640px){.logo-svg{width:50px;height:50px;}.logo-mobsul{font-size:1.8rem;}.logo-slogan{font-size:0.65rem;letter-spacing:2px;}.resume-card{padding:24px;}}
 </style>
 </head>
 <body>
 <header class="no-print">
 <div class="header-flex">
-<div class="logo-area">
+<div class="logo-area" onclick="location.href='/'">
 <div class="logo-svg">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60">
 <g transform="translate(25, 12)">
@@ -172,9 +173,9 @@ footer p{margin:6px 0;}
 <footer class="no-print">
 <p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul - Currículo Fácil - Todos os direitos reservados.</p>
 <div class="footer-links">
-<a href="#">Política de Privacidade</a> |
-<a href="#">Política de Cookies</a> |
-<a href="#">Termo de Uso</a>
+<a href="/termo-de-uso">Termo de Uso</a> |
+<a href="/privacidade">Política de Privacidade</a> |
+<a href="/cookies">Política de Cookies</a>
 </div>
 </footer>
 <script>
