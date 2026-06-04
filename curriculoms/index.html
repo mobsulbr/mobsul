@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Currículo Fácil Mobsul</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#e2e8f0;font-family:'Inter',sans-serif;padding:0;margin:0;}
+.app-container{max-width:1400px;margin:0 auto;padding:20px 16px;}
+.editor-panel,.preview-panel{background:white;border-radius:24px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;}
+.editor-panel{padding:20px;position:sticky;top:20px;}
+.preview-panel{background:#fefefe;}
+.resume-card{background:white;padding:40px;max-width:900px;margin:0 auto;color:#1a2a3a;line-height:1.5;}
+[contenteditable="true"]{outline:none;border-bottom:1px dashed #94a3b8;background:#fef9e6;transition:0.15s;padding:2px 4px;border-radius:6px;cursor:text;display:inline-block;min-width:80px;}
+[contenteditable="true"]:hover{background:#fef3c7;border-bottom-color:#f59e0b;}
+[contenteditable="true"]:focus{background:#fffbeb;border-bottom:2px solid #2056b6;}
+.resume-header{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:24px;}
+.profile-photo-container{flex-shrink:0;}
+.profile-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #2056b6;background:#f1f5f9;}
+.photo-placeholder{width:100px;height:100px;border-radius:50%;background:#f1f5f9;border:3px dashed #94a3b8;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:2rem;cursor:pointer;}
+.photo-placeholder:hover{background:#e2e8f0;}
+.name-title{flex:1;}
+.resume-header h1{font-size:2rem;font-weight:700;margin-bottom:8px;color:#1a2a3a;}
+.contact-info{display:flex;flex-wrap:wrap;gap:20px;margin:16px 0 24px 0;padding-bottom:20px;border-bottom:2px solid #2056b6;}
+.contact-item{display:flex;align-items:center;gap:8px;color:#4a627a;font-size:0.9rem;}
+.contact-item i{color:#2056b6;width:20px;}
+.contact-item [contenteditable="true"]{background:transparent;border-bottom:none;padding:0;min-width:100px;color:#1a2a3a;}
+.section-title{font-size:1.3rem;font-weight:700;color:#2056b6;margin:28px 0 12px 0;border-left:4px solid #ffb347;padding-left:14px;}
+.list-item{margin-bottom:8px;font-size:0.95rem;color:#2c3e50;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.academic-item{margin-bottom:16px;}
+.academic-item strong{font-weight:600;color:#1a2a3a;}
+.academic-item .data{color:#6b7f8f;font-size:0.85rem;margin-top:4px;}
+.btn-sm-custom{padding:6px 14px;font-size:13px;}
+.photo-controls{display:flex;gap:8px;margin-top:10px;justify-content:center;}
+#statusMsg{font-size:12px;margin-top:8px;color:#16a34a;text-align:center;}
+hr{margin:12px 0;}
+.no-print{display:block;}
+.btn-remover-item,.btn-remover-academico,.btn-remover-secao{background:transparent;border:none;color:#ef4444;cursor:pointer;font-size:0.7rem;opacity:0.6;transition:0.2s;padding:0 4px;}
+.btn-remover-item:hover,.btn-remover-academico:hover,.btn-remover-secao:hover{opacity:1;color:#dc2626;}
+header{background:#2056b6;padding:16px 0 12px 0;border-bottom:3px solid #ffb347;}
+.header-flex{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;max-width:1400px;margin:0 auto;padding:0 20px;}
+.logo-area{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.logo-svg{width:60px;height:60px;display:block;}
+.logo-texto{text-align:left;line-height:1.2;}
+.logo-mobsul{font-size:2.2rem;font-weight:800;letter-spacing:2px;color:white;}
+.logo-mobsul span{color:#ffb347;}
+.logo-slogan{font-size:0.75rem;font-weight:400;letter-spacing:3px;color:rgba(255,255,255,0.85);text-transform:uppercase;margin-top:2px;}
+footer{background:#2056b6;color:#e0e9ff;text-align:center;padding:20px 20px;border-radius:28px 28px 0 0;margin-top:40px;font-size:0.8rem;}
+footer p{margin:6px 0;}
+.direitos{font-weight:500;}
+.footer-links{margin-top:8px;font-size:0.75rem;}
+.footer-links a{color:#ffb347;text-decoration:none;}
+@media (max-width:640px){.logo-svg{width:50px;height:50px;}.logo-mobsul{font-size:1.8rem;}.logo-slogan{font-size:0.65rem;letter-spacing:2px;}.resume-card{padding:24px;}}
+</style>
+</head>
+<body>
+<header class="no-print">
+<div class="header-flex">
+<div class="logo-area">
+<div class="logo-svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="60" height="60">
+<g transform="translate(25, 12)">
+<rect x="0" y="0" width="70" height="120" rx="12" fill="white" opacity="0.95"/>
+<rect x="8" y="18" width="54" height="78" rx="4" fill="#2056b6"/>
+<circle cx="35" cy="108" r="6" fill="white" opacity="0.5"/>
+<circle cx="35" cy="10" r="4" fill="white" opacity="0.4"/>
+<rect x="26" y="5" width="18" height="2.5" rx="1" fill="white" opacity="0.3"/>
+<g transform="translate(35, 57)" stroke="#ffb347" stroke-width="5" stroke-linecap="round">
+<line x1="-12" y1="-12" x2="12" y2="12"/>
+<line x1="12" y1="-12" x2="-12" y2="12"/>
+</g>
+</g>
+</svg>
+</div>
+<div class="logo-texto">
+<div class="logo-mobsul">MOB<span>SUL</span></div>
+<div class="logo-slogan">Currículo Fácil</div>
+</div>
+</div>
+</div>
+</header>
+<div class="app-container">
+<div class="row g-3">
+<div class="col-lg-4 no-print">
+<div class="editor-panel">
+<h5 class="mb-2"><i class="fas fa-edit"></i> Editar Currículo</h5>
+<p class="text-muted small">Clique nos campos para editar.</p>
+<hr>
+<button id="addSkillBtn" class="btn btn-outline-primary btn-sm-custom w-100 mb-2"><i class="fas fa-plus-circle"></i> + Qualificação</button>
+<button id="addAcademicBtn" class="btn btn-outline-info btn-sm-custom w-100 mb-2"><i class="fas fa-university"></i> + Formação Acadêmica</button>
+<button id="addExperienciaBtn" class="btn btn-outline-warning btn-sm-custom w-100 mb-2"><i class="fas fa-briefcase"></i> + Experiência Profissional</button>
+<button id="ativarComplementarBtn" class="btn btn-outline-secondary btn-sm-custom w-100 mb-3"><i class="fas fa-plus-circle"></i> + Ativar Formação Complementar</button>
+<div class="alert alert-info small py-2">
+<i class="fas fa-magic"></i> <strong>PDF personalizado:</strong> Salvo como "seu_nome_curriculo.pdf"
+</div>
+<button id="printResumeBtn" class="btn btn-primary w-100"><i class="fas fa-download"></i> 📄 Gerar PDF</button>
+<div id="statusMsg"></div>
+</div>
+</div>
+<div class="col-lg-8">
+<div class="preview-panel">
+<div class="resume-card" id="resumeContent">
+<div class="resume-header">
+<div class="profile-photo-container">
+<input type="file" id="photoUpload" accept="image/jpeg,image/png,image/jpg" style="display:none;">
+<div id="photoArea">
+<img id="profileImg" class="profile-photo" src="" style="display:none;" alt="foto">
+<div id="photoPlaceholder" class="photo-placeholder" onclick="document.getElementById('photoUpload').click();">
+<i class="fas fa-camera"></i>
+</div>
+</div>
+<div class="photo-controls">
+<button id="changePhotoBtn" class="btn btn-sm btn-outline-secondary" style="display:none;" onclick="document.getElementById('photoUpload').click();"><i class="fas fa-sync"></i> Trocar</button>
+<button id="removePhotoBtn" class="btn btn-sm btn-outline-danger" style="display:none;"><i class="fas fa-trash"></i> Remover</button>
+</div>
+</div>
+<div class="name-title">
+<h1 contenteditable="true" id="fullName">Seu nome completo</h1>
+</div>
+</div>
+<div class="contact-info">
+<div class="contact-item"><i class="fas fa-phone-alt"></i> <span contenteditable="true" id="phone">(11) 99999-9999</span></div>
+<div class="contact-item"><i class="fas fa-envelope"></i> <span contenteditable="true" id="email">seu.email@email.com</span></div>
+<div class="contact-item"><i class="fas fa-map-marker-alt"></i> <span contenteditable="true" id="address">Seu bairro - Cidade - UF</span></div>
+</div>
+<div class="section-title">Objetivo</div>
+<div contenteditable="true" id="objectiveText">Jovem Aprendiz ou Estágio</div>
+<div id="academicArea">
+<div class="section-title" style="display:flex; justify-content:space-between; align-items:center;">
+<span>Formação Acadêmica</span>
+<button class="btn-remover-secao no-print" onclick="removerSecaoAcademica()" style="font-size:0.7rem;"><i class="fas fa-trash"></i> Remover seção</button>
+</div>
+<div id="academicList">
+<div class="academic-item">
+<strong contenteditable="true">Ensino Médio (2020-2022)</strong>
+<div class="data" contenteditable="true">Nome da escola</div>
+<button class="btn-remover-academico no-print" onclick="removerAcademico(this)"><i class="fas fa-trash-alt"></i> Remover</button>
+</div>
+</div>
+</div>
+<div class="section-title">Qualificações</div>
+<div id="qualificationsList">
+<div class="list-item"><span contenteditable="true">• Liderança e trabalho em equipe</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button></div>
+<div class="list-item"><span contenteditable="true">• Comunicação assertiva</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button></div>
+<div class="list-item"><span contenteditable="true">• Proatividade e organização</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button></div>
+<div class="list-item"><span contenteditable="true">• Facilidade com tecnologia</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button></div>
+</div>
+<div id="complementarArea" style="display:none;">
+<div class="section-title" style="display:flex; justify-content:space-between; align-items:center;">
+<span>Formação Complementar</span>
+<button class="btn-remover-secao no-print" onclick="removerSecaoComplementar()" style="font-size:0.7rem;"><i class="fas fa-trash"></i> Remover seção</button>
+</div>
+<div id="complementaryList"></div>
+</div>
+<div id="experienciaArea" style="display:none;">
+<div class="section-title" style="display:flex; justify-content:space-between; align-items:center;">
+<span>Experiência Profissional</span>
+<button class="btn-remover-secao no-print" onclick="removerSecaoExperiencia()" style="font-size:0.7rem;"><i class="fas fa-trash"></i> Remover seção</button>
+</div>
+<div id="experienciaList"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="no-print">
+<p class="direitos"><i class="far fa-copyright"></i> 2026 Mobsul - Currículo Fácil - Todos os direitos reservados.</p>
+<div class="footer-links">
+<a href="#">Política de Privacidade</a> |
+<a href="#">Política de Cookies</a> |
+<a href="#">Termo de Uso</a>
+</div>
+</footer>
+<script>
+const photoUpload=document.getElementById('photoUpload');
+const profileImg=document.getElementById('profileImg');
+const photoPlaceholder=document.getElementById('photoPlaceholder');
+const changePhotoBtn=document.getElementById('changePhotoBtn');
+const removePhotoBtn=document.getElementById('removePhotoBtn');
+function updatePhotoUI(hasPhoto,photoSrc=null){
+if(hasPhoto&&photoSrc){
+profileImg.src=photoSrc;
+profileImg.style.display='block';
+photoPlaceholder.style.display='none';
+changePhotoBtn.style.display='inline-block';
+removePhotoBtn.style.display='inline-block';
+}else{
+profileImg.style.display='none';
+photoPlaceholder.style.display='flex';
+changePhotoBtn.style.display='none';
+removePhotoBtn.style.display='none';
+}}
+function compressAndSetPhoto(file){
+if(!file||!file.type.match('image.*')){showMsg('Selecione uma imagem JPG ou PNG.',true);return;}
+if(file.size>15*1024*1024){showMsg('Imagem muito grande max 15MB',true);return;}
+showMsg('Processando foto...');
+const reader=new FileReader();
+reader.onload=function(e){
+const img=new Image();
+img.onload=function(){
+const canvas=document.createElement('canvas');
+let width=img.width,height=img.height;
+const maxSize=400;
+if(width>height){if(width>maxSize){height=Math.round(height*maxSize/width);width=maxSize;}}
+else{if(height>maxSize){width=Math.round(width*maxSize/height);height=maxSize;}}
+canvas.width=width;canvas.height=height;
+const ctx=canvas.getContext('2d');
+ctx.drawImage(img,0,0,width,height);
+let quality=0.8;
+let dataUrl=canvas.toDataURL('image/jpeg',quality);
+while(dataUrl.length>2.5*1024*1024&&quality>0.4){quality-=0.1;dataUrl=canvas.toDataURL('image/jpeg',quality);}
+updatePhotoUI(true,dataUrl);
+showMsg('Foto adicionada!');
+};
+img.src=e.target.result;
+};
+reader.readAsDataURL(file);
+}
+photoUpload.addEventListener('change',function(e){if(e.target.files&&e.target.files[0])compressAndSetPhoto(e.target.files[0]);photoUpload.value='';});
+removePhotoBtn.addEventListener('click',function(){updatePhotoUI(false);showMsg('Foto removida');});
+function showMsg(msg,isErr=false){const el=document.getElementById('statusMsg');if(!el)return;el.textContent=msg;el.style.color=isErr?'#dc2626':'#16a34a';setTimeout(()=>{if(el.textContent===msg)el.textContent='';},3000);}
+window.removerItem=function(btn){btn.parentElement.remove();};
+window.removerAcademico=function(btn){btn.parentElement.remove();};
+function removerSecaoAcademica(){document.getElementById('academicArea').style.display='none';showMsg('Seção Formação Acadêmica removida');}
+function removerSecaoComplementar(){document.getElementById('complementarArea').style.display='none';document.getElementById('ativarComplementarBtn').style.display='block';showMsg('Seção Formação Complementar removida');}
+function removerSecaoExperiencia(){document.getElementById('experienciaArea').style.display='none';showMsg('Seção Experiência removida');}
+window.removerItemExperiencia=function(btn){btn.parentElement.remove();if(document.getElementById('experienciaList').children.length===0){document.getElementById('experienciaArea').style.display='none';}};
+function addNewQualification(){
+const container=document.getElementById('qualificationsList');
+const newItem=document.createElement('div');
+newItem.className='list-item';
+newItem.innerHTML='<span contenteditable="true">• Nova qualificação</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button>';
+container.appendChild(newItem);
+newItem.querySelector('span').focus();
+}
+function addNewAcademic(){
+document.getElementById('academicArea').style.display='block';
+const container=document.getElementById('academicList');
+const newItem=document.createElement('div');
+newItem.className='academic-item';
+newItem.innerHTML='<strong contenteditable="true">Nova formação - Período</strong><div class="data" contenteditable="true">Instituição de ensino</div><button class="btn-remover-academico no-print" onclick="removerAcademico(this)"><i class="fas fa-trash-alt"></i> Remover</button>';
+container.appendChild(newItem);
+newItem.querySelector('strong').focus();
+}
+function addNewCourse(){
+const container=document.getElementById('complementaryList');
+const newItem=document.createElement('div');
+newItem.className='list-item';
+newItem.innerHTML='<span contenteditable="true">• Novo curso - Instituição (ano)</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button>';
+container.appendChild(newItem);
+newItem.querySelector('span').focus();
+}
+function addNewExperiencia(){
+const area=document.getElementById('experienciaArea');
+const container=document.getElementById('experienciaList');
+area.style.display='block';
+const newItem=document.createElement('div');
+newItem.className='list-item';
+newItem.style.marginBottom='12px';
+newItem.style.paddingLeft='8px';
+newItem.style.borderLeft='2px solid #2056b6';
+newItem.innerHTML='<div><strong contenteditable="true">• Cargo: Exemplo - Empresa</strong></div><div style="font-size:0.85rem; margin-top:4px;"><span contenteditable="true">Período: Mês/Ano - Mês/Ano</span></div><div style="font-size:0.85rem;"><span contenteditable="true">Principais atividades: Descreva suas responsabilidades</span></div><button class="btn-remover-item no-print" onclick="removerItemExperiencia(this)" style="margin-top:6px;"><i class="fas fa-times-circle"></i> Remover</button>';
+container.appendChild(newItem);
+newItem.querySelector('strong').focus();
+}
+function ativarComplementar(){
+const area=document.getElementById('complementarArea');
+const container=document.getElementById('complementaryList');
+area.style.display='block';
+if(container.children.length===0){
+const items=['• Auxiliar Administrativo – SENAI (2022)','• Excel Básico – Fundação Bradesco (2023)','• Inglês Intermediário – CNA (2024)'];
+items.forEach(item=>{const div=document.createElement('div');div.className='list-item';div.innerHTML='<span contenteditable="true">'+item+'</span><button class="btn-remover-item no-print" onclick="removerItem(this)"><i class="fas fa-times-circle"></i></button>';container.appendChild(div);});
+}
+document.getElementById('ativarComplementarBtn').style.display='none';
+showMsg('Formação Complementar ativada!');
+}
+document.getElementById('addSkillBtn')?.addEventListener('click',addNewQualification);
+document.getElementById('addAcademicBtn')?.addEventListener('click',addNewAcademic);
+document.getElementById('addExperienciaBtn')?.addEventListener('click',addNewExperiencia);
+document.getElementById('ativarComplementarBtn')?.addEventListener('click',ativarComplementar);
+function gerarPDF(){
+let nome=document.getElementById('fullName').innerText.trim()||'curriculo';
+nome=nome.toLowerCase().replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+if(!nome||nome.length<2)nome='curriculo';
+const arquivo=nome+'_curriculo.pdf';
+const element=document.getElementById('resumeContent');
+const cloneElement=element.cloneNode(true);
+cloneElement.querySelectorAll('.btn-remover-item, .btn-remover-academico, .btn-remover-secao, .photo-controls').forEach(el=>el.remove());
+const photoAreaClone=cloneElement.querySelector('#photoArea');
+if(photoAreaClone){
+const placeholderClone=photoAreaClone.querySelector('#photoPlaceholder');
+if(placeholderClone)placeholderClone.remove();
+const imgClone=photoAreaClone.querySelector('#profileImg');
+if(imgClone&&(!imgClone.src||imgClone.style.display==='none')){
+imgClone.remove();
+}
+}
+const stylePretoBranco=document.createElement('style');
+stylePretoBranco.textContent='*{color:#000000!important;background:white!important;border-color:#cccccc!important;box-shadow:none!important;text-shadow:none!important;}.section-title{color:#000000!important;border-left-color:#000000!important;}.contact-info{border-bottom-color:#cccccc!important;}.contact-item i{color:#000000!important;}.profile-photo{border-color:#cccccc!important;}';
+cloneElement.prepend(stylePretoBranco);
+const tempDiv=document.createElement('div');
+tempDiv.appendChild(cloneElement);
+const opt={margin:[0.5,0.5,0.5,0.5],filename:arquivo,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,letterRendering:true,backgroundColor:'#ffffff'},jsPDF:{unit:'in',format:'a4',orientation:'portrait'}};
+html2pdf().set(opt).from(tempDiv).save().then(()=>showMsg('PDF salvo: '+arquivo));
+}
+document.getElementById('printResumeBtn')?.addEventListener('click',gerarPDF);
+updatePhotoUI(false);
+</script>
+</body>
+</html>
