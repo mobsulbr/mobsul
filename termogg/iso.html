@@ -183,13 +183,24 @@
             font-size: 11px;
         }
 
-        .section-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #2056b6;
-            margin: 20px 0 10px 0;
-            border-left: 4px solid #ffb347;
-            padding-left: 12px;
+        .store-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .store-doc {
+            font-size: 0.7rem;
+            color: #4f422b;
+        }
+
+        .title-garantia {
+            font-size: 0.8rem;
+            font-weight: bold;
+            background: #000;
+            color: white;
+            display: inline-block;
+            padding: 4px 15px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -203,7 +214,7 @@
                 <p class="text-muted small">Clique nos campos do termo para editar diretamente.</p>
                 <hr>
                 <div class="alert alert-info small py-2">
-                    <i class="fas fa-magic"></i> <strong>Garantia de 90 dias</strong> - O PDF será baixado com todas as informações.
+                    <i class="fas fa-calendar"></i> <strong>Garantia de 90 dias</strong> - A data de fim da garantia é calculada automaticamente a partir da data de saída.
                 </div>
                 <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF DO TERMO</button>
                 <div id="statusMsg" class="status-msg"></div>
@@ -214,7 +225,7 @@
         <div class="col-lg-8">
             <div class="preview-panel">
                 <div class="termo-card" id="termoContent">
-                    <!-- Logo -->
+                    <!-- Logo e cabeçalho -->
                     <div class="termo-header">
                         <div class="logo-container">
                             <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg,image/webp" style="display:none;">
@@ -229,48 +240,41 @@
                             <button id="changeLogoBtn" class="btn btn-outline-secondary btn-sm-custom" style="display:none;" onclick="document.getElementById('logoUpload').click();"><i class="fas fa-sync"></i> Trocar Logo</button>
                             <button id="removeLogoBtn" class="btn btn-outline-danger btn-sm-custom" style="display:none;"><i class="fas fa-trash"></i> Remover Logo</button>
                         </div>
-                        <div class="store-name" style="font-size: 1.5rem; font-weight: bold;" contenteditable="true" id="storeName">MUNDO CELL</div>
-                        <div class="store-doc" style="font-size: 0.7rem; color: #4f422b;" contenteditable="true" id="storeCnpj">CNPJ: 36.411.074/0001-68</div>
-                        <div style="font-size: 0.8rem; font-weight: bold; background: #000; color: white; display: inline-block; padding: 4px 15px; margin-top: 10px;">TERMO DE GARANTIA</div>
+                        <div class="store-name" contenteditable="true" id="storeName">MUNDO CELL</div>
+                        <div class="store-doc" contenteditable="true" id="storeCnpj">CNPJ: 36.411.074/0001-68</div>
+                        <div class="title-garantia">TERMO DE GARANTIA</div>
                     </div>
 
-                    <!-- Informações do cliente e aparelho -->
+                    <!-- Informações principais -->
                     <div class="section-info">
                         <div class="info-line"><strong>Nº do termo:</strong> <span contenteditable="true" id="numeroTermo">GAR-20260001</span></div>
-                        <div class="info-line"><strong>Data da venda:</strong> <span contenteditable="true" id="dataVenda">08/06/2026</span></div>
+                        <div class="info-line"><strong>Data de saída:</strong> <span contenteditable="true" id="dataSaida">08/06/2026</span></div>
                         <div class="info-line"><strong>Data de emissão:</strong> <span id="dataEmissao"></span></div>
                         <div class="info-line"><strong>Cliente:</strong> <span contenteditable="true" id="clienteNome">Laura</span></div>
                     </div>
 
                     <div style="border-top: 1px dotted #ccc; margin: 10px 0;"></div>
 
+                    <!-- Dados do aparelho -->
                     <div class="section-info">
                         <div class="info-line"><strong>Marca:</strong> <span contenteditable="true" id="marca">Samsung</span></div>
                         <div class="info-line"><strong>Modelo:</strong> <span contenteditable="true" id="modelo">A03</span></div>
                         <div class="info-line"><strong>Cor:</strong> <span contenteditable="true" id="cor">Azul</span></div>
                         <div class="info-line"><strong>IMEI:</strong> <span contenteditable="true" id="imei">Opcional</span></div>
-                        <div class="info-line"><strong>Valor pago:</strong> R$ <span contenteditable="true" id="valorTotal">200,00</span></div>
+                        <div class="info-line"><strong>Valor total:</strong> R$ <span contenteditable="true" id="valorTotal">200,00</span></div>
                         <div class="info-line"><strong>Condição de pagamento:</strong> <span contenteditable="true" id="pagamento">Dinheiro</span></div>
                     </div>
 
                     <div style="border-top: 1px dotted #ccc; margin: 10px 0;"></div>
 
-                    <!-- TERMO DE GARANTIA COMPLETO -->
+                    <!-- TERMO DE GARANTIA COMPLETO (APENAS O TEXTO SOLICITADO) -->
                     <div class="warranty-box">
-                        <strong>CONDIÇÕES DA GARANTIA DE 90 DIAS</strong><br><br>
-                        <div id="textoGarantia" contenteditable="true" style="font-weight: bold;">
+                        <strong>CONDIÇÕES DA GARANTIA</strong><br><br>
+                        <div id="textoGarantia" contenteditable="true" style="font-weight: normal; line-height: 1.5;">
                             A loja oferece garantia de 90 dias contra defeitos de fabricação para produtos comercializados e reparados em nossa unidade. A cobertura não se aplica a aparelhos com danos físicos (arranhões, trincas, amassados), indícios de umidade, avarias decorrentes de mau uso ou intervenções por terceiros. A validação está condicionada à apresentação da nota fiscal e à verificação técnica prévia.
                         </div>
                         <br>
-                        <div class="info-line"><strong>Prazo de garantia:</strong> <span contenteditable="true" id="garantiaAte">07/09/2026</span> (90 dias a partir da data da venda)</div>
-                        <br>
-                        <div><strong>Informações adicionais:</strong></div>
-                        <div>- O prazo para análise técnica é de até 5 dias úteis após a entrega do aparelho.</div>
-                        <div>- O reparo coberto pela garantia será realizado sem custos adicionais para o cliente.</div>
-                        <div>- O prazo para conclusão do reparo é de até 15 dias úteis.</div>
-                        <div>- É obrigatório apresentar este termo e a nota fiscal para acionar a garantia.</div>
-                        <div>- A garantia perde a validade se o aparelho apresentar sinais de violação por terceiros.</div>
-                        <div>- A loja não se responsabiliza por perda de dados. Recomenda-se realizar backup.</div>
+                        <div class="info-line"><strong>Garantia válida até:</strong> <span id="garantiaAte" style="font-weight: bold; background: #e8e0cc; padding: 2px 8px; border-radius: 4px;">07/09/2026</span> (90 dias a partir da data de saída)</div>
                     </div>
 
                     <!-- Assinaturas -->
@@ -283,9 +287,10 @@
                         <span>Assinatura / Carimbo da Loja</span>
                     </div>
 
+                    <!-- Rodapé -->
                     <div style="text-align: center; font-size: 0.6rem; margin-top: 15px; border-top: 1px dashed #cdbf9b; padding-top: 10px;">
-                        Documento válido como comprovante de garantia para fins legais.<br>
-                        Emissão: <span id="rodapeData"></span> - <span contenteditable="true" id="rodapeLoja">MUNDO CELL</span> - CNPJ: <span contenteditable="true" id="rodapeCnpj">36.411.074/0001-68</span>
+                        Documento válido como comprovante de garantia.<br>
+                        Emissão: <span id="rodapeData"></span> - <span contenteditable="true" id="rodapeLoja">MUNDO CELL</span>
                     </div>
                 </div>
             </div>
@@ -294,54 +299,87 @@
 </div>
 
 <script>
-    // ==================== FUNÇÃO DE DATA ====================
+    // ==================== FUNÇÃO DE DATA COM FUSO SÃO PAULO ====================
     function formatarDataAtual() {
-        const hoje = new Date();
+        const hoje = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
         const dia = String(hoje.getDate()).padStart(2, '0');
         const mes = String(hoje.getMonth() + 1).padStart(2, '0');
         const ano = hoje.getFullYear();
         return `${dia}/${mes}/${ano}`;
     }
 
-    // Preencher datas automáticas
-    document.getElementById('dataEmissao').innerText = formatarDataAtual();
-    document.getElementById('rodapeData').innerText = formatarDataAtual();
+    function somar90Dias(dataStr) {
+        if (!dataStr || !dataStr.includes('/')) return "07/09/2026";
+        const partes = dataStr.split('/');
+        if (partes.length !== 3) return "07/09/2026";
+        const data = new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
+        const novaData = new Date(data);
+        novaData.setDate(novaData.getDate() + 90);
+        const dia = String(novaData.getDate()).padStart(2, '0');
+        const mes = String(novaData.getMonth() + 1).padStart(2, '0');
+        const ano = novaData.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    }
 
-    // Calcular garantia automática baseada na data de venda
-    function calcularGarantia() {
-        const dataVendaStr = document.getElementById('dataVenda').innerText;
-        if (dataVendaStr && dataVendaStr.includes('/')) {
-            const partes = dataVendaStr.split('/');
-            if (partes.length === 3) {
-                const dataVenda = new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
-                const dataGarantia = new Date(dataVenda);
-                dataGarantia.setDate(dataGarantia.getDate() + 90);
-                const dia = String(dataGarantia.getDate()).padStart(2, '0');
-                const mes = String(dataGarantia.getMonth() + 1).padStart(2, '0');
-                const ano = dataGarantia.getFullYear();
-                document.getElementById('garantiaAte').innerText = `${dia}/${mes}/${ano}`;
-            }
+    // Preencher datas automáticas
+    const dataAtual = formatarDataAtual();
+    document.getElementById('dataEmissao').innerText = dataAtual;
+    document.getElementById('rodapeData').innerText = dataAtual;
+
+    // Função para atualizar a garantia baseada na data de saída
+    function atualizarGarantia() {
+        const dataSaida = document.getElementById('dataSaida').innerText;
+        if (dataSaida && dataSaida.includes('/')) {
+            const novaGarantia = somar90Dias(dataSaida);
+            document.getElementById('garantiaAte').innerText = novaGarantia;
         }
     }
 
-    // Observar mudanças na data de venda
-    const dataVendaElement = document.getElementById('dataVenda');
+    // Observar mudanças na data de saída
+    const dataSaidaElement = document.getElementById('dataSaida');
     const observer = new MutationObserver(function() {
-        calcularGarantia();
+        atualizarGarantia();
     });
-    observer.observe(dataVendaElement, { childList: true, characterData: true, subtree: true });
-    calcularGarantia();
+    observer.observe(dataSaidaElement, { childList: true, characterData: true, subtree: true });
+    atualizarGarantia();
 
-    // ==================== LOGO - FUNCIONAL COMO NO EXEMPLO ====================
+    // Gerar número do termo automático
+    const numeroTermo = document.getElementById('numeroTermo');
+    if (numeroTermo.innerText === 'GAR-20260001') {
+        const ano = new Date().getFullYear();
+        const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        numeroTermo.innerText = `GAR-${ano}${random}`;
+    }
+
+    // Sincronizar rodapé com nome da loja
+    const storeName = document.getElementById('storeName');
+    const rodapeLoja = document.getElementById('rodapeLoja');
+    function sincronizarRodape() {
+        rodapeLoja.innerText = storeName.innerText;
+    }
+    storeName.addEventListener('blur', sincronizarRodape);
+    sincronizarRodape();
+
+    // ==================== LOGO - FUNCIONAL COM GALERIA ====================
     const logoUpload = document.getElementById('logoUpload');
     const logoImg = document.getElementById('logoImg');
     const logoPlaceholder = document.getElementById('logoPlaceholder');
     const changeLogoBtn = document.getElementById('changeLogoBtn');
     const removeLogoBtn = document.getElementById('removeLogoBtn');
+    const statusMsg = document.getElementById('statusMsg');
 
-    function updateLogoUI(hasLogo, logoSrc = null) {
-        if (hasLogo && logoSrc) {
-            logoImg.src = logoSrc;
+    function showMsg(msg, isErr = false) {
+        if (!statusMsg) return;
+        statusMsg.textContent = msg;
+        statusMsg.style.color = isErr ? '#dc2626' : '#16a34a';
+        setTimeout(() => {
+            if (statusMsg.textContent === msg) statusMsg.textContent = '';
+        }, 3000);
+    }
+
+    function updateLogoUI(hasPhoto, photoSrc = null) {
+        if (hasPhoto && photoSrc) {
+            logoImg.src = photoSrc;
             logoImg.style.display = 'block';
             logoPlaceholder.style.display = 'none';
             changeLogoBtn.style.display = 'inline-block';
@@ -420,15 +458,10 @@
         updateLogoUI(true, savedLogo);
     }
 
-    function showMsg(msg, isErr = false) {
-        const el = document.getElementById('statusMsg');
-        if (!el) return;
-        el.textContent = msg;
-        el.style.color = isErr ? '#dc2626' : '#16a34a';
-        setTimeout(() => {
-            if (el.textContent === msg) el.textContent = '';
-        }, 3000);
-    }
+    // Clique no placeholder para abrir galeria
+    logoPlaceholder.addEventListener('click', function() {
+        logoUpload.click();
+    });
 
     // ==================== GERAR E BAIXAR PDF ====================
     function gerarPDF() {
@@ -436,7 +469,7 @@
         const cloneElement = element.cloneNode(true);
         
         // Remover botões e controles do clone
-        cloneElement.querySelectorAll('.photo-controls, .btn-logo, .logo-container .btn-logo').forEach(el => el.remove());
+        cloneElement.querySelectorAll('.photo-controls, .btn-logo').forEach(el => el.remove());
         
         // Remover placeholders de logo que não são imagens
         const placeholderClone = cloneElement.querySelector('#logoPlaceholder');
@@ -471,10 +504,4 @@
                 background: white !important;
             }
         `;
-        cloneElement.prepend(stylePretoBranco);
-        
-        // Nome do arquivo
-        let cliente = document.getElementById('clienteNome').innerText.trim() || 'cliente';
-        cliente = cliente.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
-        if (!cliente || cliente.length < 2) cliente = 'termo_garantia';
-        const dataHoje = new Date().toLocaleString('pt-BR').split(' ')[0].replace(/\/
+        cloneElement.prepend(stylePretoBranc
