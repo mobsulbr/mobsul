@@ -213,7 +213,7 @@
 
         <div class="col-lg-8">
             <div class="preview-panel">
-                <div class="termo-card" id="termoContent">
+                <div class="termo-card" id="resumeContent">
                     <div class="termo-header">
                         <div class="logo-container">
                             <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg" style="display:none;">
@@ -304,7 +304,6 @@
         return formatarDataBR(novaData);
     }
 
-    // Função para atualizar a garantia baseada na data de saída
     function atualizarGarantia() {
         const dataSaida = document.getElementById('dataSaida').innerText;
         if (dataSaida && dataSaida.includes('/')) {
@@ -313,22 +312,14 @@
         }
     }
 
-    // Observar mudanças na data de saída (para edição em tempo real)
+    // Observar mudanças na data de saída
     const dataSaidaElement = document.getElementById('dataSaida');
-    const observer = new MutationObserver(function() {
-        atualizarGarantia();
-    });
+    const observer = new MutationObserver(atualizarGarantia);
     observer.observe(dataSaidaElement, { childList: true, characterData: true, subtree: true });
-    
-    // Também observar quando o usuário terminar de editar (blur)
-    dataSaidaElement.addEventListener('blur', function() {
-        atualizarGarantia();
-    });
-    
-    // Executar uma vez ao carregar
+    dataSaidaElement.addEventListener('blur', atualizarGarantia);
     atualizarGarantia();
 
-    // Gerar número do termo automático
+    // Número do termo automático
     const numeroTermo = document.getElementById('numeroTermo');
     if (numeroTermo.innerText === 'GAR-20260001') {
         const ano = new Date().getFullYear();
@@ -336,7 +327,7 @@
         numeroTermo.innerText = `GAR-${ano}${random}`;
     }
 
-    // Sincronizar rodapé com nome da loja
+    // Sincronizar rodapé
     const storeName = document.getElementById('storeName');
     const storeCnpj = document.getElementById('storeCnpj');
     const rodapeLoja = document.getElementById('rodapeLoja');
@@ -346,12 +337,11 @@
         rodapeLoja.innerText = storeName.innerText;
         rodapeCnpj.innerText = storeCnpj.innerText.replace('CNPJ: ', '');
     }
-    
     storeName.addEventListener('blur', sincronizarRodape);
     storeCnpj.addEventListener('blur', sincronizarRodape);
     sincronizarRodape();
 
-    // ==================== LOGO - MESMO PADRÃO DO EXEMPLO ====================
+    // ==================== LOGO - FUNCIONAL (MESMO DO SEU EXEMPLO) ====================
     const logoUpload = document.getElementById('logoUpload');
     const logoImg = document.getElementById('logoImg');
     const logoPlaceholder = document.getElementById('logoPlaceholder');
@@ -447,33 +437,35 @@
         updateLogoUI(true, savedLogo);
     }
 
-    // ==================== GERAR PDF COM html2pdf ====================
+    // ==================== GERAR PDF ====================
     function gerarPDF() {
-        const element = document.getElementById('termoContent');
+        const element = document.getElementById('resumeContent');
         const cloneElement = element.cloneNode(true);
         
         // Remover botões de controle do clone
         cloneElement.querySelectorAll('.photo-controls').forEach(el => el.remove());
         
-        // Remover placeholders e manter apenas a imagem
+        // Remover placeholders
         const placeholderClone = cloneElement.querySelector('#logoPlaceholder');
         if (placeholderClone) placeholderClone.remove();
         
+        // Manter a imagem se existir
         const logoImgClone = cloneElement.querySelector('#logoImg');
         if (logoImgClone && (!logoImgClone.src || logoImgClone.style.display === 'none')) {
             logoImgClone.remove();
         }
         
-        // Remover qualquer botão remanescente
+        // Remover botões remanescentes
         cloneElement.querySelectorAll('button').forEach(btn => btn.remove());
         
-        // Estilo para impressão
+        // Estilo para o PDF
         const stylePrint = document.createElement('style');
         stylePrint.textContent = `
             * {
                 color: #000000 !important;
                 background: white !important;
                 border-color: #cccccc !important;
+                box-shadow: none !important;
             }
             .warranty-box {
                 background: #faf7ef !important;
@@ -484,7 +476,7 @@
                 background: transparent !important;
             }
             .logo-img {
-                border: 1px solid #ccc !important;
+                border: 1px solid #cccccc !important;
             }
         `;
         cloneElement.prepend(stylePrint);
@@ -505,4 +497,11 @@
         };
         
         html2pdf().set(opt).from(cloneElement).save().then(() => {
-     
+            showMsg('PDF salvo com sucesso: ' + arquivo);
+        }).catch(err => {
+            console.error('Erro:', err);
+            showMsg('Erro ao gerar PDF. Tente novamente.', true);
+        });
+    }
+    
+    document.getElementById('downloa
