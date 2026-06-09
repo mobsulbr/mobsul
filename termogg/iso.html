@@ -204,7 +204,7 @@
                 <p class="text-muted small">Clique nos campos do termo para editar diretamente.</p>
                 <hr>
                 <div class="alert alert-info small py-2">
-                    <i class="fas fa-calendar"></i> <strong>Garantia de 90 dias</strong> - A data de fim da garantia é calculada automaticamente.
+                    <i class="fas fa-calendar"></i> <strong>Garantia de 90 dias</strong> - A data de fim da garantia é calculada automaticamente a partir da data de saída.
                 </div>
                 <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF DO TERMO</button>
                 <div id="statusMsg" class="status-msg"></div>
@@ -236,7 +236,6 @@
                     <div class="section-info">
                         <div class="info-line"><strong>Nº do termo:</strong> <span contenteditable="true" id="numeroTermo">GAR-20260001</span></div>
                         <div class="info-line"><strong>Data de saída:</strong> <span contenteditable="true" id="dataSaida">08/06/2026</span></div>
-                        <div class="info-line"><strong>Data de emissão:</strong> <span id="dataEmissao"></span></div>
                         <div class="info-line"><strong>Cliente:</strong> <span contenteditable="true" id="clienteNome">Laura</span></div>
                     </div>
 
@@ -273,7 +272,7 @@
 
                     <div style="text-align: center; font-size: 0.6rem; margin-top: 15px; border-top: 1px dashed #cdbf9b; padding-top: 10px;">
                         Documento válido como comprovante de garantia.<br>
-                        Emissão: <span id="rodapeData"></span> - <span contenteditable="true" id="rodapeLoja">MUNDO CELL</span>
+                        <span contenteditable="true" id="rodapeLoja">MUNDO CELL</span> - CNPJ: <span contenteditable="true" id="rodapeCnpj">36.411.074/0001-68</span>
                     </div>
                 </div>
             </div>
@@ -283,42 +282,53 @@
 
 <script>
     // ==================== FUNÇÃO DE DATA ====================
-    function formatarDataAtual() {
-        const hoje = new Date();
-        const dia = String(hoje.getDate()).padStart(2, '0');
-        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-        const ano = hoje.getFullYear();
+    function formatarDataBR(data) {
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const ano = data.getFullYear();
         return `${dia}/${mes}/${ano}`;
+    }
+
+    function parseDataBR(dataStr) {
+        if (!dataStr || !dataStr.includes('/')) return null;
+        const partes = dataStr.split('/');
+        if (partes.length !== 3) return null;
+        return new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
     }
 
     function somar90Dias(dataStr) {
-        if (!dataStr || !dataStr.includes('/')) return "07/09/2026";
-        const partes = dataStr.split('/');
-        const data = new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
+        const data = parseDataBR(dataStr);
+        if (!data) return "07/09/2026";
         const novaData = new Date(data);
         novaData.setDate(novaData.getDate() + 90);
-        const dia = String(novaData.getDate()).padStart(2, '0');
-        const mes = String(novaData.getMonth() + 1).padStart(2, '0');
-        const ano = novaData.getFullYear();
-        return `${dia}/${mes}/${ano}`;
+        return formatarDataBR(novaData);
     }
 
-    const dataAtual = formatarDataAtual();
-    document.getElementById('dataEmissao').innerText = dataAtual;
-    document.getElementById('rodapeData').innerText = dataAtual;
-
+    // Função para atualizar a garantia baseada na data de saída
     function atualizarGarantia() {
         const dataSaida = document.getElementById('dataSaida').innerText;
         if (dataSaida && dataSaida.includes('/')) {
-            document.getElementById('garantiaAte').innerText = somar90Dias(dataSaida);
+            const novaGarantia = somar90Dias(dataSaida);
+            document.getElementById('garantiaAte').innerText = novaGarantia;
         }
     }
 
+    // Observar mudanças na data de saída (para edição em tempo real)
     const dataSaidaElement = document.getElementById('dataSaida');
-    const observer = new MutationObserver(atualizarGarantia);
+    const observer = new MutationObserver(function() {
+        atualizarGarantia();
+    });
     observer.observe(dataSaidaElement, { childList: true, characterData: true, subtree: true });
+    
+    // Também observar quando o usuário terminar de editar (blur)
+    dataSaidaElement.addEventListener('blur', function() {
+        atualizarGarantia();
+    });
+    
+    // Executar uma vez ao carregar
     atualizarGarantia();
 
+    // Gerar número do termo automático
     const numeroTermo = document.getElementById('numeroTermo');
     if (numeroTermo.innerText === 'GAR-20260001') {
         const ano = new Date().getFullYear();
@@ -326,12 +336,19 @@
         numeroTermo.innerText = `GAR-${ano}${random}`;
     }
 
+    // Sincronizar rodapé com nome da loja
     const storeName = document.getElementById('storeName');
+    const storeCnpj = document.getElementById('storeCnpj');
     const rodapeLoja = document.getElementById('rodapeLoja');
+    const rodapeCnpj = document.getElementById('rodapeCnpj');
+    
     function sincronizarRodape() {
         rodapeLoja.innerText = storeName.innerText;
+        rodapeCnpj.innerText = storeCnpj.innerText.replace('CNPJ: ', '');
     }
+    
     storeName.addEventListener('blur', sincronizarRodape);
+    storeCnpj.addEventListener('blur', sincronizarRodape);
     sincronizarRodape();
 
     // ==================== LOGO - MESMO PADRÃO DO EXEMPLO ====================
@@ -430,7 +447,7 @@
         updateLogoUI(true, savedLogo);
     }
 
-    // ==================== GERAR PDF COM html2pdf (MESMO PADRÃO DO EXEMPLO) ====================
+    // ==================== GERAR PDF COM html2pdf ====================
     function gerarPDF() {
         const element = document.getElementById('termoContent');
         const cloneElement = element.cloneNode(true);
@@ -488,13 +505,4 @@
         };
         
         html2pdf().set(opt).from(cloneElement).save().then(() => {
-            showMsg('PDF salvo com sucesso: ' + arquivo);
-        }).catch(err => {
-            showMsg('Erro ao gerar PDF: ' + err, true);
-        });
-    }
-    
-    document.getElementById('downloadBtn').addEventListener('click', gerarPDF);
-</script>
-</body>
-</html>
+     
