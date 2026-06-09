@@ -6,6 +6,7 @@
     <title>Termo de Garantia - Venda de Smartphone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -88,29 +89,62 @@
         }
 
         .logo-img {
-            max-width: 120px;
-            max-height: 80px;
-            object-fit: contain;
-            border-radius: 8px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #2056b6;
+            background: #f1f5f9;
         }
 
         .logo-placeholder {
-            width: 110px;
-            height: 70px;
-            background: #f6f2e4;
-            border: 1px dashed #b9ae8a;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            border: 3px dashed #94a3b8;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
             color: #7b6c48;
-            text-align: center;
-            border-radius: 8px;
             cursor: pointer;
         }
 
         .logo-placeholder:hover {
-            background: #ede5d2;
+            background: #e2e8f0;
+        }
+
+        .photo-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .btn-sm-custom {
+            padding: 4px 10px;
+            font-size: 11px;
+        }
+
+        .store-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .store-doc {
+            font-size: 0.7rem;
+            color: #4f422b;
+        }
+
+        .title-garantia {
+            font-size: 0.8rem;
+            font-weight: bold;
+            background: #000;
+            color: white;
+            display: inline-block;
+            padding: 4px 15px;
+            margin-top: 10px;
         }
 
         .section-info {
@@ -159,63 +193,6 @@
             color: #16a34a;
             text-align: center;
         }
-
-        .photo-controls {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 8px;
-        }
-
-        .btn-sm-custom {
-            padding: 4px 10px;
-            font-size: 11px;
-        }
-
-        .store-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .store-doc {
-            font-size: 0.7rem;
-            color: #4f422b;
-        }
-
-        .title-garantia {
-            font-size: 0.8rem;
-            font-weight: bold;
-            background: #000;
-            color: white;
-            display: inline-block;
-            padding: 4px 15px;
-            margin-top: 10px;
-        }
-
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            .editor-panel, .photo-controls, .btn-download, .btn-logo, .status-msg, .row > .col-lg-4 {
-                display: none !important;
-            }
-            .preview-panel {
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-            }
-            .termo-card {
-                padding: 20px;
-                max-width: 100%;
-            }
-            [contenteditable="true"] {
-                border-bottom: none;
-                background: transparent;
-                padding: 0;
-            }
-        }
     </style>
 </head>
 <body>
@@ -229,7 +206,7 @@
                 <div class="alert alert-info small py-2">
                     <i class="fas fa-calendar"></i> <strong>Garantia de 90 dias</strong> - A data de fim da garantia é calculada automaticamente.
                 </div>
-                <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF / IMPRIMIR</button>
+                <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF DO TERMO</button>
                 <div id="statusMsg" class="status-msg"></div>
             </div>
         </div>
@@ -239,12 +216,12 @@
                 <div class="termo-card" id="termoContent">
                     <div class="termo-header">
                         <div class="logo-container">
-                            <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg,image/webp" style="display:none;">
+                            <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg" style="display:none;">
                             <div id="logoArea">
-                                <div id="logoPlaceholder" class="logo-placeholder" onclick="document.getElementById('logoUpload').click();">
-                                    <i class="fas fa-image"></i> LOGO
-                                </div>
                                 <img id="logoImg" class="logo-img" src="" style="display:none;" alt="Logo">
+                                <div id="logoPlaceholder" class="logo-placeholder" onclick="document.getElementById('logoUpload').click();">
+                                    <i class="fas fa-camera"></i> LOGO
+                                </div>
                             </div>
                         </div>
                         <div class="photo-controls">
@@ -305,11 +282,9 @@
 </div>
 
 <script>
-    let logoDataURL = null;
-
     // ==================== FUNÇÃO DE DATA ====================
     function formatarDataAtual() {
-        const hoje = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
+        const hoje = new Date();
         const dia = String(hoje.getDate()).padStart(2, '0');
         const mes = String(hoje.getMonth() + 1).padStart(2, '0');
         const ano = hoje.getFullYear();
@@ -319,7 +294,6 @@
     function somar90Dias(dataStr) {
         if (!dataStr || !dataStr.includes('/')) return "07/09/2026";
         const partes = dataStr.split('/');
-        if (partes.length !== 3) return "07/09/2026";
         const data = new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
         const novaData = new Date(data);
         novaData.setDate(novaData.getDate() + 90);
@@ -360,7 +334,7 @@
     storeName.addEventListener('blur', sincronizarRodape);
     sincronizarRodape();
 
-    // ==================== LOGO - FUNCIONAL ====================
+    // ==================== LOGO - MESMO PADRÃO DO EXEMPLO ====================
     const logoUpload = document.getElementById('logoUpload');
     const logoImg = document.getElementById('logoImg');
     const logoPlaceholder = document.getElementById('logoPlaceholder');
@@ -369,7 +343,6 @@
     const statusMsg = document.getElementById('statusMsg');
 
     function showMsg(msg, isErr = false) {
-        if (!statusMsg) return;
         statusMsg.textContent = msg;
         statusMsg.style.color = isErr ? '#dc2626' : '#16a34a';
         setTimeout(() => {
@@ -379,7 +352,6 @@
 
     function updateLogoUI(hasPhoto, photoSrc = null) {
         if (hasPhoto && photoSrc) {
-            logoDataURL = photoSrc;
             logoImg.src = photoSrc;
             logoImg.style.display = 'block';
             logoPlaceholder.style.display = 'none';
@@ -387,7 +359,6 @@
             removeLogoBtn.style.display = 'inline-block';
             localStorage.setItem('termoGarantiaLogo', photoSrc);
         } else {
-            logoDataURL = null;
             logoImg.style.display = 'none';
             logoPlaceholder.style.display = 'flex';
             changeLogoBtn.style.display = 'none';
@@ -430,7 +401,7 @@
                 ctx.drawImage(img, 0, 0, width, height);
                 let quality = 0.8;
                 let dataUrl = canvas.toDataURL('image/jpeg', quality);
-                while (dataUrl.length > 2 * 1024 * 1024 && quality > 0.4) {
+                while (dataUrl.length > 2.5 * 1024 * 1024 && quality > 0.4) {
                     quality -= 0.1;
                     dataUrl = canvas.toDataURL('image/jpeg', quality);
                 }
@@ -459,53 +430,71 @@
         updateLogoUI(true, savedLogo);
     }
 
-    logoPlaceholder.addEventListener('click', function() {
-        logoUpload.click();
-    });
-
-    // ==================== FUNÇÃO DE DOWNLOAD QUE FUNCIONA ====================
+    // ==================== GERAR PDF COM html2pdf (MESMO PADRÃO DO EXEMPLO) ====================
     function gerarPDF() {
-        showMsg('Preparando documento...');
+        const element = document.getElementById('termoContent');
+        const cloneElement = element.cloneNode(true);
         
-        // Coletar todos os dados atuais
-        const dados = {
-            logo: logoDataURL,
-            storeName: document.getElementById('storeName').innerText,
-            storeCnpj: document.getElementById('storeCnpj').innerText,
-            numeroTermo: document.getElementById('numeroTermo').innerText,
-            dataSaida: document.getElementById('dataSaida').innerText,
-            dataEmissao: document.getElementById('dataEmissao').innerText,
-            cliente: document.getElementById('clienteNome').innerText,
-            marca: document.getElementById('marca').innerText,
-            modelo: document.getElementById('modelo').innerText,
-            cor: document.getElementById('cor').innerText,
-            imei: document.getElementById('imei').innerText,
-            valorTotal: document.getElementById('valorTotal').innerText,
-            pagamento: document.getElementById('pagamento').innerText,
-            textoGarantia: document.getElementById('textoGarantia').innerHTML,
-            garantiaAte: document.getElementById('garantiaAte').innerText,
-            rodapeLoja: document.getElementById('rodapeLoja').innerText
+        // Remover botões de controle do clone
+        cloneElement.querySelectorAll('.photo-controls').forEach(el => el.remove());
+        
+        // Remover placeholders e manter apenas a imagem
+        const placeholderClone = cloneElement.querySelector('#logoPlaceholder');
+        if (placeholderClone) placeholderClone.remove();
+        
+        const logoImgClone = cloneElement.querySelector('#logoImg');
+        if (logoImgClone && (!logoImgClone.src || logoImgClone.style.display === 'none')) {
+            logoImgClone.remove();
+        }
+        
+        // Remover qualquer botão remanescente
+        cloneElement.querySelectorAll('button').forEach(btn => btn.remove());
+        
+        // Estilo para impressão
+        const stylePrint = document.createElement('style');
+        stylePrint.textContent = `
+            * {
+                color: #000000 !important;
+                background: white !important;
+                border-color: #cccccc !important;
+            }
+            .warranty-box {
+                background: #faf7ef !important;
+                border-left-color: #888888 !important;
+            }
+            [contenteditable="true"] {
+                border-bottom: none !important;
+                background: transparent !important;
+            }
+            .logo-img {
+                border: 1px solid #ccc !important;
+            }
+        `;
+        cloneElement.prepend(stylePrint);
+        
+        // Nome do arquivo
+        let cliente = document.getElementById('clienteNome').innerText.trim() || 'cliente';
+        cliente = cliente.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+        if (!cliente || cliente.length < 2) cliente = 'termo_garantia';
+        const dataHoje = new Date().toLocaleString('pt-BR').split(' ')[0].replace(/\//g, '-');
+        const arquivo = `garantia_${cliente}_${dataHoje}.pdf`;
+        
+        const opt = {
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: arquivo,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, letterRendering: true, backgroundColor: '#ffffff' },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         
-        // Criar HTML para impressão
-        const htmlImpressao = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Termo de Garantia - ${dados.cliente}</title>
-                <style>
-                    * {
-                        margin: 0;
-                        padding: 0;
-                        box-sizing: border-box;
-                    }
-                    body {
-                        font-family: 'Courier New', 'Courier', monospace;
-                        background: white;
-                        padding: 30px 20px;
-                    }
-                    .termo-card {
-                        background: white;
-                        padding: 35px;
-                        max-
+        html2pdf().set(opt).from(cloneElement).save().then(() => {
+            showMsg('PDF salvo com sucesso: ' + arquivo);
+        }).catch(err => {
+            showMsg('Erro ao gerar PDF: ' + err, true);
+        });
+    }
+    
+    document.getElementById('downloadBtn').addEventListener('click', gerarPDF);
+</script>
+</body>
+</html>
