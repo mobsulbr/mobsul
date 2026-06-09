@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Gerador de Termo de Garantia - Venda de Smartphone</title>
+    <title>Termo de Garantia - Venda de Smartphone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -12,50 +15,87 @@
         }
 
         body {
-            background: #d9d2bc;
+            background: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .editor-panel, .preview-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .editor-panel {
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .preview-panel {
+            background: #fefefe;
+        }
+
+        .termo-card {
+            background: white;
+            padding: 35px;
+            max-width: 700px;
+            margin: 0 auto;
             font-family: 'Courier New', 'Courier', monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem 1rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #1a2a3a;
         }
 
-        .thermal-container {
-            max-width: 520px;
-            width: 100%;
-            background: #fffef7;
-            border-radius: 0;
-            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.25), 0 0 0 1px #e0d5bb;
-            padding: 1.2rem 1.5rem 1.8rem;
+        [contenteditable="true"] {
+            outline: none;
+            border-bottom: 1px dashed #94a3b8;
+            background: #fef9e6;
+            transition: 0.15s;
+            padding: 2px 4px;
+            border-radius: 6px;
+            cursor: text;
+            display: inline-block;
+            min-width: 80px;
         }
 
-        .header-thermal {
+        [contenteditable="true"]:hover {
+            background: #fef3c7;
+            border-bottom-color: #f59e0b;
+        }
+
+        [contenteditable="true"]:focus {
+            background: #fffbeb;
+            border-bottom: 2px solid #2056b6;
+        }
+
+        .termo-header {
             text-align: center;
+            margin-bottom: 20px;
             border-bottom: 2px dashed #bcae83;
-            padding-bottom: 1rem;
-            margin-bottom: 1.4rem;
+            padding-bottom: 15px;
         }
 
-        .logo-area {
+        .logo-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 0.5rem;
-            flex-direction: column;
-            align-items: center;
+            margin-bottom: 10px;
         }
 
-        .logo-preview {
-            max-width: 130px;
+        .logo-img {
+            max-width: 120px;
             max-height: 80px;
             object-fit: contain;
-            background: #fff;
-            border-radius: 6px;
-            padding: 4px;
-            border: 1px solid #ddd0b0;
+            border-radius: 8px;
         }
 
-        .placeholder-logo {
+        .logo-placeholder {
             width: 110px;
             height: 70px;
             background: #f6f2e4;
@@ -66,468 +106,375 @@
             font-size: 0.7rem;
             color: #7b6c48;
             text-align: center;
-            border-radius: 6px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .logo-placeholder:hover {
+            background: #ede5d2;
         }
 
         .btn-logo {
             background: #f9f5e8;
             border: 1px solid #c9bc94;
-            font-family: monospace;
-            font-size: 0.7rem;
             padding: 6px 12px;
-            margin-top: 8px;
-            cursor: pointer;
+            font-size: 0.7rem;
             border-radius: 20px;
-            width: auto;
-            display: inline-block;
-        }
-
-        .btn-logo:hover {
-            background: #ede5d2;
-        }
-
-        .store-name {
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin: 0.2rem 0 0.1rem;
-            text-transform: uppercase;
-        }
-
-        .store-doc {
-            font-size: 0.7rem;
-            color: #4f422b;
-        }
-
-        .title-guarantee {
-            font-weight: bold;
-            font-size: 1rem;
-            background: #000;
-            color: #fff9e8;
-            display: inline-block;
-            padding: 0.2rem 1rem;
-            margin-top: 0.7rem;
-        }
-
-        .form-section {
-            margin: 1rem 0;
-        }
-
-        .field-group {
-            margin-bottom: 0.7rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #5a4c31;
-            margin-bottom: 0.2rem;
-        }
-
-        input {
-            background: #fefcf5;
-            border: 1px solid #dbd0b5;
-            padding: 8px 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            outline: none;
-        }
-
-        input:focus {
-            border-color: #aa9b6e;
-        }
-
-        .row-2col {
-            display: flex;
-            gap: 12px;
-        }
-
-        .row-2col .field-group {
-            flex: 1;
-        }
-
-        button {
-            background: #2c2419;
-            color: #fef5e0;
-            border: none;
-            padding: 10px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 0.85rem;
             cursor: pointer;
-            border-radius: 30px;
-            width: 100%;
-            margin-top: 0.6rem;
-        }
-
-        button:hover {
-            background: #4e3f2a;
-        }
-
-        .term-preview {
-            margin-top: 2rem;
-            border-top: 2px dashed #cdc0a0;
-            padding-top: 1.5rem;
-        }
-
-        .term-card {
-            background: #fffef5;
-            border: 1px solid #e4dbc4;
-            padding: 1rem 1.2rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.73rem;
-            line-height: 1.4;
-        }
-
-        .term-card h2 {
-            text-align: center;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-
-        .term-line {
-            margin: 0.3rem 0;
-        }
-
-        .signature-area {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            border-top: 1px dashed #ccc9b5;
-            padding-top: 0.8rem;
-        }
-
-        .btn-download {
-            background: #2c2419;
-            margin-top: 1rem;
-        }
-
-        .hidden-logo-input {
-            display: none;
-        }
-
-        small {
-            font-size: 0.6rem;
-            color: #8a794f;
-            display: block;
-            text-align: center;
             margin-top: 8px;
+        }
+
+        .section-info {
+            margin: 15px 0;
+        }
+
+        .info-line {
+            margin: 8px 0;
         }
 
         .warranty-box {
             background: #faf7ef;
-            padding: 14px 12px;
-            margin: 12px 0;
+            padding: 15px;
+            margin: 15px 0;
             border-left: 4px solid #cbbf96;
             font-size: 0.75rem;
-            line-height: 1.5;
         }
 
-        .garantia-data-destaque {
-            font-weight: bold;
-            background: #e8e0cc;
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
+        .signature-area {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px dashed #ccc9b5;
+            padding-top: 15px;
         }
-        
-        .status-logo {
-            font-size: 0.6rem;
-            color: #6b5c3e;
-            margin-top: 4px;
+
+        .btn-download {
+            background: #2056b6;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 30px;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: #1a4a9e;
+        }
+
+        .status-msg {
+            font-size: 12px;
+            margin-top: 8px;
+            color: #16a34a;
+            text-align: center;
+        }
+
+        .photo-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .btn-sm-custom {
+            padding: 4px 10px;
+            font-size: 11px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2056b6;
+            margin: 20px 0 10px 0;
+            border-left: 4px solid #ffb347;
+            padding-left: 12px;
         }
     </style>
 </head>
 <body>
-<div class="thermal-container">
-    <div class="header-thermal">
-        <div class="logo-area">
-            <div id="logoDisplay" style="display: flex; flex-direction: column; align-items: center;">
-                <div id="logoPlaceholder" class="placeholder-logo">
-                    LOGO LOJA
+<div class="app-container">
+    <div class="row g-3">
+        <!-- Painel de edição -->
+        <div class="col-lg-4">
+            <div class="editor-panel">
+                <h5 class="mb-2"><i class="fas fa-edit"></i> Dados do Termo de Garantia</h5>
+                <p class="text-muted small">Clique nos campos do termo para editar diretamente.</p>
+                <hr>
+                <div class="alert alert-info small py-2">
+                    <i class="fas fa-magic"></i> <strong>Garantia de 90 dias</strong> - O PDF será baixado com todas as informações.
                 </div>
-                <img id="logoImg" class="logo-preview" style="display: none;" alt="Logo da loja">
+                <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF DO TERMO</button>
+                <div id="statusMsg" class="status-msg"></div>
             </div>
-            <button type="button" class="btn-logo" id="uploadLogoBtn">ESCOLHER LOGO DA GALERIA</button>
-            <input type="file" id="logoFileInput" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden-logo-input">
-            <div id="logoStatus" class="status-logo"></div>
         </div>
-        <div class="store-name" id="storeNameDisplay">MUNDO CELL</div>
-        <div class="store-doc" id="storeDocDisplay">CNPJ: 36.411.074/0001-68</div>
-        <div class="title-guarantee">TERMO DE GARANTIA</div>
-        <small>Documento oficial de garantia para venda de smartphone</small>
-    </div>
 
-    <!-- Formulario apenas com dados essenciais -->
-    <div class="form-section">
-        <div class="field-group">
-            <label>Cliente (Nome completo)</label>
-            <input type="text" id="clienteNome" placeholder="Nome do cliente" value="Laura">
-        </div>
-        <div class="row-2col">
-            <div class="field-group">
-                <label>Data da Venda</label>
-                <input type="date" id="dataVenda" value="2026-06-08">
-            </div>
-            <div class="field-group">
-                <label>Garantia ate (90 dias)</label>
-                <input type="text" id="garantiaAteDisplay" readonly style="background:#f0ebdd; font-weight:bold;">
-            </div>
-        </div>
-        <div class="row-2col">
-            <div class="field-group">
-                <label>Marca</label>
-                <input type="text" id="marca" placeholder="Samsung" value="Samsung">
-            </div>
-            <div class="field-group">
-                <label>Modelo</label>
-                <input type="text" id="modelo" placeholder="Modelo" value="A03">
-            </div>
-        </div>
-        <div class="row-2col">
-            <div class="field-group">
-                <label>Cor</label>
-                <input type="text" id="cor" placeholder="Azul" value="Azul">
-            </div>
-            <div class="field-group">
-                <label>IMEI (opcional)</label>
-                <input type="text" id="imei" placeholder="Opcional">
-            </div>
-        </div>
-        <div class="field-group">
-            <label>Valor Total (R$)</label>
-            <input type="text" id="valorTotal" placeholder="200,00" value="200,00">
-        </div>
-        <div class="field-group">
-            <label>Condicao de Pagamento</label>
-            <input type="text" id="pagamento" placeholder="Dinheiro" value="Dinheiro">
-        </div>
-    </div>
+        <!-- Preview do termo -->
+        <div class="col-lg-8">
+            <div class="preview-panel">
+                <div class="termo-card" id="termoContent">
+                    <!-- Logo -->
+                    <div class="termo-header">
+                        <div class="logo-container">
+                            <input type="file" id="logoUpload" accept="image/jpeg,image/png,image/jpg,image/webp" style="display:none;">
+                            <div id="logoArea">
+                                <div id="logoPlaceholder" class="logo-placeholder" onclick="document.getElementById('logoUpload').click();">
+                                    <i class="fas fa-image"></i> LOGO
+                                </div>
+                                <img id="logoImg" class="logo-img" src="" style="display:none;" alt="Logo">
+                            </div>
+                        </div>
+                        <div class="photo-controls">
+                            <button id="changeLogoBtn" class="btn btn-outline-secondary btn-sm-custom" style="display:none;" onclick="document.getElementById('logoUpload').click();"><i class="fas fa-sync"></i> Trocar Logo</button>
+                            <button id="removeLogoBtn" class="btn btn-outline-danger btn-sm-custom" style="display:none;"><i class="fas fa-trash"></i> Remover Logo</button>
+                        </div>
+                        <div class="store-name" style="font-size: 1.5rem; font-weight: bold;" contenteditable="true" id="storeName">MUNDO CELL</div>
+                        <div class="store-doc" style="font-size: 0.7rem; color: #4f422b;" contenteditable="true" id="storeCnpj">CNPJ: 36.411.074/0001-68</div>
+                        <div style="font-size: 0.8rem; font-weight: bold; background: #000; color: white; display: inline-block; padding: 4px 15px; margin-top: 10px;">TERMO DE GARANTIA</div>
+                    </div>
 
-    <button id="gerarTermoBtn">GERAR TERMO DE GARANTIA COMPLETO</button>
+                    <!-- Informações do cliente e aparelho -->
+                    <div class="section-info">
+                        <div class="info-line"><strong>Nº do termo:</strong> <span contenteditable="true" id="numeroTermo">GAR-20260001</span></div>
+                        <div class="info-line"><strong>Data da venda:</strong> <span contenteditable="true" id="dataVenda">08/06/2026</span></div>
+                        <div class="info-line"><strong>Data de emissão:</strong> <span id="dataEmissao"></span></div>
+                        <div class="info-line"><strong>Cliente:</strong> <span contenteditable="true" id="clienteNome">Laura</span></div>
+                    </div>
 
-    <div class="term-preview" id="previewArea" style="display: none;">
-        <div class="term-card" id="termoContent"></div>
-        <button class="btn-download" id="downloadPdfBtn">BAIXAR PDF DO TERMO</button>
-        <small>Clique em "BAIXAR PDF" para salvar o documento - Garantia de 90 dias</small>
+                    <div style="border-top: 1px dotted #ccc; margin: 10px 0;"></div>
+
+                    <div class="section-info">
+                        <div class="info-line"><strong>Marca:</strong> <span contenteditable="true" id="marca">Samsung</span></div>
+                        <div class="info-line"><strong>Modelo:</strong> <span contenteditable="true" id="modelo">A03</span></div>
+                        <div class="info-line"><strong>Cor:</strong> <span contenteditable="true" id="cor">Azul</span></div>
+                        <div class="info-line"><strong>IMEI:</strong> <span contenteditable="true" id="imei">Opcional</span></div>
+                        <div class="info-line"><strong>Valor pago:</strong> R$ <span contenteditable="true" id="valorTotal">200,00</span></div>
+                        <div class="info-line"><strong>Condição de pagamento:</strong> <span contenteditable="true" id="pagamento">Dinheiro</span></div>
+                    </div>
+
+                    <div style="border-top: 1px dotted #ccc; margin: 10px 0;"></div>
+
+                    <!-- TERMO DE GARANTIA COMPLETO -->
+                    <div class="warranty-box">
+                        <strong>CONDIÇÕES DA GARANTIA DE 90 DIAS</strong><br><br>
+                        <div id="textoGarantia" contenteditable="true" style="font-weight: bold;">
+                            A loja oferece garantia de 90 dias contra defeitos de fabricação para produtos comercializados e reparados em nossa unidade. A cobertura não se aplica a aparelhos com danos físicos (arranhões, trincas, amassados), indícios de umidade, avarias decorrentes de mau uso ou intervenções por terceiros. A validação está condicionada à apresentação da nota fiscal e à verificação técnica prévia.
+                        </div>
+                        <br>
+                        <div class="info-line"><strong>Prazo de garantia:</strong> <span contenteditable="true" id="garantiaAte">07/09/2026</span> (90 dias a partir da data da venda)</div>
+                        <br>
+                        <div><strong>Informações adicionais:</strong></div>
+                        <div>- O prazo para análise técnica é de até 5 dias úteis após a entrega do aparelho.</div>
+                        <div>- O reparo coberto pela garantia será realizado sem custos adicionais para o cliente.</div>
+                        <div>- O prazo para conclusão do reparo é de até 15 dias úteis.</div>
+                        <div>- É obrigatório apresentar este termo e a nota fiscal para acionar a garantia.</div>
+                        <div>- A garantia perde a validade se o aparelho apresentar sinais de violação por terceiros.</div>
+                        <div>- A loja não se responsabiliza por perda de dados. Recomenda-se realizar backup.</div>
+                    </div>
+
+                    <!-- Assinaturas -->
+                    <div class="signature-area">
+                        <span>__________________________________</span>
+                        <span>__________________________________</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size:0.65rem; padding: 0 4px;">
+                        <span>Assinatura do Cliente</span>
+                        <span>Assinatura / Carimbo da Loja</span>
+                    </div>
+
+                    <div style="text-align: center; font-size: 0.6rem; margin-top: 15px; border-top: 1px dashed #cdbf9b; padding-top: 10px;">
+                        Documento válido como comprovante de garantia para fins legais.<br>
+                        Emissão: <span id="rodapeData"></span> - <span contenteditable="true" id="rodapeLoja">MUNDO CELL</span> - CNPJ: <span contenteditable="true" id="rodapeCnpj">36.411.074/0001-68</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    // ==================== FUNCOES DE DATA (FUSO SAO PAULO) ====================
-    function parseDateInputToSP(dataStr) {
-        if (!dataStr) return null;
-        const partes = dataStr.split('-');
-        if (partes.length !== 3) return null;
-        return new Date(parseInt(partes[0]), parseInt(partes[1])-1, parseInt(partes[2]), 12, 0, 0);
-    }
-    
-    function somarDias(data, dias) {
-        const nova = new Date(data);
-        nova.setDate(nova.getDate() + dias);
-        return nova;
-    }
-    
-    function formatarDataBR(data) {
-        const dia = String(data.getDate()).padStart(2, '0');
-        const mes = String(data.getMonth() + 1).padStart(2, '0');
-        const ano = data.getFullYear();
+    // ==================== FUNÇÃO DE DATA ====================
+    function formatarDataAtual() {
+        const hoje = new Date();
+        const dia = String(hoje.getDate()).padStart(2, '0');
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const ano = hoje.getFullYear();
         return `${dia}/${mes}/${ano}`;
     }
-    
-    function getDataSPHoje() {
-        return new Date(new Date().toLocaleString("en-US", {timeZone: "America/Sao_Paulo"}));
-    }
-    
-    function atualizarGarantiaAutomatica() {
-        const dataVendaStr = document.getElementById('dataVenda').value;
-        if (!dataVendaStr) {
-            document.getElementById('garantiaAteDisplay').value = "";
-            return;
+
+    // Preencher datas automáticas
+    document.getElementById('dataEmissao').innerText = formatarDataAtual();
+    document.getElementById('rodapeData').innerText = formatarDataAtual();
+
+    // Calcular garantia automática baseada na data de venda
+    function calcularGarantia() {
+        const dataVendaStr = document.getElementById('dataVenda').innerText;
+        if (dataVendaStr && dataVendaStr.includes('/')) {
+            const partes = dataVendaStr.split('/');
+            if (partes.length === 3) {
+                const dataVenda = new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
+                const dataGarantia = new Date(dataVenda);
+                dataGarantia.setDate(dataGarantia.getDate() + 90);
+                const dia = String(dataGarantia.getDate()).padStart(2, '0');
+                const mes = String(dataGarantia.getMonth() + 1).padStart(2, '0');
+                const ano = dataGarantia.getFullYear();
+                document.getElementById('garantiaAte').innerText = `${dia}/${mes}/${ano}`;
+            }
         }
-        const dataVendaObj = parseDateInputToSP(dataVendaStr);
-        if (dataVendaObj) {
-            const dataGarantia = somarDias(dataVendaObj, 90);
-            document.getElementById('garantiaAteDisplay').value = formatarDataBR(dataGarantia);
-        }
     }
-    
-    // ==================== LOGO - ABRIR GALERIA (FUNCIONAL) ====================
-    const logoFileInput = document.getElementById('logoFileInput');
-    const uploadLogoBtn = document.getElementById('uploadLogoBtn');
+
+    // Observar mudanças na data de venda
+    const dataVendaElement = document.getElementById('dataVenda');
+    const observer = new MutationObserver(function() {
+        calcularGarantia();
+    });
+    observer.observe(dataVendaElement, { childList: true, characterData: true, subtree: true });
+    calcularGarantia();
+
+    // ==================== LOGO - FUNCIONAL COMO NO EXEMPLO ====================
+    const logoUpload = document.getElementById('logoUpload');
     const logoImg = document.getElementById('logoImg');
     const logoPlaceholder = document.getElementById('logoPlaceholder');
-    const logoStatus = document.getElementById('logoStatus');
-    
-    // Carregar logo salvo do localStorage
-    const savedLogo = localStorage.getItem('logoGarantiaURL');
-    if (savedLogo && savedLogo !== 'null' && savedLogo !== '') {
-        logoImg.src = savedLogo;
-        logoImg.style.display = 'block';
-        logoPlaceholder.style.display = 'none';
-        logoStatus.innerHTML = 'Logo carregado com sucesso';
-        logoStatus.style.color = '#2c5e2e';
-    }
-    
-    // Função para abrir o seletor de arquivos (funciona em qualquer dispositivo)
-    uploadLogoBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        logoFileInput.click();
-    });
-    
-    // Também para touch em dispositivos móveis
-    uploadLogoBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        logoFileInput.click();
-    });
-    
-    logoFileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                const logoDataURL = ev.target.result;
-                logoImg.src = logoDataURL;
-                logoImg.style.display = 'block';
-                logoPlaceholder.style.display = 'none';
-                localStorage.setItem('logoGarantiaURL', logoDataURL);
-                logoStatus.innerHTML = 'Logo adicionado com sucesso!';
-                logoStatus.style.color = '#2c5e2e';
-                setTimeout(() => {
-                    logoStatus.innerHTML = '';
-                }, 3000);
-            };
-            reader.readAsDataURL(file);
-        } else if (file) {
-            alert("Por favor, selecione uma imagem valida (PNG, JPG, WEBP)");
-            logoStatus.innerHTML = 'Arquivo invalido. Selecione uma imagem.';
-            logoStatus.style.color = '#aa3e2c';
-        }
-    });
-    
-    // ==================== DADOS DA LOJA ====================
-    const storeNameDisplay = document.getElementById('storeNameDisplay');
-    const storeDocDisplay = document.getElementById('storeDocDisplay');
-    let lojaInfo = {
-        nome: "MUNDO CELL",
-        cnpj: "36.411.074/0001-68",
-        endereco: "Av. Tecnica, 342 - Centro, Sao Paulo - SP",
-        telefone: "(11) 3088-4422"
-    };
-    
-    storeNameDisplay.innerText = lojaInfo.nome;
-    storeDocDisplay.innerText = `CNPJ: ${lojaInfo.cnpj}`;
-    
-    // ==================== REFERENCIAS DOS CAMPOS ====================
-    const clienteNome = document.getElementById('clienteNome');
-    const dataVenda = document.getElementById('dataVenda');
-    const garantiaAteDisplay = document.getElementById('garantiaAteDisplay');
-    const marca = document.getElementById('marca');
-    const modelo = document.getElementById('modelo');
-    const cor = document.getElementById('cor');
-    const imei = document.getElementById('imei');
-    const valorTotal = document.getElementById('valorTotal');
-    const pagamento = document.getElementById('pagamento');
-    
-    const gerarTermoBtn = document.getElementById('gerarTermoBtn');
-    const previewArea = document.getElementById('previewArea');
-    const termoContent = document.getElementById('termoContent');
-    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-    
-    dataVenda.addEventListener('change', atualizarGarantiaAutomatica);
-    atualizarGarantiaAutomatica();
-    
-    // ==================== TEXTO EXATO DA GARANTIA SOLICITADO ====================
-    const textoGarantiaExato = `A loja oferece garantia de 90 dias contra defeitos de fabricacao para produtos comercializados e reparados em nossa unidade. A cobertura nao se aplica a aparelhos com danos fisicos (arranhoes, trincas, amassados), indicios de umidade, avarias decorrentes de mau uso ou intervencoes por terceiros. A validacao esta condicionada a apresentacao da nota fiscal e a verificacao tecnica previa.`;
-    
-    // ==================== FUNCAO QUE GERA O TERMO COMPLETO ====================
-    function gerarTermoCompleto() {
-        let cliente = clienteNome.value.trim();
-        if (cliente === "") cliente = "Cliente nao informado";
-        
-        const dataVendaStr = dataVenda.value;
-        let dataVendaFormatada = "";
-        let garantiaTexto = "";
-        if (dataVendaStr) {
-            const dataObj = parseDateInputToSP(dataVendaStr);
-            if (dataObj) {
-                dataVendaFormatada = formatarDataBR(dataObj);
-                const dataGarantia = somarDias(dataObj, 90);
-                garantiaTexto = formatarDataBR(dataGarantia);
-            }
+    const changeLogoBtn = document.getElementById('changeLogoBtn');
+    const removeLogoBtn = document.getElementById('removeLogoBtn');
+
+    function updateLogoUI(hasLogo, logoSrc = null) {
+        if (hasLogo && logoSrc) {
+            logoImg.src = logoSrc;
+            logoImg.style.display = 'block';
+            logoPlaceholder.style.display = 'none';
+            changeLogoBtn.style.display = 'inline-block';
+            removeLogoBtn.style.display = 'inline-block';
         } else {
-            dataVendaFormatada = "__/__/____";
-            garantiaTexto = "__/__/____";
+            logoImg.style.display = 'none';
+            logoPlaceholder.style.display = 'flex';
+            changeLogoBtn.style.display = 'none';
+            removeLogoBtn.style.display = 'none';
+        }
+    }
+
+    function compressAndSetLogo(file) {
+        if (!file || !file.type.match('image.*')) {
+            showMsg('Selecione uma imagem JPG ou PNG.', true);
+            return;
+        }
+        if (file.size > 15 * 1024 * 1024) {
+            showMsg('Imagem muito grande, máximo 15MB', true);
+            return;
+        }
+        showMsg('Processando logo...');
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let width = img.width, height = img.height;
+                const maxSize = 300;
+                if (width > height) {
+                    if (width > maxSize) {
+                        height = Math.round(height * maxSize / width);
+                        width = maxSize;
+                    }
+                } else {
+                    if (height > maxSize) {
+                        width = Math.round(width * maxSize / height);
+                        height = maxSize;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                let quality = 0.8;
+                let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                while (dataUrl.length > 2 * 1024 * 1024 && quality > 0.4) {
+                    quality -= 0.1;
+                    dataUrl = canvas.toDataURL('image/jpeg', quality);
+                }
+                updateLogoUI(true, dataUrl);
+                localStorage.setItem('termoGarantiaLogo', dataUrl);
+                showMsg('Logo adicionado com sucesso!');
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    logoUpload.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            compressAndSetLogo(e.target.files[0]);
+        }
+        logoUpload.value = '';
+    });
+
+    removeLogoBtn.addEventListener('click', function() {
+        updateLogoUI(false);
+        localStorage.removeItem('termoGarantiaLogo');
+        showMsg('Logo removido');
+    });
+
+    // Carregar logo salvo
+    const savedLogo = localStorage.getItem('termoGarantiaLogo');
+    if (savedLogo && savedLogo !== 'null' && savedLogo !== '') {
+        updateLogoUI(true, savedLogo);
+    }
+
+    function showMsg(msg, isErr = false) {
+        const el = document.getElementById('statusMsg');
+        if (!el) return;
+        el.textContent = msg;
+        el.style.color = isErr ? '#dc2626' : '#16a34a';
+        setTimeout(() => {
+            if (el.textContent === msg) el.textContent = '';
+        }, 3000);
+    }
+
+    // ==================== GERAR E BAIXAR PDF ====================
+    function gerarPDF() {
+        const element = document.getElementById('termoContent');
+        const cloneElement = element.cloneNode(true);
+        
+        // Remover botões e controles do clone
+        cloneElement.querySelectorAll('.photo-controls, .btn-logo, .logo-container .btn-logo').forEach(el => el.remove());
+        
+        // Remover placeholders de logo que não são imagens
+        const placeholderClone = cloneElement.querySelector('#logoPlaceholder');
+        if (placeholderClone && placeholderClone.style.display !== 'none') {
+            placeholderClone.remove();
         }
         
-        if (garantiaAteDisplay.value) garantiaTexto = garantiaAteDisplay.value;
-        
-        const marcaValue = marca.value.trim() || "Nao informada";
-        const modeloValue = modelo.value.trim() || "Nao informado";
-        const corValue = cor.value.trim() || "Nao informada";
-        const imeiValue = imei.value.trim();
-        let valorStr = valorTotal.value.trim();
-        if (valorStr === "") valorStr = "0,00";
-        if (!valorStr.includes(',')) valorStr = valorStr.replace('.', ',');
-        const pagamentoValue = pagamento.value.trim() || "Dinheiro";
-        
-        const hojeSP = getDataSPHoje();
-        const dataEmissao = formatarDataBR(hojeSP);
-        const numeroTermo = "GAR-" + hojeSP.getFullYear() + String(Math.floor(Math.random() * 10000)).padStart(4,'0');
-        
-        // Obter logo atual
-        let logoSrc = null;
-        if (logoImg.style.display === 'block' && logoImg.src && logoImg.src !== '') {
-            logoSrc = logoImg.src;
+        // Garantir que a logo seja mantida
+        const logoImgClone = cloneElement.querySelector('#logoImg');
+        if (logoImgClone && (!logoImgClone.src || logoImgClone.style.display === 'none')) {
+            logoImgClone.remove();
         }
         
-        // HTML COMPLETO DO TERMO
-        return `
-            <div style="font-family: 'Courier New', monospace; max-width: 100%;">
-                <div style="text-align: center; margin-bottom: 12px;">
-                    ${logoSrc ? `<img src="${logoSrc}" style="max-width: 120px; max-height: 80px; margin-bottom: 5px;" />` : ''}
-                    <div style="font-weight: bold; font-size: 1.2rem;">${lojaInfo.nome}</div>
-                    <div style="font-size:0.7rem;">${lojaInfo.cnpj}</div>
-                    <div style="font-size:0.65rem;">${lojaInfo.endereco}</div>
-                    <div style="font-size:0.65rem;">${lojaInfo.telefone}</div>
-                    <div style="border-top: 1px dashed #b3a67a; margin: 8px 0;"></div>
-                    <h2 style="font-size: 1rem; margin: 5px 0;">TERMO DE GARANTIA</h2>
-                    <div style="font-size:0.7rem;">Venda de Smartphone - Garantia de 90 Dias</div>
-                </div>
-                
-                <div style="margin: 8px 0;">
-                    <div><strong>Numero do termo:</strong> ${numeroTermo}</div>
-                    <div><strong>Data da venda:</strong> ${dataVendaFormatada}</div>
-                    <div><strong>Data de emissao:</strong> ${dataEmissao}</div>
-                    <div><strong>Cliente:</strong> ${cliente.toUpperCase()}</div>
-                </div>
-                <div style="border-top: 1px dotted #ccc; margin: 8px 0;"></div>
-                
-                <div>
-                    <div><strong>Aparelho:</strong> ${marcaValue} ${modeloValue} - Cor: ${corValue}</div>
-                    ${imeiValue ? `<div><strong>IMEI:</strong> ${imeiValue}</div>` : ''}
-                    <div><strong>Valor pago:</strong> R$ ${valorStr}</div>
-                    <div><strong>Condicao de pagamento:</strong> ${pagamentoValue}</div>
-                </div>
-                
-                <div style="border-top: 1px dotted #ccc; margin: 12px 0;"></div>
-                
-                <!-- CONDICAO DE GARANTIA CONFORME SOLICITADO -->
-                <div style="background: #faf7ef; padding: 14px 12px; margin: 12px 0; border-left: 4px solid #cbbf96;">
-                    <strong style="font-size: 0.8rem;">CONDICOES DA GARANTIA DE 90 DIAS</strong><br><br>
-                    <div style="font-weight: bold; font-size: 0.78rem; margin: 8px 0;">${textoGarantiaExato}</div>
-                    <br>
-                    <div><strong>Prazo de garantia:</strong> ${garantiaTexto} (90 dias a partir da data da venda)</div>
-                    <br>
-                    <div><strong>Informacoes adicionais:</strong></div>
-                    <div>- O prazo para analise tecnica e de ate 5 dias uteis apos a entrega do aparelho.</div>
-                    <div>- O reparo coberto pela garantia sera realizado sem custos adicionais para o cliente.</div>
-                    <div>- O prazo para conclusao do reparo e de ate 15 dias uteis.</div>
-                    <div>- E obrigatorio apresentar este termo e a nota fiscal para acionar a garantia.</div>
-                    <div>- A garantia perde a validade se o aparelho aprese
+        // Remover qualquer botão remanescente
+        cloneElement.querySelectorAll('button').forEach(btn => btn.remove());
+        
+        // Estilo para o PDF
+        const stylePretoBranco = document.createElement('style');
+        stylePretoBranco.textContent = `
+            * {
+                color: #000000 !important;
+                background: white !important;
+                border-color: #cccccc !important;
+                box-shadow: none !important;
+            }
+            .warranty-box {
+                background: #faf7ef !important;
+                border-left-color: #888888 !important;
+            }
+            [contenteditable="true"] {
+                border-bottom: 1px solid #999 !important;
+                background: white !important;
+            }
+        `;
+        cloneElement.prepend(stylePretoBranco);
+        
+        // Nome do arquivo
+        let cliente = document.getElementById('clienteNome').innerText.trim() || 'cliente';
+        cliente = cliente.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+        if (!cliente || cliente.length < 2) cliente = 'termo_garantia';
+        const dataHoje = new Date().toLocaleString('pt-BR').split(' ')[0].replace(/\/
