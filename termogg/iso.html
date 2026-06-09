@@ -6,7 +6,6 @@
     <title>Termo de Garantia - Venda de Smartphone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -114,16 +113,6 @@
             background: #ede5d2;
         }
 
-        .btn-logo {
-            background: #f9f5e8;
-            border: 1px solid #c9bc94;
-            padding: 6px 12px;
-            font-size: 0.7rem;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
         .section-info {
             margin: 15px 0;
         }
@@ -202,6 +191,35 @@
             padding: 4px 15px;
             margin-top: 10px;
         }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .editor-panel, .photo-controls, .btn-download, .btn-logo, .status-msg, .row > .col-lg-4 {
+                display: none !important;
+            }
+            .preview-panel {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            .termo-card {
+                padding: 20px;
+                max-width: 100%;
+            }
+            [contenteditable="true"] {
+                border-bottom: none;
+                background: transparent;
+                padding: 0;
+            }
+            .warranty-box {
+                background: #faf7ef;
+                border-left: 3px solid #999;
+            }
+        }
     </style>
 </head>
 <body>
@@ -216,7 +234,7 @@
                 <div class="alert alert-info small py-2">
                     <i class="fas fa-calendar"></i> <strong>Garantia de 90 dias</strong> - A data de fim da garantia é calculada automaticamente a partir da data de saída.
                 </div>
-                <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF DO TERMO</button>
+                <button id="downloadBtn" class="btn-download"><i class="fas fa-download"></i> BAIXAR PDF / IMPRIMIR</button>
                 <div id="statusMsg" class="status-msg"></div>
             </div>
         </div>
@@ -267,7 +285,7 @@
 
                     <div style="border-top: 1px dotted #ccc; margin: 10px 0;"></div>
 
-                    <!-- TERMO DE GARANTIA COMPLETO (APENAS O TEXTO SOLICITADO) -->
+                    <!-- TERMO DE GARANTIA COMPLETO -->
                     <div class="warranty-box">
                         <strong>CONDIÇÕES DA GARANTIA</strong><br><br>
                         <div id="textoGarantia" contenteditable="true" style="font-weight: normal; line-height: 1.5;">
@@ -463,45 +481,33 @@
         logoUpload.click();
     });
 
-    // ==================== GERAR E BAIXAR PDF ====================
+    // ==================== FUNÇÃO DE DOWNLOAD / IMPRESSÃO (FUNCIONAL) ====================
     function gerarPDF() {
-        const element = document.getElementById('termoContent');
-        const cloneElement = element.cloneNode(true);
+        // Mostrar mensagem
+        showMsg('Preparando documento para impressão/PDF...');
         
-        // Remover botões e controles do clone
-        cloneElement.querySelectorAll('.photo-controls, .btn-logo').forEach(el => el.remove());
+        // Criar uma cópia do conteúdo para impressão
+        const originalContent = document.getElementById('termoContent').cloneNode(true);
         
-        // Remover placeholders de logo que não são imagens
-        const placeholderClone = cloneElement.querySelector('#logoPlaceholder');
-        if (placeholderClone && placeholderClone.style.display !== 'none') {
+        // Remover botões e controles da cópia
+        originalContent.querySelectorAll('.photo-controls, .btn-logo, button').forEach(el => el.remove());
+        
+        // Remover placeholders de logo
+        const placeholderClone = originalContent.querySelector('#logoPlaceholder');
+        if (placeholderClone) {
             placeholderClone.remove();
         }
         
-        // Garantir que a logo seja mantida
-        const logoImgClone = cloneElement.querySelector('#logoImg');
+        // Garantir que a logo seja exibida corretamente
+        const logoImgClone = originalContent.querySelector('#logoImg');
         if (logoImgClone && (!logoImgClone.src || logoImgClone.style.display === 'none')) {
             logoImgClone.remove();
         }
         
-        // Remover qualquer botão remanescente
-        cloneElement.querySelectorAll('button').forEach(btn => btn.remove());
-        
-        // Estilo para o PDF
-        const stylePretoBranco = document.createElement('style');
-        stylePretoBranco.textContent = `
-            * {
-                color: #000000 !important;
-                background: white !important;
-                border-color: #cccccc !important;
-                box-shadow: none !important;
-            }
-            .warranty-box {
-                background: #faf7ef !important;
-                border-left-color: #888888 !important;
-            }
-            [contenteditable="true"] {
-                border-bottom: 1px solid #999 !important;
-                background: white !important;
-            }
-        `;
-        cloneElement.prepend(stylePretoBranc
+        // Criar um iframe invisível para impressão
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = 'none';
+        document.body.app
